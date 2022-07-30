@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { bookSearch } from "./api";
+import "./style.scss";
+import BookList from "./components/BookList";
 function App() {
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
-  const searchBook = (text) => {
-    setQuery(text);
+  const [text, setText] = useState("");
+  const searchBook = (e) => {
+    const { value } = e.target;
+    setText(value);
   };
-
   const onKeyPressEnter = (e) => {
-    if (e.keyCode === "Enter") {
-      console.log("Enter");
+    if (e.key === "Enter") {
+      setQuery(text);
     }
   };
   const bookSearchHttpHandler = async (query, reset) => {
@@ -17,7 +20,7 @@ function App() {
       query: query,
       sort: "accuracy",
       page: 1,
-      size: 10,
+      size: 15,
     };
 
     const { data } = await bookSearch(params); // api 호출
@@ -26,37 +29,27 @@ function App() {
     } else {
       setBooks(books.concat(data.documents));
     }
-    console.log(data.documents);
   };
+  console.log(books);
   useEffect(() => {
     if (query.length > 0) {
       bookSearchHttpHandler(query, true);
+      console.log("useEffect 호출!");
     }
   }, [query]);
-  const btnClick = () => {
-    setQuery("React");
-  };
-  const btnClick2 = () => {
-    setQuery("Apple");
-  };
-  const btnClick3 = () => {
-    setQuery("Javascript");
-  };
   return (
     <>
       <div className="container">
         <input
           type="search"
-          placeholder="검색어를 입력 하세요..."
+          placeholder="검색어를 입력 후 Enter"
           name="query"
           className="input_search"
           onChange={searchBook}
           onKeyDown={onKeyPressEnter}
         />
-        <button onClick={btnClick}>REACT</button>
-        <button onClick={btnClick2}>Apple</button>
-        <button onClick={btnClick3}>JS</button>
       </div>
+      <BookList books={books} />
     </>
   );
 }

@@ -1,0 +1,29 @@
+.bookListContainer {
+  width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  .bookListContentBox {
+    width: 300px;
+    margin: 50px 0px 50px 20px;
+    border: 2px solid black;
+  }
+  .bookListContentThumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bookListContentThumbnail {
+    cursor: pointer;
+  }
+  .bookListContentTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.container {
+  .input_search {
+    width: 200px;
+    height: 30px;
+  }
+}
