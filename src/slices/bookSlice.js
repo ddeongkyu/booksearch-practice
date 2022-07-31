@@ -1,20 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { bookSearch } from "../api.js";
-export const getBookList = createAsyncThunk("getBookList", async (query) => {
-  const params = {
-    query: query,
-    sort: "accuracy",
-    page: 1,
-    size: 10,
-  };
-
-  const { data } = await bookSearch(params);
-  return console.log(data.documents, "redux");
-});
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  bookList: [],
+  books: [],
   query: "",
   text: "",
 };
@@ -29,16 +17,15 @@ export const bookSlice = createSlice({
     setText: (state, action) => {
       state.text = action.payload;
     },
-  },
-  extraReducers: {
-    [getBookList.pending]: (state) => (state.isLoading = true),
-  },
-  [getBookList.fulfilled]: (state, action) => {
-    state.bookList = action.payload;
-    state.isLoading = false;
+    setBooks: (state, action) => {
+      state.books = action.payload;
+    },
+    setIsloading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setQuery, setText } = bookSlice.actions;
+export const { setQuery, setText, setBooks, setIsloading } = bookSlice.actions;
 
 export default bookSlice.reducer;

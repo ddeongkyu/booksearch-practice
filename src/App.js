@@ -1,42 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { bookSearch } from "./api";
 import "./style.scss";
-import BookList from "./components/BookList";
+import { useSelector, useDispatch } from "react-redux";
+import { setQuery, setText, setBooks, setIsloading } from "./slices/bookSlice";
+import { useInView } from "react-intersection-observer";
 function App() {
-  const [books, setBooks] = useState([]);
-  const [query, setQuery] = useState("");
-  const [text, setText] = useState("");
+  const [page, setPage] = useState(1);
+  const interSectRef = useRef();
+  const dispatch = useDispatch();
+  const { books, query, text, isLoading } = useSelector((state) => {
+    return state.book;
+  });
   const searchBook = (e) => {
     const { value } = e.target;
-    setText(value);
+    dispatch(setText(value));
   };
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
-      setQuery(text);
+      dispatch(setQuery(text));
     }
   };
   const bookSearchHttpHandler = async (query, reset) => {
     const params = {
       query: query,
       sort: "accuracy",
-      page: 1,
-      size: 15,
+      page: page,
+      size: 9,
     };
 
     const { data } = await bookSearch(params); // api 호출
     if (reset) {
-      setBooks(data.documents);
+      dispatch(setBooks(data.documents));
     } else {
-      setBooks(books.concat(data.documents));
+      dispatch(setBooks(books.concat(data.documents)));
     }
+    dispatch(setIsloading(false));
   };
-  console.log(books);
+
   useEffect(() => {
     if (query.length > 0) {
       bookSearchHttpHandler(query, true);
-      console.log("useEffect 호출!");
+      dispatch(setIsloading(true));
     }
   }, [query]);
+  const options = {
+    root: null,
+    rootMargin: "20px",
+    threshold: 1.0,
+  };
+  const handleObserver = useCallback(async (entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      console.log("is InterSecting");
+      setPage((prev) => prev + 1);
+    }
+  }, []);
+  useEffect(() => {
+    console.log("page plus");
+  }, [page]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (interSectRef.current) observer.observe(interSectRef.current);
+    console.log("observing!");
+    return () => observer.disconnect();
+  }, [handleObserver]);
+  console.log(books, "boooks array");
   return (
     <>
       <div className="container">
@@ -49,7 +77,32 @@ function App() {
           onKeyDown={onKeyPressEnter}
         />
       </div>
-      <BookList books={books} />
+      <div className="bookListContainer">
+        {isLoading ? (
+          <div>Loading....</div>
+        ) : (
+          books.map((contents) => (
+            <div
+              ref={interSectRef}
+              className="bookListContentBox"
+              key={contents.isbn}
+            >
+              <div className="bookListContentThumb">
+                <a href={contents.url}>
+                  <img
+                    alt="Thumb"
+                    className="bookListContentThumbnail"
+                    src={contents.thumbnail}
+                  />
+                </a>
+              </div>
+              <div className="bookListContentTitle">
+                {contents.title}({contents.sale_price}원)
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </>
   );
 }
