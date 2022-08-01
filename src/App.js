@@ -1,14 +1,14 @@
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { bookSearch } from "./api";
 import "./style.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { setQuery, setText, setBooks, setIsloading } from "./slices/bookSlice";
-import { useInView } from "react-intersection-observer";
+import { setQuery, setText, setBooks, setNetwork } from "./slices/bookSlice";
+import Loader from "./Loader";
 function App() {
+  const [target, setTarget] = useState(null);
   const [page, setPage] = useState(1);
-  const interSectRef = useRef();
   const dispatch = useDispatch();
-  const { books, query, text, isLoading } = useSelector((state) => {
+  const { books, query, text, network } = useSelector((state) => {
     return state.book;
   });
   const searchBook = (e) => {
@@ -20,51 +20,68 @@ function App() {
       dispatch(setQuery(text));
     }
   };
-  const bookSearchHttpHandler = async (query, reset) => {
+
+  const bookSearchHttpHandler = async () => {
     const params = {
       query: query,
       sort: "accuracy",
       page: page,
       size: 9,
     };
-
-    const { data } = await bookSearch(params); // api 호출
-    if (reset) {
-      dispatch(setBooks(data.documents));
-    } else {
-      dispatch(setBooks(books.concat(data.documents)));
-    }
-    dispatch(setIsloading(false));
+    dispatch(setNetwork("loading"));
+    const { data } = await bookSearch(params);
+    const aa = books.concat(data.documents);
+    dispatch(setBooks(aa));
+    dispatch(setNetwork("fulfilled"));
+    console.log(books);
   };
 
-  useEffect(() => {
-    if (query.length > 0) {
-      bookSearchHttpHandler(query, true);
-      dispatch(setIsloading(true));
-    }
-  }, [query]);
+  // const bookSearchHttpHandler = async (query, reset) => {
+  //   const params = {
+  //     query: query,
+  //     sort: "accuracy",
+  //     page: page,
+  //     size: 9,
+  //   };
+  //   const { data } = await bookSearch(params); // api 호출
+  //   if (reset) {
+  //     dispatch(setBooks(data.documents));
+  //   } else {
+  //     dispatch(setBooks(books.concat(data.documents)));
+  //   }
+  //   dispatch(setNetwork("fulfilled"));
+  // };
+
   const options = {
     root: null,
     rootMargin: "20px",
     threshold: 1.0,
   };
-  const handleObserver = useCallback(async (entries) => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      console.log("is InterSecting");
-      setPage((prev) => prev + 1);
+  const onIntersect = async ([entry], observer) => {
+    if (entry.isIntersecting && network.status === "fulfilled") {
+      observer.unobserve(entry.target);
+      await bookSearchHttpHandler(query, false);
+      observer.observe(entry.target);
     }
-  }, []);
+  };
   useEffect(() => {
-    console.log("page plus");
-  }, [page]);
+    let observer;
+    if (target) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.4,
+      });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
   useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, options);
-    if (interSectRef.current) observer.observe(interSectRef.current);
-    console.log("observing!");
-    return () => observer.disconnect();
-  }, [handleObserver]);
-  console.log(books, "boooks array");
+    if (query.length > 0) {
+      bookSearchHttpHandler(query, true);
+      dispatch(setNetwork("loading"));
+    }
+  }, [query]);
+
+  // 이벤트 발생-> setPage(prev => prev + 1) 한다음 그 값을 setBooks에 concat한다음 dispatch??
   return (
     <>
       <div className="container">
@@ -78,15 +95,11 @@ function App() {
         />
       </div>
       <div className="bookListContainer">
-        {isLoading ? (
+        {network.status === "loading" ? (
           <div>Loading....</div>
         ) : (
           books.map((contents) => (
-            <div
-              ref={interSectRef}
-              className="bookListContentBox"
-              key={contents.isbn}
-            >
+            <div className="bookListContentBox" key={contents.isbn}>
               <div className="bookListContentThumb">
                 <a href={contents.url}>
                   <img
@@ -102,6 +115,9 @@ function App() {
             </div>
           ))
         )}
+        <div ref={setTarget} className="Target-Element">
+          {network.status === "loading" && <Loader />}
+        </div>
       </div>
     </>
   );
