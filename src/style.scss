@@ -20,6 +20,14 @@
     align-items: center;
     justify-content: center;
   }
+  .Target-Element {
+    width: 100vw;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
 }
 .container {
   .input_search {

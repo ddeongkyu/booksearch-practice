@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoading: false,
   books: [],
   query: "",
   text: "",
+  network: {
+    status: "",
+    errorMessage: "",
+  },
 };
 
 export const bookSlice = createSlice({
@@ -20,12 +23,16 @@ export const bookSlice = createSlice({
     setBooks: (state, action) => {
       state.books = action.payload;
     },
-    setIsloading: (state, action) => {
-      state.isLoading = action.payload;
+    setNetwork: (state, action) => {
+      state.network.status = action.payload;
+    },
+    setNetworkError: (state, action) => {
+      state.network.errorMessage = action.payload;
     },
   },
 });
 
-export const { setQuery, setText, setBooks, setIsloading } = bookSlice.actions;
+export const { setQuery, setText, setBooks, setNetwork, setNetworkError } =
+  bookSlice.actions;
 
 export default bookSlice.reducer;
