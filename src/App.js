@@ -1,105 +1,118 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { bookSearch } from "./api";
 import "./style.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { setQuery, setText, setBooks, setNetwork } from "./slices/bookSlice";
 import Loader from "./Loader";
+import { useSelector, useDispatch } from "react-redux";
+import { setQuery } from "./slices/bookSlice";
 function App() {
-  const [target, setTarget] = useState(null);
-  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
-  const { books, query, text, network } = useSelector((state) => {
+  const [target, setTarget] = useState(null);
+  const [books, setBooks] = useState([]);
+  const [network, setNetwork] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(2);
+  const { query } = useSelector((state) => {
     return state.book;
   });
-  const searchBook = (e) => {
-    const { value } = e.target;
-    dispatch(setText(value));
-  };
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
-      dispatch(setQuery(text));
+      const { value } = e.target;
+      dispatch(setQuery(value));
+    }
+    if (page === 1) {
+      setPage((prev) => prev + 1);
     }
   };
 
   const bookSearchHttpHandler = async () => {
     const params = {
-      query: query,
-      sort: "accuracy",
-      page: page,
+      query,
+      sort: "latest",
       size: 9,
+      page,
     };
-    dispatch(setNetwork("loading"));
+    console.log("bookSearchHttpHandler Query : ", query);
+    setNetwork("loading");
+    setIsLoading(true);
     const { data } = await bookSearch(params);
-    const aa = books.concat(data.documents);
-    dispatch(setBooks(aa));
-    dispatch(setNetwork("fulfilled"));
-    console.log(books);
+    setIsLoading(false);
+    setBooks(data.documents);
+    setNetwork("fulfilled");
+    console.log("bookSearchHttpHandler");
   };
-
-  // const bookSearchHttpHandler = async (query, reset) => {
-  //   const params = {
-  //     query: query,
-  //     sort: "accuracy",
-  //     page: page,
-  //     size: 9,
-  //   };
-  //   const { data } = await bookSearch(params); // api 호출
-  //   if (reset) {
-  //     dispatch(setBooks(data.documents));
-  //   } else {
-  //     dispatch(setBooks(books.concat(data.documents)));
-  //   }
-  //   dispatch(setNetwork("fulfilled"));
-  // };
-
-  const options = {
-    root: null,
-    rootMargin: "20px",
-    threshold: 1.0,
-  };
-  const onIntersect = async ([entry], observer) => {
-    if (entry.isIntersecting && network.status === "fulfilled") {
-      observer.unobserve(entry.target);
-      await bookSearchHttpHandler(query, false);
-      observer.observe(entry.target);
+  const getMoreBooks = async () => {
+    try {
+      const params = {
+        query: query,
+        sort: "latest",
+        page,
+        size: 9,
+      };
+      const { data } = await bookSearch(params);
+      setBooks((prev) => prev.concat(data.documents));
+    } catch (error) {
+      console.log(error.response);
+      if (error.response.status === 400) {
+        console.log(`HTTP 400 error occured`);
+      }
     }
   };
+
   useEffect(() => {
-    let observer;
-    if (target) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.4,
-      });
-      observer.observe(target);
-    }
-    return () => observer && observer.disconnect();
-  }, [target]);
-  useEffect(() => {
+    console.log("query change");
     if (query.length > 0) {
-      bookSearchHttpHandler(query, true);
-      dispatch(setNetwork("loading"));
+      bookSearchHttpHandler();
+      setNetwork("loading");
+      setIsLoading(true);
     }
   }, [query]);
-
-  // 이벤트 발생-> setPage(prev => prev + 1) 한다음 그 값을 setBooks에 concat한다음 dispatch??
+  const observer = useRef(
+    new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          getMoreBooks();
+          setPage((prev) => prev + 1);
+          console.log("Infinite-scroll");
+        }
+      },
+      { threshold: 1 }
+    )
+  );
+  useEffect(() => {
+    if (page) {
+      getMoreBooks();
+    }
+  }, [page]);
+  useEffect(() => {
+    const currentTarget = target;
+    const currentObserver = observer.current;
+    if (currentTarget) {
+      currentObserver.observe(currentTarget);
+    }
+    return () => {
+      if (currentTarget) {
+        currentObserver.unobserve(currentTarget);
+      }
+    };
+  }, [target]);
+  console.log("books :", books);
   return (
     <>
       <div className="container">
         <input
           type="search"
-          placeholder="검색어를 입력 후 Enter"
+          placeholder="검색어 입력->엔터"
           name="query"
           className="input_search"
-          onChange={searchBook}
           onKeyDown={onKeyPressEnter}
         />
       </div>
       <div className="bookListContainer">
-        {network.status === "loading" ? (
+        {network === "loading" ? (
           <div>Loading....</div>
-        ) : (
-          books.map((contents) => (
-            <div className="bookListContentBox" key={contents.isbn}>
+        ) : query ? (
+          books.map((contents, idx) => (
+            <div className="bookListContentBox" key={idx}>
               <div className="bookListContentThumb">
                 <a href={contents.url}>
                   <img
@@ -114,10 +127,10 @@ function App() {
               </div>
             </div>
           ))
+        ) : null}
+        {!isLoading && (
+          <div style={{ width: "100vw", height: "80px" }} ref={setTarget}></div>
         )}
-        <div ref={setTarget} className="Target-Element">
-          {network.status === "loading" && <Loader />}
-        </div>
       </div>
     </>
   );
