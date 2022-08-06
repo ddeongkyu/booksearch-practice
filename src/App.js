@@ -22,7 +22,7 @@ function App() {
   const bookSearchHttpHandler = async () => {
     try {
       const params = {
-        query: "해리포터",
+        query,
         sort: "latest",
         page,
         size: 9,
