@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { bookSearch } from "./api";
 import "./style.scss";
-import Loader from "./Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { setQuery } from "./slices/bookSlice";
 function App() {
@@ -9,8 +8,8 @@ function App() {
   const [target, setTarget] = useState(null);
   const [books, setBooks] = useState([]);
   const [network, setNetwork] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
+  const [pageable, setPageable] = useState(0);
   const { query } = useSelector((state) => {
     return state.book;
   });
@@ -19,37 +18,28 @@ function App() {
       const { value } = e.target;
       dispatch(setQuery(value));
     }
-    if (page === 1) {
-      setPage((prev) => prev + 1);
-    }
   };
-
   const bookSearchHttpHandler = async () => {
-    const params = {
-      query,
-      sort: "latest",
-      size: 9,
-      page,
-    };
-    console.log("bookSearchHttpHandler Query : ", query);
-    setNetwork("loading");
-    setIsLoading(true);
-    const { data } = await bookSearch(params);
-    setIsLoading(false);
-    setBooks(data.documents);
-    setNetwork("fulfilled");
-    console.log("bookSearchHttpHandler");
-  };
-  const getMoreBooks = async () => {
     try {
       const params = {
-        query: query,
+        query: "해리포터",
         sort: "latest",
         page,
         size: 9,
       };
+      setNetwork("loading");
       const { data } = await bookSearch(params);
+      const pageable_max = Math.ceil(data.meta.pageable_count / 9);
+      console.log("max : ", pageable_max);
+      setPageable(pageable_max);
+      // if (reset) {
+      //   setBooks(data.documents);
+      // } else {
       setBooks((prev) => prev.concat(data.documents));
+      // }
+      setNetwork("fulfilled");
+      console.log("bookSearchHttpHandler");
+      console.log(data.documents.map((a) => a.title));
     } catch (error) {
       console.log(error.response);
       if (error.response.status === 400) {
@@ -57,20 +47,18 @@ function App() {
       }
     }
   };
-
   useEffect(() => {
-    console.log("query change");
     if (query.length > 0) {
       bookSearchHttpHandler();
       setNetwork("loading");
-      setIsLoading(true);
+      console.log("query change");
     }
   }, [query]);
   const observer = useRef(
     new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          getMoreBooks();
+          bookSearchHttpHandler();
           setPage((prev) => prev + 1);
           console.log("Infinite-scroll");
         }
@@ -78,11 +66,14 @@ function App() {
       { threshold: 1 }
     )
   );
+
   useEffect(() => {
-    if (page) {
-      getMoreBooks();
+    if (page < pageable) {
+      bookSearchHttpHandler();
+      console.log("increase page");
     }
   }, [page]);
+
   useEffect(() => {
     const currentTarget = target;
     const currentObserver = observer.current;
@@ -95,10 +86,12 @@ function App() {
       }
     };
   }, [target]);
-  console.log("books :", books);
+  console.log("query : ", query);
+  console.log("book length : ", books.length);
+  console.log("network : ", network);
   return (
     <>
-      <div className="container">
+      <div className="inputStyle">
         <input
           type="search"
           placeholder="검색어 입력->엔터"
@@ -128,9 +121,7 @@ function App() {
             </div>
           ))
         ) : null}
-        {!isLoading && (
-          <div style={{ width: "100vw", height: "80px" }} ref={setTarget}></div>
-        )}
+        {books.length ? <div ref={setTarget}></div> : null}
       </div>
     </>
   );
