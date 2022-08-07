@@ -1,16 +1,20 @@
 .bookListContainer {
-  width: 1000px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   .bookListContentBox {
     width: 300px;
     margin: 50px 0px 50px 20px;
-    border: 2px solid black;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
   }
   .bookListContentThumb {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px;
   }
   .bookListContentThumbnail {
     cursor: pointer;
@@ -29,9 +33,20 @@
     align-items: center;
   }
 }
-.container {
+.inputStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
   .input_search {
-    width: 200px;
-    height: 30px;
+    width: 20%;
+    height: 50px;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .input_search::placeholder {
+    padding: 10px;
+    font-size: 20px;
   }
 }
