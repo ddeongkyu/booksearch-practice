@@ -36,6 +36,7 @@ function App() {
     setPageNumber(1);
     alert("마지막 항목입니다! 처음부터 다시 보여드릴게요!");
   }
+  console.log("PR");
   return (
     <>
       <div className="inputStyle">
