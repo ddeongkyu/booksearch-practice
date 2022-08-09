@@ -37,7 +37,7 @@ function InfinityScroll() {
   }
   return (
     <>
-      <div className="inputStyle">
+      <div className="inputStyle flex-center">
         <input
           className="input_search"
           type="text"
@@ -45,7 +45,7 @@ function InfinityScroll() {
           onChange={handleSearch}
         />
       </div>
-      <div className="bookListContainer">
+      <div className="bookListContainer flex-center">
         {books.map((contents, index) => {
           if (books.length === index + 1) {
             return (
@@ -64,8 +64,8 @@ function InfinityScroll() {
             );
           } else {
             return (
-              <div className="bookListContentBox" key={index}>
-                <div className="bookListContentThumb">
+              <div className="bookListContentBox flex-center" key={index}>
+                <div className="bookListContentThumb flex-center">
                   <a href={contents.url}>
                     <img
                       alt="Thumb"
@@ -74,11 +74,11 @@ function InfinityScroll() {
                     />
                   </a>
                 </div>
-                <div className="bookListContentTitleAndAuthorsBox">
-                  <div className="bookListContentTitle">
+                <div className="bookListContentTitleAndAuthorsBox flex-center">
+                  <div className="flex-center">
                     {contents.title}({contents.sale_price}원)
                   </div>
-                  <div className="bookListContentAuthors">
+                  <div className="bookListContentAuthors flex-center">
                     {contents.authors}
                   </div>
                 </div>

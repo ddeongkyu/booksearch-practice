@@ -1,7 +1,9 @@
-.bookListContainer {
+.flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.bookListContainer {
   flex-wrap: wrap;
   .bookListContentBox {
     width: 28vw;
@@ -10,15 +12,9 @@
     border: 1.5px solid black;
     border-radius: 10px;
     padding: 15px;
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
   .bookListContentThumb {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-bottom: 20px;
   }
   .bookListContentThumbnail {
@@ -27,28 +23,14 @@
     cursor: pointer;
   }
   .bookListContentTitleAndAuthorsBox {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .bookListContentTitle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
   .bookListContentAuthors {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-top: 10px;
     margin-bottom: 10px;
   }
 }
 .inputStyle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: 30px;
   margin-bottom: 30px;
   .input_search {
@@ -60,5 +42,86 @@
   .input_search::placeholder {
     padding: 10px;
     font-size: 20px;
+  }
+}
+.nav {
+  gap: 4px;
+  margin: 16px;
+  .buttonStyle {
+    &[aria-current] {
+      background: white;
+      font-weight: bold;
+      color: black;
+      border: 1px solid black;
+    }
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 0;
+    background: black;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+.paginationTotalContetnBox {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  .paginationImgStyle {
+    width: 80px;
+    height: 100px;
+  }
+  .paginationDetailBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px;
+  }
+  .paginationTitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .paginationDetailInformationBox {
+    color: #505050;
+    padding: 2px 0 5px;
+    font-size: 12px;
+    font-weight: lighter;
+  }
+  .paginationContents {
+    color: #777;
+    font-size: 12px;
+    font-weight: lighter;
+  }
+  .paginationPriceBox {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .paginationPrice {
+    text-decoration: line-through;
+    color: #a8a8a8;
+    font-size: 11px;
+    font-weight: normal;
+    margin-right: 8px;
+  }
+  .paginationSalePrice {
+    color: #e60012;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .paginationSalePercent {
+    height: 20px;
+    display: inline-table;
+    vertical-align: top;
+    margin-top: 2px;
+    margin-left: 4px;
+    background: #e60012;
+    color: #fff;
+    padding: 1px 3px 2px 4px;
+    font-size: 12px;
   }
 }
