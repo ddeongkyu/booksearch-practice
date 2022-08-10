@@ -3,6 +3,27 @@
   align-items: center;
   justify-content: center;
 }
+.cursorPointer {
+  cursor: pointer;
+}
+.ArrowBackIcon {
+  width: 30px;
+  height: 30px;
+}
+.shoppingCart {
+  text-align: center;
+  height: 38px;
+  color: #505050;
+  border-top: 1px solid #312931;
+  border-bottom: 1px solid #dcd8d3;
+}
+.shoppingCartContent {
+  height: 100px;
+  color: #505050;
+  border-top: 1px solid #312931;
+  border-bottom: 1px solid #dcd8d3;
+  padding-top: 15px;
+}
 .bookListContainer {
   flex-wrap: wrap;
   .bookListContentBox {
@@ -27,6 +48,14 @@
   }
   .bookListContentAuthors {
     margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .bookListShoppingCartBtn {
+    background: white;
+    width: 112px;
+    height: 23px;
+    display: inline-block;
+    text-align: center;
     margin-bottom: 10px;
   }
 }
@@ -65,6 +94,7 @@
   }
 }
 .paginationTotalContetnBox {
+  position: relative;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -95,6 +125,7 @@
     color: #777;
     font-size: 12px;
     font-weight: lighter;
+    width: 60%;
   }
   .paginationPriceBox {
     display: flex;
@@ -123,5 +154,84 @@
     color: #fff;
     padding: 1px 3px 2px 4px;
     font-size: 12px;
+  }
+  .paginationBtnBox {
+    position: absolute;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    .paginationQuantityInputStyle {
+      padding: 0 4px 0 9px;
+      text-align: center;
+      margin-top: 20px;
+      margin-right: 3px;
+      font-size: 14px;
+      color: #49494b;
+      border: 2px solid #e5e5e5;
+      width: 20px;
+    }
+    .paginationBtnStyle {
+      background: white;
+      width: 112px;
+      height: 23px;
+      display: inline-block;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  }
+}
+ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: grey;
+  li {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+.shoppingCartTotalPage {
+  .shoppingCartHeader {
+    display: flex;
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 14px;
+
+    .shoppingCartHeaderProductName {
+      width: 50%;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderPrice {
+      width: 4.5%;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderSalePrice {
+      width: 5%;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderSaleQuantity {
+      width: 8%;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderSaleTotalPrice {
+      width: 5%;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderSaleReserves {
+      width: 5%;
+      padding-top: 15px;
+    }
+    .shoppingCartHeaderSalePriceState {
+      width: 5%;
+      padding-top: 15px;
+    }
+  }
+  .shoppingCartProductName {
+    width: 50%;
   }
 }

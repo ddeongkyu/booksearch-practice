@@ -9,10 +9,14 @@ function Main() {
   const onGoToPagination = () => {
     navigate("pagination");
   };
+  const onGoToShoppingCart = () => {
+    navigate("shoppingCart");
+  };
   return (
     <div>
       <button onClick={onGoToInfinity}>Infinity</button>
       <button onClick={onGoToPagination}>Pagination</button>
+      <button onClick={onGoToShoppingCart}>Shopping Cart ! </button>
     </div>
   );
 }

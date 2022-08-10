@@ -1,13 +1,20 @@
 import React, { useState, useCallback, useRef } from "react";
 import useBookSearch from "../hooks/useBookSesarch";
 import Loader from "../Loader";
-function InfinityScroll() {
+import onAddToCart from "../util/onAddToCart";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+function InfinityScroll({ shoppingCart, setShoppingCart }) {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const { books, hasMore, loading, pageable } = useBookSearch(
     query,
     pageNumber
   );
+  const navigate = useNavigate();
+  const handleGoBackBtn = () => {
+    navigate(-1);
+  };
   const handleSearch = (e) => {
     console.log(e.target.value);
   };
@@ -35,8 +42,13 @@ function InfinityScroll() {
     setPageNumber(1);
     alert("마지막 항목입니다! 처음부터 다시 보여드릴게요!");
   }
+  console.log(shoppingCart);
   return (
     <>
+      <div>
+        <BiArrowBack className="ArrowBackIcon" onClick={handleGoBackBtn} />
+      </div>
+
       <div className="inputStyle flex-center">
         <input
           className="input_search"
@@ -81,6 +93,12 @@ function InfinityScroll() {
                   <div className="bookListContentAuthors flex-center">
                     {contents.authors}
                   </div>
+                  <button
+                    onClick={() => onAddToCart(setShoppingCart, contents)}
+                    className="cursorPointer bookListShoppingCartBtn"
+                  >
+                    장바구니
+                  </button>
                 </div>
               </div>
             );
