@@ -3,8 +3,9 @@ import InfinityScroll from "../components/InfinityScroll";
 import Main from "../components/Main";
 import Pagination from "../components/Pagination";
 import ShoppingCart from "../components/ShoppingCart";
-
-function AllRoute({ shoppingCart, setShoppingCart }) {
+import { useState } from "react";
+function AllRoute() {
+  const [shoppingCart, setShoppingCart] = useState([]);
   return (
     <>
       <BrowserRouter>

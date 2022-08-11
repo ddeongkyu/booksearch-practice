@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function InfinityScroll({ shoppingCart, setShoppingCart }) {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
-  const { books, hasMore, loading, pageable } = useBookSearch(
+  const { books, hasMore, loading, pageable, loadingStatus } = useBookSearch(
     query,
     pageNumber
   );
@@ -42,7 +42,6 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
     setPageNumber(1);
     alert("마지막 항목입니다! 처음부터 다시 보여드릴게요!");
   }
-  console.log(shoppingCart);
   return (
     <>
       <div>
@@ -63,12 +62,12 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
             return (
               <div
                 key={index}
-                style={{
-                  display: "block",
-                  background: "thistle",
-                  height: "10px",
-                  width: "20px",
-                }}
+                // style={{
+                //   display: "block",
+                //   background: "thistle",
+                //   height: "10px",
+                //   width: "20px",
+                // }}
                 ref={lastBookElementRef}
               >
                 {books.title}
@@ -76,7 +75,10 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
             );
           } else {
             return (
-              <div className="bookListContentBox flex-center" key={index}>
+              <div
+                className="bookListContentBox flex-center"
+                key={contents.title + index}
+              >
                 <div className="bookListContentThumb flex-center">
                   <a href={contents.url}>
                     <img
@@ -94,7 +96,9 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
                     {contents.authors}
                   </div>
                   <button
-                    onClick={() => onAddToCart(setShoppingCart, contents)}
+                    onClick={() =>
+                      onAddToCart(setShoppingCart, contents, 1, shoppingCart)
+                    }
                     className="cursorPointer bookListShoppingCartBtn"
                   >
                     장바구니
@@ -105,7 +109,7 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
           }
         })}
       </div>
-      <div>{loading && <Loader />}</div>
+      <div>{loadingStatus === "loading" && <Loader />}</div>
     </>
   );
 }
