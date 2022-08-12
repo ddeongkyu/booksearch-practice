@@ -4,10 +4,22 @@ import Loader from "../Loader";
 import onAddToCart from "../util/onAddToCart";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-function InfinityScroll({ shoppingCart, setShoppingCart }) {
+import { useDispatch, useSelector } from "react-redux";
+import { setShoppingCart } from "../slices/bookSlice";
+import ModalPortal from "../portal/ModalPortal";
+import Modal from "./Modal";
+function InfinityScroll() {
+  const dispatch = useDispatch();
+  const { shoppingCart } = useSelector((state) => {
+    return state.book;
+  });
   const [query, setQuery] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalToggle = () => {
+    setModalOpen(!modalOpen);
+  };
   const [pageNumber, setPageNumber] = useState(1);
-  const { books, hasMore, loading, pageable, loadingStatus } = useBookSearch(
+  const { books, hasMore, loading, loadingStatus, is_end } = useBookSearch(
     query,
     pageNumber
   );
@@ -27,30 +39,34 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
   const observer = useRef();
   const lastBookElementRef = useCallback(
     (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPageNumber((prev) => prev + 1);
-        }
-      });
-      if (node) observer.current.observe(node);
+      if (is_end) {
+        alert("마지막 항목이에요!");
+      } else {
+        if (loading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting && hasMore) {
+            setPageNumber((prev) => prev + 1);
+          }
+        });
+        if (node) observer.current.observe(node);
+      }
     },
     [loading, hasMore]
   );
-  if (pageNumber === pageable) {
-    setPageNumber(1);
-    alert("마지막 항목입니다! 처음부터 다시 보여드릴게요!");
-  }
   return (
     <>
       <div>
-        <BiArrowBack className="ArrowBackIcon" onClick={handleGoBackBtn} />
+        <BiArrowBack
+          className="cursorPointer ArrowBackIcon"
+          onClick={handleGoBackBtn}
+        />
       </div>
 
       <div className="inputStyle flex-center">
         <input
           className="input_search"
+          placeholder="검색어 입력 후 Enter"
           type="text"
           onKeyPress={onKeyPressEnter}
           onChange={handleSearch}
@@ -60,16 +76,7 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
         {books.map((contents, index) => {
           if (books.length === index + 1) {
             return (
-              <div
-                key={index}
-                // style={{
-                //   display: "block",
-                //   background: "thistle",
-                //   height: "10px",
-                //   width: "20px",
-                // }}
-                ref={lastBookElementRef}
-              >
+              <div key={index} ref={lastBookElementRef}>
                 {books.title}
               </div>
             );
@@ -96,9 +103,16 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
                     {contents.authors}
                   </div>
                   <button
-                    onClick={() =>
-                      onAddToCart(setShoppingCart, contents, 1, shoppingCart)
-                    }
+                    onClick={() => {
+                      onAddToCart(
+                        setShoppingCart,
+                        contents,
+                        1,
+                        shoppingCart,
+                        dispatch
+                      );
+                      handleModalToggle();
+                    }}
                     className="cursorPointer bookListShoppingCartBtn"
                   >
                     장바구니
@@ -110,6 +124,11 @@ function InfinityScroll({ shoppingCart, setShoppingCart }) {
         })}
       </div>
       <div>{loadingStatus === "loading" && <Loader />}</div>
+      {modalOpen && (
+        <ModalPortal>
+          <Modal onClose={handleModalToggle} />
+        </ModalPortal>
+      )}
     </>
   );
 }

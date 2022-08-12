@@ -4,21 +4,42 @@ import onAddToCart from "../util/onAddToCart";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import onDiscountRate from "../util/onDiscountRate";
+import Modal from "./Modal";
+import ModalPortal from "../portal/ModalPortal";
+import { useDispatch, useSelector } from "react-redux";
+import { setShoppingCart } from "../slices/bookSlice";
 const initialPageArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-function Pagination({ shoppingCart, setShoppingCart }) {
-  const [loadingStatus, setLoadingStatus] = useState("waiting");
+function Pagination() {
+  const waiting = "waiting";
+  const fulfilled = "fulfilled";
+  const loading = "loading";
+  const [loadingStatus, setLoadingStatus] = useState(waiting);
+  const { shoppingCart } = useSelector((state) => {
+    return state.book;
+  });
+  const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [posts, setPosts] = useState([]);
   const [pageable, setPageable] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
   const [size, setSize] = useState(10);
   const [pageArray, setPageArray] = useState(initialPageArray);
-  const [inputQuantityValue, setInputQuantityValue] = useState(1);
   const [sort, setSort] = useState("accuracy");
   const [filter, setFilter] = useState("accuracy");
-  const onChangeInputQuantity = (e) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalToggle = () => {
+    setModalOpen(!modalOpen);
+  };
+  const onChangeInputQuantity = (idx, book, e) => {
     const { value } = e.target;
-    setInputQuantityValue(value);
+    const regMinus = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+    if (regMinus.test(value)) {
+      alert("수량은 양수로 부탁드려요!");
+    }
+    const aa = posts.map((a) =>
+      a.isbn + idx === book.isbn + idx ? { ...a, quantity: Math.abs(value) } : a
+    );
+    setPosts(aa);
   };
   const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
@@ -35,7 +56,7 @@ function Pagination({ shoppingCart, setShoppingCart }) {
     }
   }, [query, pageNumber, size, sort]);
   const bookSearchPagination = async (query, pageNumber, size, sort) => {
-    setLoadingStatus("loading");
+    setLoadingStatus(loading);
     const params = {
       query,
       sort,
@@ -43,10 +64,14 @@ function Pagination({ shoppingCart, setShoppingCart }) {
       size,
     };
     const { data } = await bookSearch(params);
+    console.log(data);
+    const quantityData = data.documents.map((book) =>
+      book.isbn !== 0 ? { ...book, quantity: 1 } : book
+    );
     const pageable_count = Math.ceil(data.meta.pageable_count / size);
     setPageable(pageable_count);
-    setPosts(data.documents);
-    setLoadingStatus("fulfilled");
+    setPosts(quantityData);
+    setLoadingStatus(fulfilled);
   };
   const onClickBtn = (value) => {
     setPageNumber(value);
@@ -65,7 +90,8 @@ function Pagination({ shoppingCart, setShoppingCart }) {
       setPageNumber((prev) => prev - 10);
       setPageArray(pageArray.map((a) => a - 10));
     } else {
-      alert("더 이상 10페이지씩 뒤로 갈 수 없어요!");
+      alert("첫 번째 페이지로 이동합니다.");
+      setPageNumber(1);
     }
   };
   const onClickPageDoublePlus = () => {
@@ -145,7 +171,10 @@ function Pagination({ shoppingCart, setShoppingCart }) {
   return (
     <>
       <div>
-        <BiArrowBack className="ArrowBackIcon" onClick={handleGoBackBtn} />
+        <BiArrowBack
+          className="cursorPointer ArrowBackIcon"
+          onClick={handleGoBackBtn}
+        />
       </div>
       <div className="inputStyle flex-center">
         <input
@@ -167,7 +196,7 @@ function Pagination({ shoppingCart, setShoppingCart }) {
         </label>
       ) : null}
       {query ? (
-        <ul className="paginationFilterBox">
+        <ul className="flex-center paginationFilterBox">
           <li onClick={accuracyOrder}>
             <span
               className={
@@ -290,9 +319,9 @@ function Pagination({ shoppingCart, setShoppingCart }) {
                   수량 : &nbsp;
                   <input
                     type="number"
+                    value={book.quantity}
                     className="paginationQuantityInputStyle"
-                    value={inputQuantityValue}
-                    onChange={onChangeInputQuantity}
+                    onChange={(e) => onChangeInputQuantity(index, book, e)}
                   />
                   &nbsp;개
                 </p>
@@ -303,14 +332,16 @@ function Pagination({ shoppingCart, setShoppingCart }) {
                   내 서재로 이동
                 </button>
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     onAddToCart(
                       setShoppingCart,
                       book,
-                      inputQuantityValue,
-                      shoppingCart
-                    )
-                  }
+                      book.quantity,
+                      shoppingCart,
+                      dispatch
+                    );
+                    handleModalToggle();
+                  }}
                   className="cursorPointer paginationBtnStyle"
                 >
                   장바구니
@@ -378,6 +409,11 @@ function Pagination({ shoppingCart, setShoppingCart }) {
           </button>
         </nav>
       ) : null}
+      {modalOpen && (
+        <ModalPortal>
+          <Modal onClose={handleModalToggle} />
+        </ModalPortal>
+      )}
     </>
   );
 }

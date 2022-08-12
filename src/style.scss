@@ -3,12 +3,25 @@
   align-items: center;
   justify-content: center;
 }
+.flex-vertical-center {
+  display: flex;
+  align-items: center;
+}
 .cursorPointer {
   cursor: pointer;
 }
 .ArrowBackIcon {
   width: 30px;
   height: 30px;
+}
+.colorRed {
+  color: #e60012;
+}
+.colorGreen {
+  color: #3f9255;
+}
+.textBig {
+  font-size: 18px;
 }
 .shoppingCart {
   text-align: center;
@@ -23,6 +36,40 @@
   border-top: 1px solid #312931;
   border-bottom: 1px solid #dcd8d3;
   padding-top: 15px;
+}
+.mainTotalBox {
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  .mainBtnStyle {
+    width: 300px;
+    height: 100px;
+    margin-bottom: 50px;
+    background-color: #c2fbd7;
+    border-radius: 100px;
+    box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+      rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+      rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+      rgba(44, 187, 99, 0.15) 0 16px 32px;
+    color: green;
+    display: inline-block;
+    padding: 7px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 250ms;
+    border: 0;
+    font-size: 30px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  .mainBtnStyle:hover {
+    box-shadow: rgba(44, 187, 99, 0.35) 0 -25px 18px -14px inset,
+      rgba(44, 187, 99, 0.25) 0 1px 2px, rgba(44, 187, 99, 0.25) 0 2px 4px,
+      rgba(44, 187, 99, 0.25) 0 4px 8px, rgba(44, 187, 99, 0.25) 0 8px 16px,
+      rgba(44, 187, 99, 0.25) 0 16px 32px;
+    transform: scale(1.05) rotate(-1deg);
+  }
 }
 .bookListContainer {
   flex-wrap: wrap;
@@ -175,6 +222,7 @@
     right: 15px;
     display: flex;
     flex-direction: column;
+    width: 150px;
     .paginationQuantityInputStyle {
       padding: 0 4px 0 9px;
       text-align: center;
@@ -183,7 +231,7 @@
       font-size: 14px;
       color: #49494b;
       border: 2px solid #e5e5e5;
-      width: 20px;
+      width: 30px;
     }
     .paginationBtnStyle {
       background: white;
@@ -195,20 +243,22 @@
     }
   }
 }
+label {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
 ul {
   list-style: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: grey;
-  height: 40px;
+  height: 60px;
   border-top: 1.5px solid black;
   border-bottom: 1.5px solid black;
   li {
     color: white;
     font-size: 18px;
     font-weight: 600;
-    &:hover {
+    span:hover {
       color: pink;
     }
   }
@@ -217,8 +267,28 @@ ul {
   }
 }
 .shoppingCartTotalPage {
+  .shoppingCartNoticeBox {
+    display: flex;
+    width: 100%;
+    margin-left: 30px;
+    margin-right: 50px;
+    padding: 20px;
+    font-size: 14px;
+    background: #efefef;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #d2d2d2;
+  }
+  .cartNotice {
+    line-height: 200%;
+  }
+  .shoppingCartDeleteBtn {
+    margin-right: 15px;
+  }
   .shoppingCartImg {
     height: 90%;
+  }
+  .shoppingCartTitleTitle {
+    margin-left: 15px;
   }
   .shoppingCartHeader {
     display: flex;
@@ -260,6 +330,8 @@ ul {
     }
   }
   .shoppingCartProductName {
+    display: flex;
+    align-items: center;
     width: 40%;
   }
   .shoppingCartNothinginCartBlock {
@@ -294,7 +366,6 @@ ul {
     border-top: 3px solid #4d755a;
   }
   .shoppingTableSecond {
-    font-size: 14px;
     color: #3a3a3a;
     height: 56px;
     line-height: 56px;
@@ -306,5 +377,118 @@ ul {
   }
   .shoppingTableSecond:nth-child(odd) {
     color: #e60012;
+  }
+}
+.shoppingNotice {
+  margin-top: 0;
+  background: #efefef;
+  padding: 18px 30px;
+  overflow: hidden;
+  height: auto !important;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d2d2d2;
+}
+.ModalTotalBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.73);
+  .ModalInnerTotalBox {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .ModalInner {
+    width: 40%;
+    height: 60%;
+    background: white;
+    border-radius: 20px;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ModalInnerIconBlock {
+    width: 100%;
+    height: 40%;
+    position: absolute;
+    top: 30px;
+  }
+  .ModalInnerIconStyle {
+    width: 100px;
+    height: 100px;
+  }
+  .ModalInnerTextBlock {
+    flex-direction: column;
+  }
+  .ModalInnerTextStyle {
+    color: black;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 50px;
+  }
+  .ModalInnerTextStyleBuy {
+    font-size: 18px;
+    color: #adb5bd;
+    font-weight: 500;
+  }
+  .ModalInnerBtnBlock {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .ModalInnerBtnStyle {
+    width: 200px;
+    padding: 15px;
+    background: #74c0fc;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    border-radius: 15px;
+  }
+}
+.shoppingCartInfoTotal {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  .shoppingInfoBlock {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #f1f3f5;
+    border: 2px solid #dee2e6;
+    .shoppingInfoHead {
+      text-align: center;
+      line-height: 180%;
+      margin-top: 15px;
+      font-size: 19px;
+    }
+    .shoppingInfoDetail {
+      line-height: 180%;
+    }
+  }
+}
+.shoppingCheckOutBtn {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  .shoppingCheckOutBtnStyle {
+    width: 30%;
+    height: 100%;
+    background: black;
+    color: white;
+    font-size: 18px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .shoppingCheckOutBtnStyle:hover {
+    background: white;
+    color: black;
   }
 }

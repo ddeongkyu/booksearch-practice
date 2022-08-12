@@ -13,10 +13,19 @@ function Main() {
     navigate(routes.shoppingCart);
   };
   return (
-    <div>
-      <button onClick={onGoToInfinity}>Infinity</button>
-      <button onClick={onGoToPagination}>Pagination</button>
-      <button onClick={onGoToShoppingCart}>Shopping Cart ! </button>
+    <div className="flex-center mainTotalBox">
+      <button className="cursorPointer mainBtnStyle" onClick={onGoToInfinity}>
+        인피니티 스크롤
+      </button>
+      <button className="cursorPointer mainBtnStyle" onClick={onGoToPagination}>
+        페이지네이션
+      </button>
+      <button
+        className="cursorPointer mainBtnStyle"
+        onClick={onGoToShoppingCart}
+      >
+        장바구니
+      </button>
     </div>
   );
 }

@@ -1,19 +1,27 @@
-export const onAddToCart = (setShoppingCart, book, quantity, shoppingCart) => {
+export const onAddToCart = (
+  setShoppingCart,
+  book,
+  quantity,
+  shoppingCart,
+  dispatch
+) => {
   const bookss = { ...book, quantity: Number(quantity) };
-  if (shoppingCart.length === 0) {
-    setShoppingCart([bookss]);
-  } else if (shoppingCart.length !== 0) {
-    const isDuplicated = shoppingCart.filter((a) => a.isbn === bookss.isbn);
-    if (isDuplicated.length !== 0) {
+  const isShoppingCartEmpty = shoppingCart.length === 0;
+  if (isShoppingCartEmpty) {
+    dispatch(setShoppingCart([bookss]));
+  } else {
+    const isDuplicated =
+      shoppingCart.filter((a) => a.isbn === bookss.isbn).length === 0;
+    if (!isDuplicated) {
       const increaseQuantity = shoppingCart.map((a) =>
         a.isbn === bookss.isbn
           ? { ...a, quantity: a.quantity + Number(quantity) }
           : a
       );
-      setShoppingCart(increaseQuantity);
-    } else if (isDuplicated.length === 0) {
+      dispatch(setShoppingCart(increaseQuantity));
+    } else {
       const concatArray = shoppingCart.concat(bookss);
-      setShoppingCart(concatArray);
+      dispatch(setShoppingCart(concatArray));
     }
   }
 };
