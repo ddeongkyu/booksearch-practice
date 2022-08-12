@@ -1,43 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { bookSearch } from "../api";
-function Pagination() {
+import onAddToCart from "../util/onAddToCart";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import onDiscountRate from "../util/onDiscountRate";
+const initialPageArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+function Pagination({ shoppingCart, setShoppingCart }) {
+  const [loadingStatus, setLoadingStatus] = useState("waiting");
   const [query, setQuery] = useState("");
   const [posts, setPosts] = useState([]);
   const [pageable, setPageable] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
   const [size, setSize] = useState(10);
-  const [pageArray, setPageArray] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [pageArray, setPageArray] = useState(initialPageArray);
+  const [inputQuantityValue, setInputQuantityValue] = useState(1);
+  const [sort, setSort] = useState("accuracy");
+  const [filter, setFilter] = useState("accuracy");
+  const onChangeInputQuantity = (e) => {
+    const { value } = e.target;
+    setInputQuantityValue(value);
+  };
+  const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       const { value } = e.target;
       setQuery(value);
+      setPageNumber(1);
+      setPageArray(initialPageArray);
     }
   };
   useEffect(() => {
     if (query) {
-      bookSearchPagination(query, pageNumber, size);
+      bookSearchPagination(query, pageNumber, size, sort);
     }
-  }, [query, pageNumber, size]);
-  const bookSearchPagination = async (query, pageNumber, size) => {
+  }, [query, pageNumber, size, sort]);
+  const bookSearchPagination = async (query, pageNumber, size, sort) => {
+    setLoadingStatus("loading");
     const params = {
       query,
+      sort,
       page: pageNumber,
       size,
     };
     const { data } = await bookSearch(params);
-    const pageable_max = Math.ceil(data.meta.pageable_count / size);
-    setPageable(pageable_max);
+    const pageable_count = Math.ceil(data.meta.pageable_count / size);
+    setPageable(pageable_count);
     setPosts(data.documents);
+    setLoadingStatus("fulfilled");
   };
   const onClickBtn = (value) => {
     setPageNumber(value);
-  };
-  const discount_rate = (a, b) => {
-    if (a > 0) {
-      return Math.ceil(((b - a) / b) * 100);
-    } else if (a <= 0) {
-      return 0;
-    }
   };
   const onClickPageMinus = () => {
     setPageNumber((prev) => prev - 1);
@@ -45,30 +57,96 @@ function Pagination() {
   const onClickPagePlus = () => {
     setPageNumber((prev) => prev + 1);
   };
+  const handleGoBackBtn = () => {
+    navigate(-1);
+  };
   const onClickPageDoubleMinus = () => {
     if (pageNumber - 10 > 0) {
       setPageNumber((prev) => prev - 10);
       setPageArray(pageArray.map((a) => a - 10));
+    } else {
+      alert("더 이상 10페이지씩 뒤로 갈 수 없어요!");
     }
   };
   const onClickPageDoublePlus = () => {
     if (pageNumber + 10 < pageable) {
-      setPageNumber((prev) => prev + 10);
-      setPageArray(pageArray.map((a) => a + 10));
+      const includesArray = pageArray.includes(pageable - 10);
+      if (!includesArray) {
+        setPageNumber((prev) => prev + 10);
+        setPageArray(pageArray.map((number) => number + 10));
+      } else if (includesArray) {
+        setPageArray(pageArray.map((number) => number + 10));
+        setPageNumber((prev) => prev + 10);
+        const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
+        setPageArray((prev) => [...prev].slice(0, findIndex + 1));
+      }
     }
-    if (pageable === pageNumber) {
-      alert("더 이상 책이 없어요!");
+    if (pageNumber + 10 >= pageable) {
+      setPageNumber(pageable);
+      alert("마지막 페이지로 이동합니다.");
     }
   };
-  const myArr = [];
+  const pageableUnder10Array = [];
   if (pageable <= 10) {
     for (let i = 0; i < pageable; i++) {
-      myArr.push(i + 1);
+      pageableUnder10Array.push(i + 1);
     }
   }
-  console.log(pageArray);
+  const onChangeSize = (e) => {
+    const { value } = e.target;
+    setSize(Number(value));
+    setPageNumber(1);
+    setPageArray(initialPageArray);
+  };
+  const onClickNotyet = () => {
+    alert("쏘리! 개발중!");
+  };
+
+  // Filter Function
+  const accuracyOrder = () => {
+    setSort("accuracy");
+    setFilter("accuracy");
+  };
+  const latestOrder = () => {
+    setSort("latest");
+    setFilter("latest");
+  };
+  const descendingOrder = () => {
+    const descendingArray = [...posts].sort((a, b) => {
+      return b.sale_price - a.sale_price;
+    });
+    setPosts(descendingArray);
+    setFilter("desc");
+  };
+  const ascendingOrder = () => {
+    const ascendingArray = [...posts].sort((a, b) => {
+      return a.sale_price - b.sale_price;
+    });
+    setPosts(ascendingArray);
+    setFilter("asc");
+  };
+  const discountRateOrder = () => {
+    const discountRateArray = [...posts].sort((a, b) => {
+      return (
+        Math.ceil(((a.sale_price - a.price) / a.sale_price) * 100) -
+        Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
+      );
+    });
+    setPosts(discountRateArray);
+    setFilter("discount");
+  };
+  const nameSort = () => {
+    const nameArray = [...posts].sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
+    setPosts(nameArray);
+    setFilter("name");
+  };
   return (
     <>
+      <div>
+        <BiArrowBack className="ArrowBackIcon" onClick={handleGoBackBtn} />
+      </div>
       <div className="inputStyle flex-center">
         <input
           className="input_search"
@@ -77,15 +155,10 @@ function Pagination() {
           placeholder="검색어 입력 후 Enter!!"
         />
       </div>
-      {query ? <p>현재 페이지 : {pageNumber}</p> : null}
       {query ? (
         <label>
           페이지 당 표시할 게시물 수:&nbsp;
-          <select
-            type="number"
-            value={size}
-            onChange={({ target: { value } }) => setSize(Number(value))}
-          >
+          <select type="number" value={size} onChange={onChangeSize}>
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
@@ -93,29 +166,166 @@ function Pagination() {
           </select>
         </label>
       ) : null}
+      {query ? (
+        <ul className="paginationFilterBox">
+          <li onClick={accuracyOrder}>
+            <span
+              className={
+                filter === "accuracy"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              정확도
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+          <li onClick={latestOrder}>
+            <span
+              className={
+                filter === "latest"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              출간일
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+          <li onClick={nameSort}>
+            <span
+              className={
+                filter === "name"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              상품명
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+          <li onClick={ascendingOrder}>
+            <span
+              className={
+                filter === "asc"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              낮은가격
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+          <li onClick={descendingOrder}>
+            <span
+              className={
+                filter === "desc"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              높은가격
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+          <li onClick={discountRateOrder}>
+            <span
+              className={
+                filter === "discount"
+                  ? "cursorPointer paginationFilterDetail"
+                  : "cursorPointer "
+              }
+            >
+              할인율
+            </span>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+          </li>
+        </ul>
+      ) : null}
       {posts.map((book, index) => (
         <div key={index} className="paginationTotalContetnBox">
-          <a href={book.url}>
-            <img alt="thumbnail" src={book.thumbnail} />
-          </a>
+          {loadingStatus === "fulfilled" ? (
+            <a href={book.url}>
+              <img alt="thumbnail" src={book.thumbnail} />
+            </a>
+          ) : null}
+          {loadingStatus === "loading" ? (
+            <div className="paginationLoadingImg"></div>
+          ) : null}
           <div className="paginationDetailBox">
-            <div className="paginationTitle">{book.title}</div>
-            <div className="paginationDetailInformationBox">
-              {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
-              {book.datetime.slice(0, 10)}
-            </div>
-            <div className="paginationContents">
-              {book.contents.slice(0, 99)}...
-            </div>
-            <div className="paginationPriceBox">
-              <div className="paginationPrice">{book.price}원</div>
-              <div className="paginationSalePrice">
-                {book.sale_price < 0 ? book.price : book.sale_price}원
-              </div>
-              <div className="paginationSalePercent">
-                {discount_rate(book.sale_price, book.price)}% 할인
-              </div>
-            </div>
+            {loadingStatus === "fulfilled" ? (
+              <>
+                <div className="paginationTitle">{book.title}</div>
+                <div className="paginationDetailInformationBox">
+                  {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
+                  {book.datetime.slice(0, 10)}
+                </div>
+                <div className="paginationContents">
+                  {book.contents.slice(0, 80)}...
+                </div>
+                <div className="paginationPriceBox">
+                  <div className="paginationPrice">
+                    {book.price.toLocaleString("ko-KR")}원
+                  </div>
+                  <div className="paginationSalePrice">
+                    {book.sale_price < 0
+                      ? book.price.toLocaleString("ko-KR")
+                      : book.sale_price.toLocaleString("ko-KR")}
+                    원
+                  </div>
+                  <div className="paginationSalePercent">
+                    {onDiscountRate(book.sale_price, book.price)}% 할인
+                  </div>
+                </div>
+              </>
+            ) : null}
+            {loadingStatus === "loading" ? (
+              <div className="paginationDetailBoxLoading"></div>
+            ) : null}
+          </div>
+          <div className="paginationBtnBox">
+            {loadingStatus === "fulfilled" ? (
+              <>
+                <p>
+                  수량 : &nbsp;
+                  <input
+                    type="number"
+                    className="paginationQuantityInputStyle"
+                    value={inputQuantityValue}
+                    onChange={onChangeInputQuantity}
+                  />
+                  &nbsp;개
+                </p>
+                <button
+                  onClick={onClickNotyet}
+                  className="cursorPointer paginationBtnStyle"
+                >
+                  내 서재로 이동
+                </button>
+                <button
+                  onClick={() =>
+                    onAddToCart(
+                      setShoppingCart,
+                      book,
+                      inputQuantityValue,
+                      shoppingCart
+                    )
+                  }
+                  className="cursorPointer paginationBtnStyle"
+                >
+                  장바구니
+                </button>
+                <button
+                  onClick={onClickNotyet}
+                  className="cursorPointer paginationBtnStyle"
+                >
+                  바로구매
+                </button>
+              </>
+            ) : null}
+            {loadingStatus === "loading" ? (
+              <div className="paginationBtnLoading"></div>
+            ) : null}
           </div>
         </div>
       ))}
@@ -132,42 +342,30 @@ function Pagination() {
             &lt;
           </button>
           {pageable <= 10
-            ? myArr.map((i) => (
+            ? pageableUnder10Array.map((i, idx) => (
                 <button
                   onClick={() => {
                     onClickBtn(i);
                   }}
                   className="buttonStyle"
                   aria-current={pageNumber === i ? "page" : null}
-                  key={i}
+                  key={i + idx}
                 >
                   {i}
                 </button>
               ))
-            : pageArray.map((number) => (
+            : pageArray.map((number, idx) => (
                 <button
                   onClick={() => {
                     onClickBtn(number);
                   }}
                   className="buttonStyle"
                   aria-current={pageNumber === number ? "page" : null}
-                  key={number}
+                  key={number + idx}
                 >
                   {number}
                 </button>
               ))}
-          {/* {Array(pageable <= 10 ? pageable : 10).map((i) => (
-            <button
-              onClick={() => {
-                onClickBtn(i + 1);
-              }}
-              className="buttonStyle"
-              aria-current={pageNumber === i + 1 ? "page" : null}
-              key={i + 1}
-            >
-              {i + 1}
-            </button>
-          ))} */}
           <button
             className="buttonStyle"
             disabled={pageNumber === pageable}

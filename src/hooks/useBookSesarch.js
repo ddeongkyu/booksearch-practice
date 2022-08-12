@@ -6,6 +6,7 @@ export default function useBookSearch(query, pageNumber) {
   const [books, setBooks] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [pageable, setPagebale] = useState(0);
+  const [loadingStatus, setLoadingStatus] = useState("waiting");
   useEffect(() => {
     setBooks([]);
   }, [query]);
@@ -14,6 +15,7 @@ export default function useBookSearch(query, pageNumber) {
       setLoading(true);
       setError(false);
       let cancel;
+      setLoadingStatus("loading");
       async function fetchData() {
         const res = await axios.get(
           "https://dapi.kakao.com/v3/search/book?target=title",
@@ -34,6 +36,7 @@ export default function useBookSearch(query, pageNumber) {
         setBooks((prev) => prev.concat(res.data.documents));
         setHasMore(res.data.documents.length > 0);
         setLoading(false);
+        setLoadingStatus("fulfilled");
         if (!res.data.documents.length) {
           alert("검색된 책이 없어요! 검색어를 확인해주세요!");
         }
@@ -48,5 +51,6 @@ export default function useBookSearch(query, pageNumber) {
     books,
     hasMore,
     pageable,
+    loadingStatus,
   };
 }
