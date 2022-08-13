@@ -67,7 +67,7 @@ function ShoppingCart() {
           </div>
           {shoppingCart.map((product, idx) => (
             <div key={product.isbn + idx} className="shoppingCartHeader">
-              <div className="shoppingCartContent shoppingCartProductName">
+              <div className="flex-vertical-center shoppingCartContent shoppingCartProductName">
                 <div className="cursorPointer shoppingCartDeleteBtn">
                   <AiOutlineClose onClick={() => deleteProduct(product)} />
                 </div>

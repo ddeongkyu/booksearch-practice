@@ -143,8 +143,6 @@
 .paginationTotalContetnBox {
   position: relative;
   padding: 20px;
-  display: flex;
-  align-items: center;
   border-top: 1px solid grey;
   border-bottom: 1px solid grey;
   .paginationLoadingImg {
@@ -181,12 +179,10 @@
     color: #505050;
     padding: 2px 0 5px;
     font-size: 12px;
-    font-weight: lighter;
   }
   .paginationContents {
     color: #777;
     font-size: 12px;
-    font-weight: lighter;
     width: 60%;
   }
   .paginationPriceBox {
@@ -266,6 +262,19 @@ ul {
     color: #e60012;
   }
 }
+.paginationPostsEmptyBox {
+  flex-direction: column;
+  margin-top: 150px;
+  .paginationPostsEmptyIcon {
+    width: 200px;
+    height: 200px;
+  }
+  .paginationPostsEmptyText {
+    font-size: 50px;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
 .shoppingCartTotalPage {
   .shoppingCartNoticeBox {
     display: flex;
@@ -330,8 +339,6 @@ ul {
     }
   }
   .shoppingCartProductName {
-    display: flex;
-    align-items: center;
     width: 40%;
   }
   .shoppingCartNothinginCartBlock {
@@ -384,7 +391,6 @@ ul {
   background: #efefef;
   padding: 18px 30px;
   overflow: hidden;
-  height: auto !important;
   margin-bottom: 10px;
   border-bottom: 1px solid #d2d2d2;
 }

@@ -1,25 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { fulfilled, onLoading, waiting } from "../constants";
 export default function useBookSearch(query, pageNumber) {
-  const waiting = "waiting";
-  const fulfilled = "fulfilled";
-  const duringLoad = "loading";
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [searchConfig, setSearchConfig] = useState({
+    hasMore: false,
+    error: false,
+    isEnd: false,
+    loading: true,
+    pageable: 0,
+  });
   const [books, setBooks] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
-  const [pageable, setPagebale] = useState(0);
   const [loadingStatus, setLoadingStatus] = useState(waiting);
-  const [is_end, setIs_end] = useState(false);
   useEffect(() => {
     setBooks([]);
   }, [query]);
   useEffect(() => {
     if (query) {
-      setLoading(true);
-      setError(false);
+      //load, error
+      setSearchConfig((prev) => {
+        return { ...prev, loading: true };
+      });
+      setSearchConfig((prev) => {
+        return { ...prev, error: false };
+      });
       let cancel;
-      setLoadingStatus(duringLoad);
+      setLoadingStatus(onLoading);
       async function fetchData() {
         const res = await axios.get(
           "https://dapi.kakao.com/v3/search/book?target=title",
@@ -36,11 +41,19 @@ export default function useBookSearch(query, pageNumber) {
           }
         );
         const pageable_max = Math.ceil(res.data.meta.pageable_count / 9);
-        setPagebale(pageable_max);
+        setSearchConfig((prev) => {
+          return { ...prev, pageable: pageable_max };
+        });
         setBooks((prev) => prev.concat(res.data.documents));
-        setHasMore(res.data.documents.length > 0);
-        setIs_end(res.data.meta.is_end);
-        setLoading(false);
+        setSearchConfig((prev) => {
+          return { ...prev, hasMore: res.data.documents.length > 0 };
+        });
+        setSearchConfig((prev) => {
+          return { ...prev, isEnd: res.data.meta.is_end };
+        });
+        setSearchConfig((prev) => {
+          return { ...prev, loading: false };
+        });
         setLoadingStatus(fulfilled);
         if (!res.data.documents.length) {
           alert("검색된 책이 없어요! 검색어를 확인해주세요!");
@@ -51,12 +64,8 @@ export default function useBookSearch(query, pageNumber) {
     }
   }, [query, pageNumber]);
   return {
-    loading,
-    error,
     books,
-    hasMore,
-    pageable,
     loadingStatus,
-    is_end,
+    searchConfig,
   };
 }
