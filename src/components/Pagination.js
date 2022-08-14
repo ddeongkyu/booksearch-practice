@@ -3,29 +3,39 @@ import { bookSearch } from "../api";
 import onAddToCart from "../util/onAddToCart";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { FcReading } from "react-icons/fc";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
 import { useDispatch, useSelector } from "react-redux";
-import { setShoppingCart } from "../slices/bookSlice";
-const initialPageArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import {
+  setShoppingCart,
+  setPosts,
+  setFilter,
+  setPageNumber,
+  setPageable,
+  setQuery,
+  setSize,
+  setSort,
+  setPageArray,
+} from "../slices/bookSlice";
+import { waiting, fulfilled, onLoading } from "../constants";
 function Pagination() {
-  const waiting = "waiting";
-  const fulfilled = "fulfilled";
-  const loading = "loading";
   const [loadingStatus, setLoadingStatus] = useState(waiting);
-  const { shoppingCart } = useSelector((state) => {
+  const {
+    shoppingCart,
+    posts,
+    query,
+    size,
+    pageNumber,
+    pageable,
+    sort,
+    filter,
+    pageArray,
+  } = useSelector((state) => {
     return state.book;
   });
   const dispatch = useDispatch();
-  const [query, setQuery] = useState("");
-  const [posts, setPosts] = useState([]);
-  const [pageable, setPageable] = useState(1);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [size, setSize] = useState(10);
-  const [pageArray, setPageArray] = useState(initialPageArray);
-  const [sort, setSort] = useState("accuracy");
-  const [filter, setFilter] = useState("accuracy");
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
@@ -39,15 +49,49 @@ function Pagination() {
     const aa = posts.map((a) =>
       a.isbn + idx === book.isbn + idx ? { ...a, quantity: Math.abs(value) } : a
     );
-    setPosts(aa);
+    dispatch(setPosts(aa));
   };
+  // 이걸로 뒤로 갔다가 왔을 때 유지시키려고 함. 그런데.. 문제가 일어났음..
+  // PR보낸 메세지 확인좀....
+  useEffect(() => {
+    if (filter === "name") {
+      const nameArray = [...posts].sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+      dispatch(setPosts(nameArray));
+    } else if (filter === "desc") {
+      const descendingArray = [...posts].sort((a, b) => {
+        return b.sale_price - a.sale_price;
+      });
+      localStorage.setItem("filter", JSON.stringify(descendingArray));
+      dispatch(setPosts(descendingArray));
+    } else if (filter === "asc") {
+      const ascendingArray = [...posts].sort((a, b) => {
+        return a.sale_price - b.sale_price;
+      });
+      localStorage.setItem("filter", JSON.stringify(ascendingArray));
+      dispatch(setPosts(ascendingArray));
+    } else if (filter === "discount") {
+      const discountRateArray = [...posts].sort((a, b) => {
+        return (
+          Math.ceil(((a.sale_price - a.price) / a.sale_price) * 100) -
+          Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
+        );
+      });
+      localStorage.setItem("filter", JSON.stringify(discountRateArray));
+
+      dispatch(setPosts(discountRateArray));
+    } else if (!filter) {
+      return null;
+    }
+  }, []);
   const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       const { value } = e.target;
-      setQuery(value);
-      setPageNumber(1);
-      setPageArray(initialPageArray);
+      dispatch(setQuery(value));
+      dispatch(setPageNumber(1));
+      dispatch(setPageArray(pageArray));
     }
   };
   useEffect(() => {
@@ -56,7 +100,7 @@ function Pagination() {
     }
   }, [query, pageNumber, size, sort]);
   const bookSearchPagination = async (query, pageNumber, size, sort) => {
-    setLoadingStatus(loading);
+    setLoadingStatus(onLoading);
     const params = {
       query,
       sort,
@@ -64,51 +108,51 @@ function Pagination() {
       size,
     };
     const { data } = await bookSearch(params);
-    console.log(data);
     const quantityData = data.documents.map((book) =>
       book.isbn !== 0 ? { ...book, quantity: 1 } : book
     );
     const pageable_count = Math.ceil(data.meta.pageable_count / size);
-    setPageable(pageable_count);
-    setPosts(quantityData);
+    dispatch(setPageable(pageable_count));
+    dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
   };
   const onClickBtn = (value) => {
-    setPageNumber(value);
+    dispatch(setPageNumber(value));
   };
   const onClickPageMinus = () => {
-    setPageNumber((prev) => prev - 1);
+    dispatch(setPageNumber(pageNumber - 1));
   };
   const onClickPagePlus = () => {
-    setPageNumber((prev) => prev + 1);
+    dispatch(setPageNumber(pageNumber + 1));
   };
   const handleGoBackBtn = () => {
     navigate(-1);
   };
   const onClickPageDoubleMinus = () => {
     if (pageNumber - 10 > 0) {
-      setPageNumber((prev) => prev - 10);
-      setPageArray(pageArray.map((a) => a - 10));
+      dispatch(setPageNumber(pageNumber - 10));
+      dispatch(setPageArray(pageArray.map((a) => a - 10)));
     } else {
       alert("첫 번째 페이지로 이동합니다.");
-      setPageNumber(1);
+      dispatch(setPageNumber(1));
     }
   };
   const onClickPageDoublePlus = () => {
     if (pageNumber + 10 < pageable) {
       const includesArray = pageArray.includes(pageable - 10);
+      const increase = pageArray.map((number) => number + 10);
       if (!includesArray) {
-        setPageNumber((prev) => prev + 10);
-        setPageArray(pageArray.map((number) => number + 10));
+        dispatch(setPageNumber(pageNumber + 10));
+        dispatch(setPageArray(increase));
       } else if (includesArray) {
-        setPageArray(pageArray.map((number) => number + 10));
-        setPageNumber((prev) => prev + 10);
+        dispatch(setPageArray(increase));
+        dispatch(setPageNumber(pageNumber + 10));
         const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
-        setPageArray((prev) => [...prev].slice(0, findIndex + 1));
+        dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
       }
     }
     if (pageNumber + 10 >= pageable) {
-      setPageNumber(pageable);
+      dispatch(setPageNumber(pageable));
       alert("마지막 페이지로 이동합니다.");
     }
   };
@@ -120,36 +164,34 @@ function Pagination() {
   }
   const onChangeSize = (e) => {
     const { value } = e.target;
-    setSize(Number(value));
-    setPageNumber(1);
-    setPageArray(initialPageArray);
+    dispatch(setSize(Number(value)));
+    dispatch(setPageNumber(1));
+    dispatch(setPageArray(pageArray));
   };
   const onClickNotyet = () => {
     alert("쏘리! 개발중!");
   };
-
-  // Filter Function
   const accuracyOrder = () => {
-    setSort("accuracy");
-    setFilter("accuracy");
+    dispatch(setSort("accuracy"));
+    dispatch(setFilter("accuracy"));
   };
   const latestOrder = () => {
-    setSort("latest");
-    setFilter("latest");
+    dispatch(setSort("latest"));
+    dispatch(setFilter("latest"));
   };
   const descendingOrder = () => {
     const descendingArray = [...posts].sort((a, b) => {
       return b.sale_price - a.sale_price;
     });
-    setPosts(descendingArray);
-    setFilter("desc");
+    dispatch(setPosts(descendingArray));
+    dispatch(setFilter("desc"));
   };
   const ascendingOrder = () => {
     const ascendingArray = [...posts].sort((a, b) => {
       return a.sale_price - b.sale_price;
     });
-    setPosts(ascendingArray);
-    setFilter("asc");
+    dispatch(setPosts(ascendingArray));
+    dispatch(setFilter("asc"));
   };
   const discountRateOrder = () => {
     const discountRateArray = [...posts].sort((a, b) => {
@@ -158,16 +200,17 @@ function Pagination() {
         Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
       );
     });
-    setPosts(discountRateArray);
-    setFilter("discount");
+    dispatch(setPosts(discountRateArray));
+    dispatch(setFilter("discount"));
   };
   const nameSort = () => {
     const nameArray = [...posts].sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
-    setPosts(nameArray);
-    setFilter("name");
+    dispatch(setPosts(nameArray));
+    dispatch(setFilter("name"));
   };
+  const isPostEmpty = posts.length === 0;
   return (
     <>
       <div>
@@ -271,95 +314,109 @@ function Pagination() {
           </li>
         </ul>
       ) : null}
-      {posts.map((book, index) => (
-        <div key={index} className="paginationTotalContetnBox">
-          {loadingStatus === "fulfilled" ? (
-            <a href={book.url}>
-              <img alt="thumbnail" src={book.thumbnail} />
-            </a>
-          ) : null}
-          {loadingStatus === "loading" ? (
-            <div className="paginationLoadingImg"></div>
-          ) : null}
-          <div className="paginationDetailBox">
-            {loadingStatus === "fulfilled" ? (
-              <>
-                <div className="paginationTitle">{book.title}</div>
-                <div className="paginationDetailInformationBox">
-                  {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
-                  {book.datetime.slice(0, 10)}
-                </div>
-                <div className="paginationContents">
-                  {book.contents.slice(0, 80)}...
-                </div>
-                <div className="paginationPriceBox">
-                  <div className="paginationPrice">
-                    {book.price.toLocaleString("ko-KR")}원
-                  </div>
-                  <div className="paginationSalePrice">
-                    {book.sale_price < 0
-                      ? book.price.toLocaleString("ko-KR")
-                      : book.sale_price.toLocaleString("ko-KR")}
-                    원
-                  </div>
-                  <div className="paginationSalePercent">
-                    {onDiscountRate(book.sale_price, book.price)}% 할인
-                  </div>
-                </div>
-              </>
-            ) : null}
-            {loadingStatus === "loading" ? (
-              <div className="paginationDetailBoxLoading"></div>
-            ) : null}
+      {isPostEmpty ? (
+        <div className="flex-center paginationPostsEmptyBox">
+          <div>
+            <FcReading className="paginationPostsEmptyIcon" />
           </div>
-          <div className="paginationBtnBox">
-            {loadingStatus === "fulfilled" ? (
-              <>
-                <p>
-                  수량 : &nbsp;
-                  <input
-                    type="number"
-                    value={book.quantity}
-                    className="paginationQuantityInputStyle"
-                    onChange={(e) => onChangeInputQuantity(index, book, e)}
-                  />
-                  &nbsp;개
-                </p>
-                <button
-                  onClick={onClickNotyet}
-                  className="cursorPointer paginationBtnStyle"
-                >
-                  내 서재로 이동
-                </button>
-                <button
-                  onClick={() => {
-                    onAddToCart(
-                      setShoppingCart,
-                      book,
-                      book.quantity,
-                      shoppingCart,
-                      dispatch
-                    );
-                    handleModalToggle();
-                  }}
-                  className="cursorPointer paginationBtnStyle"
-                >
-                  장바구니
-                </button>
-                <button
-                  onClick={onClickNotyet}
-                  className="cursorPointer paginationBtnStyle"
-                >
-                  바로구매
-                </button>
-              </>
-            ) : null}
-            {loadingStatus === "loading" ? (
-              <div className="paginationBtnLoading"></div>
-            ) : null}
+          <div className="paginationPostsEmptyText">
+            <span>Find your Favorite Book ! </span>
           </div>
         </div>
-      ))}
+      ) : (
+        posts.map((book, index) => (
+          <div
+            key={index}
+            className="flex-vertical-center paginationTotalContetnBox"
+          >
+            {loadingStatus === "fulfilled" ? (
+              <a href={book.url}>
+                <img alt="thumbnail" src={book.thumbnail} />
+              </a>
+            ) : null}
+            {loadingStatus === "loading" ? (
+              <div className="paginationLoadingImg"></div>
+            ) : null}
+            <div className="paginationDetailBox">
+              {loadingStatus === "fulfilled" ? (
+                <>
+                  <div className="paginationTitle">{book.title}</div>
+                  <div className="paginationDetailInformationBox">
+                    {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
+                    {book.datetime.slice(0, 10)}
+                  </div>
+                  <div className="paginationContents">
+                    {book.contents.slice(0, 80)}...
+                  </div>
+                  <div className="paginationPriceBox">
+                    <div className="paginationPrice">
+                      {book.price.toLocaleString("ko-KR")}원
+                    </div>
+                    <div className="paginationSalePrice">
+                      {book.sale_price < 0
+                        ? book.price.toLocaleString("ko-KR")
+                        : book.sale_price.toLocaleString("ko-KR")}
+                      원
+                    </div>
+                    <div className="paginationSalePercent">
+                      {onDiscountRate(book.sale_price, book.price)}% 할인
+                    </div>
+                  </div>
+                </>
+              ) : null}
+              {loadingStatus === "loading" ? (
+                <div className="paginationDetailBoxLoading"></div>
+              ) : null}
+            </div>
+            <div className="paginationBtnBox">
+              {loadingStatus === "fulfilled" ? (
+                <>
+                  <p>
+                    수량 : &nbsp;
+                    <input
+                      type="number"
+                      value={book.quantity}
+                      className="paginationQuantityInputStyle"
+                      onChange={(e) => onChangeInputQuantity(index, book, e)}
+                    />
+                    &nbsp;개
+                  </p>
+                  <button
+                    onClick={onClickNotyet}
+                    className="cursorPointer paginationBtnStyle"
+                  >
+                    내 서재로 이동
+                  </button>
+                  <button
+                    onClick={() => {
+                      onAddToCart(
+                        setShoppingCart,
+                        book,
+                        book.quantity,
+                        shoppingCart,
+                        dispatch
+                      );
+                      handleModalToggle();
+                    }}
+                    className="cursorPointer paginationBtnStyle"
+                  >
+                    장바구니
+                  </button>
+                  <button
+                    onClick={onClickNotyet}
+                    className="cursorPointer paginationBtnStyle"
+                  >
+                    바로구매
+                  </button>
+                </>
+              ) : null}
+              {loadingStatus === "loading" ? (
+                <div className="paginationBtnLoading"></div>
+              ) : null}
+            </div>
+          </div>
+        ))
+      )}
       {query ? (
         <nav className="nav flex-center">
           <button className="buttonStyle" onClick={onClickPageDoubleMinus}>

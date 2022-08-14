@@ -19,7 +19,7 @@ function InfinityScroll() {
     setModalOpen(!modalOpen);
   };
   const [pageNumber, setPageNumber] = useState(1);
-  const { books, hasMore, loading, loadingStatus, is_end } = useBookSearch(
+  const { books, searchConfig, loadingStatus } = useBookSearch(
     query,
     pageNumber
   );
@@ -39,21 +39,25 @@ function InfinityScroll() {
   const observer = useRef();
   const lastBookElementRef = useCallback(
     (node) => {
-      if (is_end) {
+      if (searchConfig.isEnd) {
         alert("마지막 항목이에요!");
       } else {
-        if (loading) return;
+        if (searchConfig.loading) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting && hasMore) {
+          if (entries[0].isIntersecting && searchConfig.hasMore) {
             setPageNumber((prev) => prev + 1);
           }
         });
         if (node) observer.current.observe(node);
       }
     },
-    [loading, hasMore]
+    [searchConfig.loading, searchConfig.hasMore]
   );
+  console.log(searchConfig.isEnd);
+  console.log(searchConfig.hasMore);
+  console.log(searchConfig.pageable);
+  console.log(searchConfig.loading);
   return (
     <>
       <div>
