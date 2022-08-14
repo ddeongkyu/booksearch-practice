@@ -51,40 +51,6 @@ function Pagination() {
     );
     dispatch(setPosts(aa));
   };
-  // 이걸로 뒤로 갔다가 왔을 때 유지시키려고 함. 그런데.. 문제가 일어났음..
-  // PR보낸 메세지 확인좀....
-  useEffect(() => {
-    if (filter === "name") {
-      const nameArray = [...posts].sort((a, b) => {
-        return a.title.localeCompare(b.title);
-      });
-      dispatch(setPosts(nameArray));
-    } else if (filter === "desc") {
-      const descendingArray = [...posts].sort((a, b) => {
-        return b.sale_price - a.sale_price;
-      });
-      localStorage.setItem("filter", JSON.stringify(descendingArray));
-      dispatch(setPosts(descendingArray));
-    } else if (filter === "asc") {
-      const ascendingArray = [...posts].sort((a, b) => {
-        return a.sale_price - b.sale_price;
-      });
-      localStorage.setItem("filter", JSON.stringify(ascendingArray));
-      dispatch(setPosts(ascendingArray));
-    } else if (filter === "discount") {
-      const discountRateArray = [...posts].sort((a, b) => {
-        return (
-          Math.ceil(((a.sale_price - a.price) / a.sale_price) * 100) -
-          Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
-        );
-      });
-      localStorage.setItem("filter", JSON.stringify(discountRateArray));
-
-      dispatch(setPosts(discountRateArray));
-    } else if (!filter) {
-      return null;
-    }
-  }, []);
   const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
@@ -92,6 +58,7 @@ function Pagination() {
       dispatch(setQuery(value));
       dispatch(setPageNumber(1));
       dispatch(setPageArray(pageArray));
+      dispatch(setFilter("accuracy"));
     }
   };
   useEffect(() => {
@@ -115,6 +82,30 @@ function Pagination() {
     dispatch(setPageable(pageable_count));
     dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
+    if (filter === "name") {
+      const nameArray = [...posts].sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+      dispatch(setPosts(nameArray));
+    } else if (filter === "desc") {
+      const descendingArray = [...posts].sort((a, b) => {
+        return b.sale_price - a.sale_price;
+      });
+      dispatch(setPosts(descendingArray));
+    } else if (filter === "asc") {
+      const ascendingArray = [...posts].sort((a, b) => {
+        return a.sale_price - b.sale_price;
+      });
+      dispatch(setPosts(ascendingArray));
+    } else if (filter === "discount") {
+      const discountRateArray = [...posts].sort((a, b) => {
+        return (
+          Math.ceil(((a.sale_price - a.price) / a.sale_price) * 100) -
+          Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
+        );
+      });
+      dispatch(setPosts(discountRateArray));
+    }
   };
   const onClickBtn = (value) => {
     dispatch(setPageNumber(value));
@@ -167,6 +158,8 @@ function Pagination() {
     dispatch(setSize(Number(value)));
     dispatch(setPageNumber(1));
     dispatch(setPageArray(pageArray));
+    dispatch(setFilter("accuracy"));
+    dispatch(setSort("accuracy"));
   };
   const onClickNotyet = () => {
     alert("쏘리! 개발중!");
@@ -330,7 +323,7 @@ function Pagination() {
             className="flex-vertical-center paginationTotalContetnBox"
           >
             {loadingStatus === "fulfilled" ? (
-              <a href={book.url}>
+              <a target="_blank" href={book.url}>
                 <img alt="thumbnail" src={book.thumbnail} />
               </a>
             ) : null}

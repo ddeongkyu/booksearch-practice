@@ -16,12 +16,8 @@ export default function useBookSearch(query, pageNumber) {
   }, [query]);
   useEffect(() => {
     if (query) {
-      //load, error
       setSearchConfig((prev) => {
-        return { ...prev, loading: true };
-      });
-      setSearchConfig((prev) => {
-        return { ...prev, error: false };
+        return { ...prev, loading: true, error: false };
       });
       let cancel;
       setLoadingStatus(onLoading);
@@ -42,18 +38,15 @@ export default function useBookSearch(query, pageNumber) {
         );
         const pageable_max = Math.ceil(res.data.meta.pageable_count / 9);
         setSearchConfig((prev) => {
-          return { ...prev, pageable: pageable_max };
+          return {
+            ...prev,
+            pageable: pageable_max,
+            hasMore: res.data.documents.length > 0,
+            isEnd: res.data.meta.is_end,
+            loading: false,
+          };
         });
         setBooks((prev) => prev.concat(res.data.documents));
-        setSearchConfig((prev) => {
-          return { ...prev, hasMore: res.data.documents.length > 0 };
-        });
-        setSearchConfig((prev) => {
-          return { ...prev, isEnd: res.data.meta.is_end };
-        });
-        setSearchConfig((prev) => {
-          return { ...prev, loading: false };
-        });
         setLoadingStatus(fulfilled);
         if (!res.data.documents.length) {
           alert("검색된 책이 없어요! 검색어를 확인해주세요!");

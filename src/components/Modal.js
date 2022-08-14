@@ -14,11 +14,6 @@ const Modal = ({ onClose }) => {
 
   const onGoToShoppingCart = () => {
     navigate("/shoppingCart");
-    // 여기서 constants에 있는거 쓰면
-    // ex} routes.shoppingCart
-    // pagination에서 썻다고 가정하면
-    // locallhost:3000/pagination/shoppingCart 이렇게 가져서 에러뜸 ㅜㅜ
-    // 그래서 constants 만들어놓고도 이렇게 써놨음;
   };
   return (
     <div className="ModalTotalBox">
