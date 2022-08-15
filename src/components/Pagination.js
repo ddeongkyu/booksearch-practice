@@ -4,6 +4,7 @@ import onAddToCart from "../util/onAddToCart";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { FcReading } from "react-icons/fc";
+import { AiOutlineClose } from "react-icons/ai";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
@@ -18,8 +19,11 @@ import {
   setSize,
   setSort,
   setPageArray,
+  setSearchWord,
+  setRecentlySeen,
 } from "../slices/bookSlice";
 import { waiting, fulfilled, onLoading } from "../constants";
+import generateRandomId from "../util/generateRandomId";
 function Pagination() {
   const [loadingStatus, setLoadingStatus] = useState(waiting);
   const {
@@ -32,6 +36,8 @@ function Pagination() {
     sort,
     filter,
     pageArray,
+    searchWord,
+    recentlySeen,
   } = useSelector((state) => {
     return state.book;
   });
@@ -55,12 +61,18 @@ function Pagination() {
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       const { value } = e.target;
+      const searched = searchWord.concat({
+        id: generateRandomId(),
+        word: value,
+      });
       dispatch(setQuery(value));
       dispatch(setPageNumber(1));
       dispatch(setPageArray(pageArray));
       dispatch(setFilter("accuracy"));
+      dispatch(setSearchWord(searched));
     }
   };
+
   useEffect(() => {
     if (query) {
       bookSearchPagination(query, pageNumber, size, sort);
@@ -106,6 +118,28 @@ function Pagination() {
       });
       dispatch(setPosts(discountRateArray));
     }
+  };
+  const handleDeleteSearchWord = (id) => {
+    const deleteArray = searchWord.filter((content) => content.id !== id);
+    dispatch(setSearchWord(deleteArray));
+  };
+  const handleSearchdWord = (word) => {
+    dispatch(setQuery(word));
+    dispatch(setPageNumber(1));
+    dispatch(setPageArray(pageArray));
+    dispatch(setFilter("accuracy"));
+  };
+  const handleAddRecentlySeen = (product) => {
+    const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
+    const isduplEmpty = dupl.length === 0;
+    if (isduplEmpty) {
+      const recentArr = recentlySeen.concat(product);
+      dispatch(setRecentlySeen(recentArr));
+    }
+  };
+  const handleDeleteRecentlySeen = (product) => {
+    const delArr = recentlySeen.filter((a) => a.isbn !== product.isbn);
+    dispatch(setRecentlySeen(delArr));
   };
   const onClickBtn = (value) => {
     dispatch(setPageNumber(value));
@@ -204,6 +238,7 @@ function Pagination() {
     dispatch(setFilter("name"));
   };
   const isPostEmpty = posts.length === 0;
+  console.log(recentlySeen);
   return (
     <>
       <div>
@@ -221,15 +256,33 @@ function Pagination() {
         />
       </div>
       {query ? (
-        <label>
-          페이지 당 표시할 게시물 수:&nbsp;
-          <select type="number" value={size} onChange={onChangeSize}>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-          </select>
-        </label>
+        <div className="flex-vertical-center">
+          <div className="flex-vertical-center searchWordTotal">
+            <span className="searchWordText">최근 검색어 :</span>
+            {searchWord.map((content) => (
+              <div className="searchWordBox" key={content.id}>
+                <div className="flex-vertical-center searchWordWord cursorPointer">
+                  <div onClick={() => handleSearchdWord(content.word)}>
+                    {content.word}
+                  </div>
+                  <AiOutlineClose
+                    onClick={() => handleDeleteSearchWord(content.id)}
+                    className="cursorPointer searchWordIcon"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <label>
+            페이지 당 표시할 게시물 수:&nbsp;
+            <select type="number" value={size} onChange={onChangeSize}>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+            </select>
+          </label>
+        </div>
       ) : null}
       {query ? (
         <ul className="flex-center paginationFilterBox">
@@ -323,7 +376,11 @@ function Pagination() {
             className="flex-vertical-center paginationTotalContetnBox"
           >
             {loadingStatus === "fulfilled" ? (
-              <a target="_blank" href={book.url}>
+              <a
+                target="_blank"
+                href={book.url}
+                onClick={() => handleAddRecentlySeen(book)}
+              >
                 <img alt="thumbnail" src={book.thumbnail} />
               </a>
             ) : null}
@@ -390,6 +447,7 @@ function Pagination() {
                         dispatch
                       );
                       handleModalToggle();
+                      handleAddRecentlySeen(book);
                     }}
                     className="cursorPointer paginationBtnStyle"
                   >
@@ -410,6 +468,33 @@ function Pagination() {
           </div>
         ))
       )}
+      {query ? (
+        <div className="positionA paginationLeftTotal">
+          <div className="positionR paginationLeftBox">
+            <div className="positionA flex-center paginationLeftBox">
+              <p className="paginationLeftText">최근 본 상품</p>
+              <div className="paginationLeftContentBox">
+                {recentlySeen.map((book, idx) => (
+                  <div
+                    className="positionR paginationLeftContent"
+                    key={book.isbn + idx}
+                  >
+                    <img
+                      className="paginationContentImg"
+                      alt="book"
+                      src={book.thumbnail}
+                    />
+                    <AiOutlineClose
+                      onClick={() => handleDeleteRecentlySeen(book)}
+                      className="positionA cursorPointer paginationContentImgXbtn"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {query ? (
         <nav className="nav flex-center">
           <button className="buttonStyle" onClick={onClickPageDoubleMinus}>
