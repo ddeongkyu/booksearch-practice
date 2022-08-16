@@ -238,7 +238,7 @@ function Pagination() {
     dispatch(setFilter("name"));
   };
   const isPostEmpty = posts.length === 0;
-  console.log(recentlySeen);
+  const isRecentEmpty = recentlySeen.length === 0;
   return (
     <>
       <div>
@@ -472,7 +472,9 @@ function Pagination() {
         <div className="positionA paginationLeftTotal">
           <div className="positionR paginationLeftBox">
             <div className="positionA flex-center paginationLeftBox">
-              <p className="paginationLeftText">최근 본 상품</p>
+              {isRecentEmpty ? null : (
+                <p className="paginationLeftText">최근 본 상품</p>
+              )}
               <div className="paginationLeftContentBox">
                 {recentlySeen.map((book, idx) => (
                   <div
