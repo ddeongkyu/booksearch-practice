@@ -1,38 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import onDiscountRate from "../util/onDiscountRate";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { AiOutlineClose } from "react-icons/ai";
 import { setShoppingCart } from "../slices/bookSlice";
 import { useDispatch } from "react-redux";
+import ModalPortal from "../portal/ModalPortal";
+import ShippingModal from "./ShippingModal";
 function ShoppingCart() {
+  const { shoppingCart } = useSelector((state) => {
+    return state.book;
+  });
+  const [checkedInput, setCheckedInput] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const isCheckoutInputEmpty = checkedInput.length === 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleGoBackBtn = () => {
     navigate(-1);
   };
-  const { shoppingCart } = useSelector((state) => {
-    return state.book;
-  });
+  const handleModalToggle = () => {
+    setModalOpen(!modalOpen);
+  };
+  const isShoppingCartEmpty = shoppingCart.length === 0;
   const handleOrderBtn = () => {
     alert("개발중!");
   };
-  const totalPrice = shoppingCart.reduce((acc, product) => {
-    return acc + product.quantity * product.sale_price;
-  }, 0);
-  const totalQuatity = shoppingCart.reduce((acc, product) => {
-    return acc + product.quantity;
-  }, 0);
-  const totalReserves = shoppingCart.reduce((acc, product) => {
-    return acc + product.sale_price * 0.05 * product.quantity;
-  }, 0);
-  const deleteProduct = (book) => {
-    const deletedProduct = shoppingCart.filter(
-      (product) => product.isbn !== book.isbn
-    );
-    dispatch(setShoppingCart(deletedProduct));
+  const totalPrice = !isCheckoutInputEmpty
+    ? checkedInput.reduce((acc, product) => {
+        return acc + product.quantity * product.sale_price;
+      }, 0)
+    : shoppingCart.reduce((acc, product) => {
+        return acc + product.quantity * product.sale_price;
+      }, 0);
+  const totalQuatity = !isCheckoutInputEmpty
+    ? checkedInput.reduce((acc, product) => {
+        return acc + product.quantity;
+      }, 0)
+    : shoppingCart.reduce((acc, product) => {
+        return acc + product.quantity;
+      }, 0);
+  const totalReserves = !isCheckoutInputEmpty
+    ? checkedInput.reduce((acc, product) => {
+        return Math.ceil(acc + product.sale_price * 0.05 * product.quantity);
+      }, 0)
+    : shoppingCart.reduce((acc, product) => {
+        return Math.ceil(acc + product.sale_price * 0.05 * product.quantity);
+      }, 0);
+  const onClick = (product, e) => {
+    const { checked } = e.target;
+    if (checked) {
+      const addArr = [product].filter((a) => a.isbn === product.isbn);
+      setCheckedInput(checkedInput.concat(addArr));
+    }
+    if (!checked) {
+      const delArr = checkedInput.filter((a) => a.isbn !== product.isbn);
+      setCheckedInput(delArr);
+    }
+  };
+  const onPartDelete = () => {
+    if (window.confirm(checkedInput.length + "개의 상품을 삭제하시겠습니까?")) {
+      const dupDelete = shoppingCart
+        .concat(checkedInput)
+        .filter(
+          (item) => !shoppingCart.includes(item) || !checkedInput.includes(item)
+        );
+
+      dispatch(setShoppingCart(dupDelete));
+      setCheckedInput([]);
+      alert("삭제되었습니다.");
+    } else {
+      alert("삭제를 취소하였습니다.");
+    }
   };
   return (
     <div className="shoppingCartTotalPage">
@@ -42,7 +82,7 @@ function ShoppingCart() {
           onClick={handleGoBackBtn}
         />
       </div>
-      {shoppingCart.length !== 0 ? (
+      {!isShoppingCartEmpty ? (
         <div>
           <div className="shoppingCartHeader">
             <div className="shoppingCart shoppingCartHeaderProductName">
@@ -69,7 +109,11 @@ function ShoppingCart() {
             <div key={product.isbn + idx} className="shoppingCartHeader">
               <div className="flex-vertical-center shoppingCartContent shoppingCartProductName">
                 <div className="cursorPointer shoppingCartDeleteBtn">
-                  <AiOutlineClose onClick={() => deleteProduct(product)} />
+                  <input
+                    className="cursorPointer"
+                    type="checkbox"
+                    onClick={(e) => onClick(product, e)}
+                  />
                 </div>
                 <img
                   className="shoppingCartImg"
@@ -77,7 +121,6 @@ function ShoppingCart() {
                   src={product.thumbnail}
                 />
                 <div className="shoppingCartTitleTitle">
-                  {" "}
                   <strong>{product.title}</strong>
                 </div>
               </div>
@@ -86,7 +129,7 @@ function ShoppingCart() {
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePrice">
                 <strong> {product.sale_price.toLocaleString("ko-KR")}원</strong>
-                <div style={{ color: "red" }}>
+                <div className="colorRed">
                   ({onDiscountRate(product.sale_price, product.price)}
                   %할인)
                 </div>
@@ -102,10 +145,8 @@ function ShoppingCart() {
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSaleReserves">
                 <strong>
-                  {(
-                    product.sale_price *
-                    product.quantity *
-                    0.05
+                  {Math.ceil(
+                    product.sale_price * product.quantity * 0.05
                   ).toLocaleString("ko-KR")}
                   원
                 </strong>
@@ -133,12 +174,36 @@ function ShoppingCart() {
 
               <div>
                 회원 로그인 후 장바구니에 상품을 담으시면&nbsp;
-                <span className="colorRed">30일간</span>&nbsp; 자동 보관 됩니다.
+                <span className="colorRed">
+                  <strong>30일간</strong>
+                </span>
+                &nbsp; 자동 보관 됩니다.
               </div>
               <div className="colorRed">
-                해외원서 주문 후 단순변심에 의한 취소 및 반품 시 도서판매가의
-                20%에 해당하는 수수료가 부과됩니다.
+                <strong>
+                  해외원서 주문 후 단순변심에 의한 취소 및 반품 시 도서판매가의
+                  20%에 해당하는 수수료가 부과됩니다.
+                </strong>
               </div>
+            </div>
+          </div>
+          <div className="flex-vertical-center">
+            <div className="shoppingCartPartDeleteBtnBox">
+              <button
+                className="cursorPointer shoppingCartPartDeleteBtn"
+                onClick={onPartDelete}
+                disabled={isCheckoutInputEmpty}
+              >
+                선택상품 삭제
+              </button>
+            </div>
+            <div className="shoppingCartPartDeleteBtnBox">
+              <button
+                onClick={handleOrderBtn}
+                className="cursorPointer shoppingCartPartDeleteBtn"
+              >
+                선택상품 내 서재담기
+              </button>
             </div>
           </div>
           <table className="flex-center shoppingTable">
@@ -155,8 +220,13 @@ function ShoppingCart() {
                   {totalPrice.toLocaleString("ko-KR")}원
                 </th>
                 <th className="shoppingTableSecond">
-                  <span className="textBig">{shoppingCart.length}종</span>(
-                  {totalQuatity}권)
+                  <span className="textBig">
+                    {!isCheckoutInputEmpty
+                      ? checkedInput.length
+                      : shoppingCart.length}
+                    종
+                  </span>
+                  ({totalQuatity}권)
                 </th>
                 <th className="shoppingTableSecond textBig">0원</th>
                 <th className="shoppingTableSecond textBig">
@@ -175,13 +245,18 @@ function ShoppingCart() {
               </div>
               <div className="shoppingInfoDetail">
                 <p>
-                  재고 여부에 따라 품절/지연될 수 있으며, 이 경우 별도로
+                  ◦&nbsp;재고 여부에 따라 품절/지연될 수 있으며, 이 경우 별도로
                   안내드립니다.
                 </p>
                 <p>
-                  당일배송은 서울 및 수도권 인근지역에서 10:30분 까지 주문 시
-                  가능합니다.
-                  <span className="cursorPointer colorRed">[당일배송안내]</span>
+                  ◦&nbsp;당일배송은 서울 및 수도권 인근지역에서 10:30분 까지
+                  주문 시 가능합니다.
+                  <span
+                    onClick={handleModalToggle}
+                    className="cursorPointer colorRed"
+                  >
+                    [당일배송안내]
+                  </span>
                 </p>
                 <p className="colorRed">
                   - 네이버페이, 지마켓, 옥션, 쿠팡 등의 제휴사 주문은 연동시간에
@@ -192,8 +267,8 @@ function ShoppingCart() {
                   배송지는 당일배송이 불가합니다.
                 </p>
                 <p>
-                  배송지가 동일하더라도 여러건으로 진행된 주문은 각각의 배송료가
-                  부과됩니다.
+                  ◦&nbsp;배송지가 동일하더라도 여러건으로 진행된 주문은 각각의
+                  배송료가 부과됩니다.
                 </p>
               </div>
             </div>
@@ -216,6 +291,11 @@ function ShoppingCart() {
             Nothing in Your Shopping Cart!
           </div>
         </div>
+      )}
+      {modalOpen && (
+        <ModalPortal>
+          <ShippingModal onClose={handleModalToggle} />
+        </ModalPortal>
       )}
     </div>
   );

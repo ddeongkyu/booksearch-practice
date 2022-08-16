@@ -54,10 +54,6 @@ function InfinityScroll() {
     },
     [searchConfig.loading, searchConfig.hasMore]
   );
-  console.log(searchConfig.isEnd);
-  console.log(searchConfig.hasMore);
-  console.log(searchConfig.pageable);
-  console.log(searchConfig.loading);
   return (
     <>
       <div>
