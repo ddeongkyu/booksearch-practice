@@ -6,6 +6,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setShoppingCart } from "../slices/bookSlice";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import ModalPortal from "../portal/ModalPortal";
 import Modal from "./Modal";
 function InfinityScroll() {
@@ -26,6 +27,9 @@ function InfinityScroll() {
   const navigate = useNavigate();
   const handleGoBackBtn = () => {
     navigate(-1);
+  };
+  const handleGoShoppingBtn = () => {
+    navigate("/shoppingCart");
   };
   const handleSearch = (e) => {
     console.log(e.target.value);
@@ -55,11 +59,15 @@ function InfinityScroll() {
     [searchConfig.loading, searchConfig.hasMore]
   );
   return (
-    <>
-      <div>
+    <div className="infiniteRealTotal">
+      <div className="flex-whatever infiniteHeadIconBoxBox">
         <BiArrowBack
           className="cursorPointer ArrowBackIcon"
           onClick={handleGoBackBtn}
+        />
+        <AiOutlineShoppingCart
+          onClick={handleGoShoppingBtn}
+          className="cursorPointer ArrowBackIcon"
         />
       </div>
 
@@ -86,8 +94,13 @@ function InfinityScroll() {
                 className="bookListContentBox flex-center"
                 key={contents.title + index}
               >
-                <div className="bookListContentThumb flex-center">
-                  <a href={contents.url}>
+                <div className="bookListContentTitleAndAuthorsBox flex-center">
+                  <div className="flex-center">
+                    <strong className="bookListTitleF">{contents.title}</strong>
+                  </div>
+                </div>
+                <div className=" flex-center">
+                  <a className="flex-center " href={contents.url}>
                     <img
                       alt="Thumb"
                       className="bookListContentThumbnail"
@@ -96,11 +109,11 @@ function InfinityScroll() {
                   </a>
                 </div>
                 <div className="bookListContentTitleAndAuthorsBox flex-center">
-                  <div className="flex-center">
-                    {contents.title}({contents.sale_price}원)
-                  </div>
                   <div className="bookListContentAuthors flex-center">
                     {contents.authors}
+                  </div>
+                  <div className="bookListContentAuthors flex-center">
+                    {contents.sale_price.toLocaleString("ko-KR")}&nbsp;원
                   </div>
                   <button
                     onClick={() => {
@@ -113,7 +126,7 @@ function InfinityScroll() {
                       );
                       handleModalToggle();
                     }}
-                    className="cursorPointer bookListShoppingCartBtn"
+                    className="cursorPointer flex-center bookListShoppingCartBtn"
                   >
                     장바구니
                   </button>
@@ -129,7 +142,7 @@ function InfinityScroll() {
           <Modal onClose={handleModalToggle} />
         </ModalPortal>
       )}
-    </>
+    </div>
   );
 }
 

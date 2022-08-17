@@ -20,6 +20,9 @@ function ShoppingCart() {
   const handleGoBackBtn = () => {
     navigate(-1);
   };
+  const handleGoPagination = () => {
+    navigate("/pagination");
+  };
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
   };
@@ -283,12 +286,18 @@ function ShoppingCart() {
           </div>
         </div>
       ) : (
-        <div className="flex-center shoppingCartNothinginCartBlock">
+        <div className="flex-center positionA shoppingCartNothinginCartBlock">
           <div className="shoppingCartNothingCartIcon">
             <MdRemoveShoppingCart />
           </div>
           <div className="shoppingCartNothingCartText">
             Nothing in Your Shopping Cart!
+          </div>
+          <div
+            onClick={handleGoPagination}
+            className="cursorPointer shoppingCartNothingCartTextB"
+          >
+            Go To Shopping!
           </div>
         </div>
       )}
