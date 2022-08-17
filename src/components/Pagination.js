@@ -11,13 +11,9 @@ import ModalPortal from "../portal/ModalPortal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setShoppingCart,
+  setSearchConfig,
   setPosts,
-  setFilter,
-  setPageNumber,
-  setPageable,
   setQuery,
-  setSize,
-  setSort,
   setPageArray,
   setSearchWord,
   setRecentlySeen,
@@ -30,17 +26,14 @@ function Pagination() {
     shoppingCart,
     posts,
     query,
-    size,
-    pageNumber,
-    pageable,
-    sort,
-    filter,
+    searchConfig,
     pageArray,
     searchWord,
     recentlySeen,
   } = useSelector((state) => {
     return state.book;
   });
+  const { pageable, pageNumber, sort, filter, size } = searchConfig;
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalToggle = () => {
@@ -52,10 +45,10 @@ function Pagination() {
     if (regMinus.test(value)) {
       alert("수량은 양수로 부탁드려요!");
     }
-    const aa = posts.map((a) =>
+    const regQuantity = posts.map((a) =>
       a.isbn + idx === book.isbn + idx ? { ...a, quantity: Math.abs(value) } : a
     );
-    dispatch(setPosts(aa));
+    dispatch(setPosts(regQuantity));
   };
   const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
@@ -66,9 +59,10 @@ function Pagination() {
         word: value,
       });
       dispatch(setQuery(value));
-      dispatch(setPageNumber(1));
+      dispatch(
+        setSearchConfig({ ...searchConfig, pageNumber: 1, filter: "accuracy" })
+      );
       dispatch(setPageArray(pageArray));
-      dispatch(setFilter("accuracy"));
       dispatch(setSearchWord(searched));
     }
   };
@@ -91,7 +85,7 @@ function Pagination() {
       book.isbn !== 0 ? { ...book, quantity: 1 } : book
     );
     const pageable_count = Math.ceil(data.meta.pageable_count / size);
-    dispatch(setPageable(pageable_count));
+    dispatch(setSearchConfig({ ...searchConfig, pageable: pageable_count }));
     dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
     if (filter === "name") {
@@ -125,9 +119,10 @@ function Pagination() {
   };
   const handleSearchdWord = (word) => {
     dispatch(setQuery(word));
-    dispatch(setPageNumber(1));
+    dispatch(
+      setSearchConfig({ ...searchConfig, pageNumber: 1, filter: "accuracy" })
+    );
     dispatch(setPageArray(pageArray));
-    dispatch(setFilter("accuracy"));
   };
   const handleAddRecentlySeen = (product) => {
     const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
@@ -142,24 +137,26 @@ function Pagination() {
     dispatch(setRecentlySeen(delArr));
   };
   const onClickBtn = (value) => {
-    dispatch(setPageNumber(value));
+    dispatch(setSearchConfig({ ...searchConfig, pageNumber: value }));
   };
   const onClickPageMinus = () => {
-    dispatch(setPageNumber(pageNumber - 1));
+    dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageNumber - 1 }));
   };
   const onClickPagePlus = () => {
-    dispatch(setPageNumber(pageNumber + 1));
+    dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 1 }));
   };
   const handleGoBackBtn = () => {
     navigate(-1);
   };
   const onClickPageDoubleMinus = () => {
     if (pageNumber - 10 > 0) {
-      dispatch(setPageNumber(pageNumber - 10));
+      dispatch(
+        setSearchConfig({ ...searchConfig, pageNumber: pageNumber - 10 })
+      );
       dispatch(setPageArray(pageArray.map((a) => a - 10)));
     } else {
       alert("첫 번째 페이지로 이동합니다.");
-      dispatch(setPageNumber(1));
+      dispatch(setSearchConfig({ ...searchConfig, pageNumber: 1 }));
     }
   };
   const onClickPageDoublePlus = () => {
@@ -167,17 +164,21 @@ function Pagination() {
       const includesArray = pageArray.includes(pageable - 10);
       const increase = pageArray.map((number) => number + 10);
       if (!includesArray) {
-        dispatch(setPageNumber(pageNumber + 10));
+        dispatch(
+          setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 10 })
+        );
         dispatch(setPageArray(increase));
       } else if (includesArray) {
         dispatch(setPageArray(increase));
-        dispatch(setPageNumber(pageNumber + 10));
+        dispatch(
+          setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 10 })
+        );
         const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
         dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
       }
     }
     if (pageNumber + 10 >= pageable) {
-      dispatch(setPageNumber(pageable));
+      dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageable }));
       alert("마지막 페이지로 이동합니다.");
     }
   };
@@ -189,36 +190,43 @@ function Pagination() {
   }
   const onChangeSize = (e) => {
     const { value } = e.target;
-    dispatch(setSize(Number(value)));
-    dispatch(setPageNumber(1));
+    dispatch(
+      setSearchConfig({
+        ...searchConfig,
+        size: Number(value),
+        pageNumber: 1,
+        filter: "accuracy",
+        sort: "accuracy",
+      })
+    );
     dispatch(setPageArray(pageArray));
-    dispatch(setFilter("accuracy"));
-    dispatch(setSort("accuracy"));
   };
   const onClickNotyet = () => {
     alert("쏘리! 개발중!");
   };
   const accuracyOrder = () => {
-    dispatch(setSort("accuracy"));
-    dispatch(setFilter("accuracy"));
+    dispatch(
+      setSearchConfig({ ...searchConfig, filter: "accuracy", sort: "accuracy" })
+    );
   };
   const latestOrder = () => {
-    dispatch(setSort("latest"));
-    dispatch(setFilter("latest"));
+    dispatch(
+      setSearchConfig({ ...searchConfig, filter: "latest", sort: "latest" })
+    );
   };
   const descendingOrder = () => {
     const descendingArray = [...posts].sort((a, b) => {
       return b.sale_price - a.sale_price;
     });
     dispatch(setPosts(descendingArray));
-    dispatch(setFilter("desc"));
+    dispatch(setSearchConfig({ ...searchConfig, filter: "desc" }));
   };
   const ascendingOrder = () => {
     const ascendingArray = [...posts].sort((a, b) => {
       return a.sale_price - b.sale_price;
     });
     dispatch(setPosts(ascendingArray));
-    dispatch(setFilter("asc"));
+    dispatch(setSearchConfig({ ...searchConfig, filter: "asc" }));
   };
   const discountRateOrder = () => {
     const discountRateArray = [...posts].sort((a, b) => {
@@ -227,15 +235,15 @@ function Pagination() {
         Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
       );
     });
+    dispatch(setSearchConfig({ ...searchConfig, filter: "discount" }));
     dispatch(setPosts(discountRateArray));
-    dispatch(setFilter("discount"));
   };
   const nameSort = () => {
     const nameArray = [...posts].sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
     dispatch(setPosts(nameArray));
-    dispatch(setFilter("name"));
+    dispatch(setSearchConfig({ ...searchConfig, filter: "name" }));
   };
   const isPostEmpty = posts.length === 0;
   const isRecentEmpty = recentlySeen.length === 0;
