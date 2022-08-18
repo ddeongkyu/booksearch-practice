@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { bookSearch } from "../api";
 import onAddToCart from "../util/onAddToCart";
-import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
 import { FcReading } from "react-icons/fc";
-import { AiOutlineClose, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
@@ -14,34 +12,24 @@ import {
   setSearchConfig,
   setPosts,
   setQuery,
-  setPageArray,
-  setSearchWord,
   setRecentlySeen,
 } from "../slices/bookSlice";
 import { waiting, fulfilled, onLoading } from "../constants";
 import generateRandomId from "../util/generateRandomId";
 function Pagination() {
   const [loadingStatus, setLoadingStatus] = useState(waiting);
-  const {
-    shoppingCart,
-    posts,
-    query,
-    searchConfig,
-    pageArray,
-    searchWord,
-    recentlySeen,
-  } = useSelector((state) => {
-    return state.book;
-  });
-  const { pageable, pageNumber, sort, filter, size } = searchConfig;
+  const { shoppingCart, posts, query, searchConfig, recentlySeen } =
+    useSelector((state) => {
+      return state.book;
+    });
+  const { pageable, pageNumber, sort, filter, size, searchWord, pageArray } =
+    searchConfig;
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
   };
-  const handleGoShoppingBtn = () => {
-    navigate("/shoppingCart");
-  };
+
   const onChangeInputQuantity = (idx, book, e) => {
     const { value } = e.target;
     const regMinus = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -53,7 +41,6 @@ function Pagination() {
     );
     dispatch(setPosts(regQuantity));
   };
-  const navigate = useNavigate();
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       const { value } = e.target;
@@ -62,9 +49,14 @@ function Pagination() {
         word: value,
       });
       dispatch(setQuery(value));
-      dispatch(setSearchConfig({ pageNumber: 1, filter: "accuracy" }));
-      dispatch(setPageArray(pageArray));
-      dispatch(setSearchWord(searched));
+      dispatch(
+        setSearchConfig({
+          pageNumber: 1,
+          filter: "accuracy",
+          pageArray,
+          searchWord: searched,
+        })
+      );
     }
   };
 
@@ -89,6 +81,7 @@ function Pagination() {
     dispatch(setSearchConfig({ pageable: pageable_count }));
     dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
+    console.log(posts);
     if (filter === "name") {
       const nameArray = [...posts].sort((a, b) => {
         return a.title.localeCompare(b.title);
@@ -116,12 +109,11 @@ function Pagination() {
   };
   const handleDeleteSearchWord = (id) => {
     const deleteArray = searchWord.filter((content) => content.id !== id);
-    dispatch(setSearchWord(deleteArray));
+    dispatch(setSearchConfig({ searchWord: deleteArray }));
   };
   const handleSearchdWord = (word) => {
     dispatch(setQuery(word));
-    dispatch(setSearchConfig({ pageNumber: 1, filter: "accuracy" }));
-    dispatch(setPageArray(pageArray));
+    dispatch(setSearchConfig({ pageNumber: 1, filter: "accuracy", pageArray }));
   };
   const handleAddRecentlySeen = (product) => {
     const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
@@ -144,13 +136,12 @@ function Pagination() {
   const onClickPagePlus = () => {
     dispatch(setSearchConfig({ pageNumber: pageNumber + 1 }));
   };
-  const handleGoBackBtn = () => {
-    navigate(-1);
-  };
   const onClickPageDoubleMinus = () => {
     if (pageNumber - 10 > 0) {
-      dispatch(setSearchConfig({ pageNumber: pageNumber - 10 }));
-      dispatch(setPageArray(pageArray.map((a) => a - 10)));
+      const minusArray = pageArray.map((number) => number - 10);
+      dispatch(
+        setSearchConfig({ pageNumber: pageNumber - 10, pageArray: minusArray })
+      );
     } else {
       alert("첫 번째 페이지로 이동합니다.");
       dispatch(setSearchConfig({ pageNumber: 1 }));
@@ -161,13 +152,16 @@ function Pagination() {
       const includesArray = pageArray.includes(pageable - 10);
       const increase = pageArray.map((number) => number + 10);
       if (!includesArray) {
-        dispatch(setSearchConfig({ pageNumber: pageNumber + 10 }));
-        dispatch(setPageArray(increase));
+        dispatch(
+          setSearchConfig({ pageNumber: pageNumber + 10, pageArray: increase })
+        );
       } else if (includesArray) {
-        dispatch(setPageArray(increase));
-        dispatch(setSearchConfig({ pageNumber: pageNumber + 10 }));
         const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
-        dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
+        const what = increase.slice(0, findIndex + 1);
+        dispatch(
+          setSearchConfig({ pageNumber: pageNumber + 10, pageArray: what })
+        );
+        // dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
       }
     }
     if (pageNumber + 10 >= pageable) {
@@ -189,12 +183,12 @@ function Pagination() {
         pageNumber: 1,
         filter: "accuracy",
         sort: "accuracy",
+        pageArray,
       })
     );
-    dispatch(setPageArray(pageArray));
   };
   const onClickNotyet = () => {
-    alert("쏘리! 개발중!");
+    alert("개발중!");
   };
   const accuracyOrder = () => {
     dispatch(setSearchConfig({ filter: "accuracy", sort: "accuracy" }));
@@ -234,37 +228,14 @@ function Pagination() {
     dispatch(setSearchConfig({ filter: "name" }));
   };
   const isPostEmpty = posts.length === 0;
-  const isRecentEmpty = recentlySeen.length === 0;
-  console.log(
-    "pageable : ",
-    pageable,
-    "pageNumber : ",
-    pageNumber,
-    "sort : ",
-    sort,
-    "filter : ",
-    filter,
-    "size : ",
-    size
-  );
   return (
-    <div className="paginationTotalTotalBox">
-      <div className="flex-whatever infiniteHeadIconBox">
-        <BiArrowBack
-          className="cursorPointer ArrowBackIcon"
-          onClick={handleGoBackBtn}
-        />
-        <AiOutlineShoppingCart
-          onClick={handleGoShoppingBtn}
-          className="cursorPointer ArrowBackIcon"
-        />
-      </div>
+    <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">
         <input
           className="input_search"
           onKeyPress={onKeyPressEnter}
           type="text"
-          placeholder="검색어 입력 후 Enter!!"
+          placeholder="검색어를 입력해 주세요."
         />
       </div>
       {query ? (
@@ -402,7 +373,11 @@ function Pagination() {
             <div className="paginationDetailBox">
               {loadingStatus === "fulfilled" ? (
                 <>
-                  <div className="paginationTitle">{book.title}</div>
+                  <div className="paginationTitle">
+                    {book.title.length > 25
+                      ? book.title.slice(0, 25) + "..."
+                      : book.title}
+                  </div>
                   <div className="paginationDetailInformationBox">
                     {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
                     {book.datetime.slice(0, 10)}
@@ -509,11 +484,14 @@ function Pagination() {
       ) : null}
       {query ? (
         <nav className="nav flex-center">
-          <button className="buttonStyle" onClick={onClickPageDoubleMinus}>
+          <button
+            className="buttonStyle cursorPointer"
+            onClick={onClickPageDoubleMinus}
+          >
             &lt;&lt;
           </button>
           <button
-            className="buttonStyle"
+            className="buttonStyle cursorPointer"
             disabled={pageNumber === 1}
             onClick={onClickPageMinus}
           >

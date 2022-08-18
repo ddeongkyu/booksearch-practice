@@ -6,6 +6,13 @@ body {
   align-items: center;
   justify-content: center;
 }
+hr {
+  background: #dee2e6;
+  bottom: 40px;
+  width: 35px;
+  height: 1px;
+  border: none;
+}
 .flex-whatever {
   display: flex;
   align-items: center;
@@ -23,7 +30,22 @@ body {
     opacity: 1;
   }
 }
-
+@keyframes HoverMove {
+  0% {
+    top: 5px;
+  }
+  100% {
+    top: -15px;
+  }
+}
+@keyframes HoverMoveR {
+  0% {
+    top: -15px;
+  }
+  100% {
+    top: 5px;
+  }
+}
 .cursorPointer {
   cursor: pointer;
 }
@@ -112,56 +134,70 @@ body {
 .bookListContainer {
   flex-wrap: wrap;
   background: #f1f3f5;
-  height: 100%;
-  width: 70%;
   .bookListContentBox {
+    .bookListH {
+      animation-name: HoverMoveR;
+      animation-duration: 300ms;
+      animation-fill-mode: forwards;
+      top: 5px;
+    }
+    .bookListH:hover {
+      animation: HoverMove 300ms;
+      animation-fill-mode: forwards;
+    }
     animation-name: fadeOut;
     animation-duration: 400ms;
-    width: 25%;
-    height: 45vh;
+    width: 200px;
+    height: 300px;
     margin: 30px 0px 30px 30px;
-    border: 1.5px solid black;
-    border-radius: 30px;
-    padding: 15px;
+    border: 0.5px solid #e9ecef;
     flex-direction: column;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
       rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
   }
   .bookListContentThumbnail {
-    width: 180%;
-    height: 27vh;
-    cursor: pointer;
+    width: 190px;
+    height: 205px;
+    top: 5px;
+  }
+  .paginationDiscountRate {
+    top: 0px;
+    right: 0px;
+    width: 65px;
+    height: 35px;
+    background: white;
+    font-size: 14px;
+    text-align: center;
   }
   .bookListContentTitleAndAuthorsBox {
-    flex-direction: column;
-    margin-bottom: 8px;
-    text-align: center;
+    top: 225px;
+    width: 180px;
     .bookListTitleF {
       font-size: 18px;
-      margin-top: 15px;
+      font-weight: 800;
     }
   }
   .bookListContentAuthors {
-    padding: 5px;
-    color: #495057;
+    color: #22b8cf;
+    margin-left: auto;
+    font-weight: 600;
+  }
+  .bookListContentAuthorss {
+    bottom: 20px;
+    color: #adb5bd;
+  }
+  .bookListShopBtnBox {
+    right: 15px;
+    bottom: 20px;
   }
   .bookListShoppingCartBtn {
     background: white;
-    width: 120px;
-    height: 40px;
     display: inline-block;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    background-color: transparent;
-    border: 2px solid #1a1a1a;
-    border-radius: 15px;
+    border-radius: 5px;
     color: #3b3b3b;
-    display: inline-block;
     font-size: 16px;
     font-weight: 600;
-    text-align: center;
     transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
   }
 
@@ -181,8 +217,7 @@ body {
   padding-top: 55px;
   padding-bottom: 30px;
   background: #f1f3f5;
-  width: 70%;
-  border-top: 3px solid #868e96;
+  width: 100%;
   .input_search {
     width: 45%;
     height: 30px;
@@ -215,7 +250,6 @@ body {
     background: black;
     color: white;
     font-size: 1rem;
-    cursor: pointer;
   }
 }
 .paginationTotalContetnBox {
@@ -292,12 +326,12 @@ body {
     margin-left: 4px;
     background: #e60012;
     color: #fff;
-    padding: 1px 3px 2px 4px;
+    padding: 4px;
     font-size: 12px;
   }
   .paginationBtnBox {
     position: absolute;
-    right: 15px;
+    right: -20px;
     display: flex;
     flex-direction: column;
     width: 150px;
@@ -312,12 +346,25 @@ body {
       width: 30px;
     }
     .paginationBtnStyle {
-      background: white;
+      background-color: #ffffff;
+      border: 0;
+      border-radius: 10px;
+      color: #111827;
+      font-weight: 600;
+      margin-bottom: 10px;
       width: 112px;
       height: 23px;
-      display: inline-block;
       text-align: center;
-      margin-bottom: 10px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+        0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    .paginationBtnStyle:hover {
+      background-color: #f1f3f5;
+    }
+
+    .paginationBtnStyle:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
   }
 }
@@ -326,7 +373,7 @@ body {
 }
 
 label {
-  width: 100%;
+  width: 40%;
   display: flex;
   justify-content: right;
 }
@@ -357,7 +404,7 @@ ul {
   padding-left: 30px;
   .shoppingCartPartDeleteBtn {
     align-items: center;
-    background-color: #f1f3f5;
+    background-color: #ced4da;
     border: 1px solid #e9ecef;
     border-radius: 10px;
     color: #3c4043;
@@ -374,19 +421,18 @@ ul {
   }
 
   .shoppingCartPartDeleteBtn:disabled {
-    background: #ced4da;
+    background: #f1f3f5;
     cursor: default;
   }
 }
 .paginationTotalTotalBox {
-  display: flex;
-  align-items: center;
   flex-direction: column;
+  margin: 0 auto;
+  max-width: 900px;
 }
 .infiniteRealTotal {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  margin: 0 auto;
+  max-width: 900px;
 }
 .paginationPostsEmptyBox {
   animation: fadeOut 300ms;
@@ -407,6 +453,8 @@ ul {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  max-width: 900px;
+  margin: 0 auto;
   .shoppingCartNoticeBox {
     display: flex;
     width: 100%;
@@ -468,6 +516,9 @@ ul {
       width: 9%;
       padding-top: 15px;
     }
+  }
+  .shoppingCartHeader:first-child {
+    margin-top: 100px;
   }
   .shoppingCartProductName {
     width: 40%;
@@ -699,24 +750,17 @@ ul {
     margin-left: 10px;
     margin-right: 10px;
   }
+
   .searchWordWord {
     .searchWordIcon {
       margin-left: 5px;
       color: pink;
     }
-    align-items: center;
-    height: 13px;
-    background-image: linear-gradient(
-      rgba(179, 132, 201, 0.84),
-      rgba(57, 31, 91, 0.84) 50%
-    );
-
-    border-radius: 20px;
-    border-width: 0;
-    box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px,
-      rgba(179, 132, 201, 0.4) 0 8px 12px;
+    background: #5e5df0;
+    border-radius: 999px;
+    box-shadow: #5e5df0 0 10px 20px -10px;
     color: #ffffff;
-    display: flex;
+    height: 13px;
     font-size: 14px;
     font-weight: 600;
     padding: 10px;
@@ -740,7 +784,7 @@ ul {
   .paginationLeftBox {
     height: 120vh;
     top: 50%;
-    left: 55%;
+    left: 30px;
     transform: translate(-50%, -50%);
     flex-direction: column;
     .paginationLeftText {
@@ -756,8 +800,8 @@ ul {
       .paginationLeftContent {
         margin-bottom: 25px;
         .paginationContentImgXbtn {
-          top: 5;
-          left: 113px;
+          top: 5px;
+          left: 110px;
           color: black;
         }
         .paginationContentImg {
