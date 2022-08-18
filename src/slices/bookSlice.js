@@ -30,8 +30,9 @@ export const bookSlice = createSlice({
       state.query = action.payload;
     },
     setSearchConfig: (state, action) => {
-      state.searchConfig = action.payload;
+      state.searchConfig = { ...state.searchConfig, ...action.payload };
     },
+
     setPageArray: (state, action) => {
       state.pageArray = action.payload;
     },

@@ -4,7 +4,7 @@ import onAddToCart from "../util/onAddToCart";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { FcReading } from "react-icons/fc";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineShoppingCart } from "react-icons/ai";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
@@ -39,6 +39,9 @@ function Pagination() {
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
   };
+  const handleGoShoppingBtn = () => {
+    navigate("/shoppingCart");
+  };
   const onChangeInputQuantity = (idx, book, e) => {
     const { value } = e.target;
     const regMinus = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -59,9 +62,7 @@ function Pagination() {
         word: value,
       });
       dispatch(setQuery(value));
-      dispatch(
-        setSearchConfig({ ...searchConfig, pageNumber: 1, filter: "accuracy" })
-      );
+      dispatch(setSearchConfig({ pageNumber: 1, filter: "accuracy" }));
       dispatch(setPageArray(pageArray));
       dispatch(setSearchWord(searched));
     }
@@ -85,7 +86,7 @@ function Pagination() {
       book.isbn !== 0 ? { ...book, quantity: 1 } : book
     );
     const pageable_count = Math.ceil(data.meta.pageable_count / size);
-    dispatch(setSearchConfig({ ...searchConfig, pageable: pageable_count }));
+    dispatch(setSearchConfig({ pageable: pageable_count }));
     dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
     if (filter === "name") {
@@ -119,9 +120,7 @@ function Pagination() {
   };
   const handleSearchdWord = (word) => {
     dispatch(setQuery(word));
-    dispatch(
-      setSearchConfig({ ...searchConfig, pageNumber: 1, filter: "accuracy" })
-    );
+    dispatch(setSearchConfig({ pageNumber: 1, filter: "accuracy" }));
     dispatch(setPageArray(pageArray));
   };
   const handleAddRecentlySeen = (product) => {
@@ -137,26 +136,24 @@ function Pagination() {
     dispatch(setRecentlySeen(delArr));
   };
   const onClickBtn = (value) => {
-    dispatch(setSearchConfig({ ...searchConfig, pageNumber: value }));
+    dispatch(setSearchConfig({ pageNumber: value }));
   };
   const onClickPageMinus = () => {
-    dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageNumber - 1 }));
+    dispatch(setSearchConfig({ pageNumber: pageNumber - 1 }));
   };
   const onClickPagePlus = () => {
-    dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 1 }));
+    dispatch(setSearchConfig({ pageNumber: pageNumber + 1 }));
   };
   const handleGoBackBtn = () => {
     navigate(-1);
   };
   const onClickPageDoubleMinus = () => {
     if (pageNumber - 10 > 0) {
-      dispatch(
-        setSearchConfig({ ...searchConfig, pageNumber: pageNumber - 10 })
-      );
+      dispatch(setSearchConfig({ pageNumber: pageNumber - 10 }));
       dispatch(setPageArray(pageArray.map((a) => a - 10)));
     } else {
       alert("첫 번째 페이지로 이동합니다.");
-      dispatch(setSearchConfig({ ...searchConfig, pageNumber: 1 }));
+      dispatch(setSearchConfig({ pageNumber: 1 }));
     }
   };
   const onClickPageDoublePlus = () => {
@@ -164,21 +161,17 @@ function Pagination() {
       const includesArray = pageArray.includes(pageable - 10);
       const increase = pageArray.map((number) => number + 10);
       if (!includesArray) {
-        dispatch(
-          setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 10 })
-        );
+        dispatch(setSearchConfig({ pageNumber: pageNumber + 10 }));
         dispatch(setPageArray(increase));
       } else if (includesArray) {
         dispatch(setPageArray(increase));
-        dispatch(
-          setSearchConfig({ ...searchConfig, pageNumber: pageNumber + 10 })
-        );
+        dispatch(setSearchConfig({ pageNumber: pageNumber + 10 }));
         const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
         dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
       }
     }
     if (pageNumber + 10 >= pageable) {
-      dispatch(setSearchConfig({ ...searchConfig, pageNumber: pageable }));
+      dispatch(setSearchConfig({ pageNumber: pageable }));
       alert("마지막 페이지로 이동합니다.");
     }
   };
@@ -192,7 +185,6 @@ function Pagination() {
     const { value } = e.target;
     dispatch(
       setSearchConfig({
-        ...searchConfig,
         size: Number(value),
         pageNumber: 1,
         filter: "accuracy",
@@ -205,28 +197,24 @@ function Pagination() {
     alert("쏘리! 개발중!");
   };
   const accuracyOrder = () => {
-    dispatch(
-      setSearchConfig({ ...searchConfig, filter: "accuracy", sort: "accuracy" })
-    );
+    dispatch(setSearchConfig({ filter: "accuracy", sort: "accuracy" }));
   };
   const latestOrder = () => {
-    dispatch(
-      setSearchConfig({ ...searchConfig, filter: "latest", sort: "latest" })
-    );
+    dispatch(setSearchConfig({ filter: "latest", sort: "latest" }));
   };
   const descendingOrder = () => {
     const descendingArray = [...posts].sort((a, b) => {
       return b.sale_price - a.sale_price;
     });
     dispatch(setPosts(descendingArray));
-    dispatch(setSearchConfig({ ...searchConfig, filter: "desc" }));
+    dispatch(setSearchConfig({ filter: "desc" }));
   };
   const ascendingOrder = () => {
     const ascendingArray = [...posts].sort((a, b) => {
       return a.sale_price - b.sale_price;
     });
     dispatch(setPosts(ascendingArray));
-    dispatch(setSearchConfig({ ...searchConfig, filter: "asc" }));
+    dispatch(setSearchConfig({ filter: "asc" }));
   };
   const discountRateOrder = () => {
     const discountRateArray = [...posts].sort((a, b) => {
@@ -235,7 +223,7 @@ function Pagination() {
         Math.ceil(((b.sale_price - b.price) / b.sale_price) * 100)
       );
     });
-    dispatch(setSearchConfig({ ...searchConfig, filter: "discount" }));
+    dispatch(setSearchConfig({ filter: "discount" }));
     dispatch(setPosts(discountRateArray));
   };
   const nameSort = () => {
@@ -243,16 +231,32 @@ function Pagination() {
       return a.title.localeCompare(b.title);
     });
     dispatch(setPosts(nameArray));
-    dispatch(setSearchConfig({ ...searchConfig, filter: "name" }));
+    dispatch(setSearchConfig({ filter: "name" }));
   };
   const isPostEmpty = posts.length === 0;
   const isRecentEmpty = recentlySeen.length === 0;
+  console.log(
+    "pageable : ",
+    pageable,
+    "pageNumber : ",
+    pageNumber,
+    "sort : ",
+    sort,
+    "filter : ",
+    filter,
+    "size : ",
+    size
+  );
   return (
-    <>
-      <div>
+    <div className="paginationTotalTotalBox">
+      <div className="flex-whatever infiniteHeadIconBox">
         <BiArrowBack
           className="cursorPointer ArrowBackIcon"
           onClick={handleGoBackBtn}
+        />
+        <AiOutlineShoppingCart
+          onClick={handleGoShoppingBtn}
+          className="cursorPointer ArrowBackIcon"
         />
       </div>
       <div className="inputStyle flex-center">
@@ -264,7 +268,7 @@ function Pagination() {
         />
       </div>
       {query ? (
-        <div className="flex-vertical-center">
+        <div className="flex-vertical-center papginationrecent">
           <div className="flex-vertical-center searchWordTotal">
             <span className="searchWordText">최근 검색어 :</span>
             {searchWord.map((content) => (
@@ -416,7 +420,7 @@ function Pagination() {
                         : book.sale_price.toLocaleString("ko-KR")}
                       원
                     </div>
-                    <div className="paginationSalePercent">
+                    <div className="flex-vertical-center paginationSalePercent">
                       {onDiscountRate(book.sale_price, book.price)}% 할인
                     </div>
                   </div>
@@ -480,13 +484,11 @@ function Pagination() {
         <div className="positionA paginationLeftTotal">
           <div className="positionR paginationLeftBox">
             <div className="positionA flex-center paginationLeftBox">
-              {isRecentEmpty ? null : (
-                <p className="paginationLeftText">최근 본 상품</p>
-              )}
+              <p className="paginationLeftText">최근 본 상품</p>
               <div className="paginationLeftContentBox">
                 {recentlySeen.map((book, idx) => (
                   <div
-                    className="positionR paginationLeftContent"
+                    className="positionR flex-center paginationLeftContent"
                     key={book.isbn + idx}
                   >
                     <img
@@ -559,7 +561,7 @@ function Pagination() {
           <Modal onClose={handleModalToggle} />
         </ModalPortal>
       )}
-    </>
+    </div>
   );
 }
 export default Pagination;
