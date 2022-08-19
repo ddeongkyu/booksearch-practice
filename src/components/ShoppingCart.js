@@ -51,10 +51,20 @@ function ShoppingCart() {
       }, 0);
   const totalReserves = !isCheckoutInputEmpty
     ? checkedInput.reduce((acc, product) => {
-        return Math.ceil(acc + product.sale_price * 0.05 * product.quantity);
+        return Math.ceil(
+          acc +
+            (product.sale_price === -1 ? product.price : product.sale_price) *
+              0.05 *
+              product.quantity
+        );
       }, 0)
     : shoppingCart.reduce((acc, product) => {
-        return Math.ceil(acc + product.sale_price * 0.05 * product.quantity);
+        return Math.ceil(
+          acc +
+            (product.sale_price === -1 ? product.price : product.sale_price) *
+              0.05 *
+              product.quantity
+        );
       }, 0);
   const onClick = (product, e) => {
     const { checked } = e.target;
@@ -82,7 +92,8 @@ function ShoppingCart() {
       alert("삭제를 취소하였습니다.");
     }
   };
-  console.log(shoppingCart);
+  const shippingCost = totalPrice > 10000 ? 0 : 3000;
+  const totaltotalPrice = shippingCost + totalPrice;
   return (
     <div className="shoppingCartTotalPage">
       {!isShoppingCartEmpty ? (
@@ -132,8 +143,8 @@ function ShoppingCart() {
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePrice">
                 <strong>
-                  {onDiscountRate(product.sale_price, product.price) === 0
-                    ? product.price
+                  {!onDiscountRate(product.sale_price, product.price)
+                    ? product.price.toLocaleString("ko-KR")
                     : product.sale_price.toLocaleString("ko-KR")}
                   원
                 </strong>
@@ -155,14 +166,11 @@ function ShoppingCart() {
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSaleReserves">
                 <strong>
-                  {product.sale_price === -1
-                    ? Math.ceil(
-                        product.price * product.quantity * 0.05
-                      ).toLocaleString("ko-KR")
-                    : Math.ceil(
-                        product.sale_price * product.quantity * 0.05
-                      ).toLocaleString("ko-KR")}
-                  원
+                  {Math.ceil(
+                    product.sale_price === -1
+                      ? product.price * product.quantity * 0.05
+                      : product.sale_price * product.quantity * 0.05
+                  ).toLocaleString("ko-KR") + "원"}
                 </strong>
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePriceState">
@@ -214,11 +222,15 @@ function ShoppingCart() {
             <div className="shoppingCartPartDeleteBtnBox">
               <button
                 onClick={handleOrderBtn}
+                disabled={isCheckoutInputEmpty}
                 className="cursorPointer shoppingCartPartDeleteBtn"
               >
                 선택상품 내 서재담기
               </button>
             </div>
+          </div>
+          <div className="shoppingShippingFree">
+            10,000원 이상 주문하시면 배송비가 무료입니다.
           </div>
           <table className="flex-center shoppingTable">
             <tbody>
@@ -242,9 +254,11 @@ function ShoppingCart() {
                   </span>
                   ({totalQuatity}권)
                 </th>
-                <th className="shoppingTableSecond textBig">0원</th>
                 <th className="shoppingTableSecond textBig">
-                  {totalPrice.toLocaleString("ko-KR")}원
+                  {shippingCost}원
+                </th>
+                <th className="shoppingTableSecond textBig">
+                  {totaltotalPrice.toLocaleString("Ko-KR")}원
                 </th>
                 <th className="shoppingTableSecond textBig">
                   {totalReserves.toLocaleString("ko-KR")}원
@@ -267,9 +281,9 @@ function ShoppingCart() {
                   주문 시 가능합니다.
                   <span
                     onClick={handleModalToggle}
-                    className="cursorPointer colorRed"
+                    className="cursorPointer shoppingDailyShip colorRed"
                   >
-                    [당일배송안내]
+                    &nbsp;[당일배송안내]
                   </span>
                 </p>
                 <p className="colorRed">
@@ -292,7 +306,7 @@ function ShoppingCart() {
               onClick={handleOrderBtn}
               className="shoppingCheckOutBtnStyle cursorPointer"
             >
-              주문하기
+              {isCheckoutInputEmpty ? null : "선택상품 "} 주문하기
             </button>
           </div>
         </div>

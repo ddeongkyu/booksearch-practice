@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { routes } from "../constants";
 import { FcAcceptDatabase } from "react-icons/fc";
 
 const Modal = ({ onClose }) => {
