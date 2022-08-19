@@ -231,9 +231,6 @@ function ShoppingCart() {
               </tr>
               <tr>
                 <th className="textBig shoppingTableSecond">
-                  {/* {onDiscountRate(product.sale_price, product.price) === 0
-                    ? product.price
-                    : product.sale_price.toLocaleString("ko-KR")} */}
                   {totalPrice.toLocaleString("ko-KR")}원
                 </th>
                 <th className="shoppingTableSecond">
