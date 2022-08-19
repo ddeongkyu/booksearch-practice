@@ -10,9 +10,9 @@ const initialState = {
     filter: "accuracy",
     sort: "",
     pageable: 1,
+    pageArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    searchWord: [],
   },
-  pageArray: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  searchWord: [],
   recentlySeen: [],
 };
 
@@ -32,13 +32,6 @@ export const bookSlice = createSlice({
     setSearchConfig: (state, action) => {
       state.searchConfig = { ...state.searchConfig, ...action.payload };
     },
-
-    setPageArray: (state, action) => {
-      state.pageArray = action.payload;
-    },
-    setSearchWord: (state, action) => {
-      state.searchWord = action.payload;
-    },
     setRecentlySeen: (state, action) => {
       state.recentlySeen = action.payload;
     },
@@ -50,8 +43,6 @@ export const {
   setPosts,
   setQuery,
   setSearchConfig,
-  setPageArray,
-  setSearchWord,
   setRecentlySeen,
 } = bookSlice.actions;
 

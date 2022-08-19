@@ -2,13 +2,13 @@ import React, { useState, useCallback, useRef } from "react";
 import useBookSearch from "../hooks/useBookSesarch";
 import Loader from "../Loader";
 import onAddToCart from "../util/onAddToCart";
-import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setShoppingCart } from "../slices/bookSlice";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ModalPortal from "../portal/ModalPortal";
 import Modal from "./Modal";
+import onDiscountRate from "../util/onDiscountRate";
 function InfinityScroll() {
   const dispatch = useDispatch();
   const { shoppingCart } = useSelector((state) => {
@@ -25,12 +25,6 @@ function InfinityScroll() {
     pageNumber
   );
   const navigate = useNavigate();
-  const handleGoBackBtn = () => {
-    navigate(-1);
-  };
-  const handleGoShoppingBtn = () => {
-    navigate("/shoppingCart");
-  };
   const handleSearch = (e) => {
     console.log(e.target.value);
   };
@@ -58,23 +52,13 @@ function InfinityScroll() {
     },
     [searchConfig.loading, searchConfig.hasMore]
   );
+
   return (
     <div className="infiniteRealTotal">
-      <div className="flex-whatever infiniteHeadIconBoxBox">
-        <BiArrowBack
-          className="cursorPointer ArrowBackIcon"
-          onClick={handleGoBackBtn}
-        />
-        <AiOutlineShoppingCart
-          onClick={handleGoShoppingBtn}
-          className="cursorPointer ArrowBackIcon"
-        />
-      </div>
-
       <div className="inputStyle flex-center">
         <input
           className="input_search"
-          placeholder="검색어 입력 후 Enter"
+          placeholder="검색어를 입력해 주세요."
           type="text"
           onKeyPress={onKeyPressEnter}
           onChange={handleSearch}
@@ -91,45 +75,62 @@ function InfinityScroll() {
           } else {
             return (
               <div
-                className="bookListContentBox flex-center"
+                className="positionR bookListContentBox flex-center"
                 key={contents.title + index}
               >
-                <div className="bookListContentTitleAndAuthorsBox flex-center">
-                  <div className="flex-center">
-                    <strong className="bookListTitleF">{contents.title}</strong>
-                  </div>
-                </div>
-                <div className=" flex-center">
-                  <a className="flex-center " href={contents.url}>
+                <div className="bookListH positionA flex-center">
+                  <a className="flex-center" href={contents.url}>
                     <img
                       alt="Thumb"
-                      className="bookListContentThumbnail"
+                      className="cursorPointer bookListContentThumbnail"
                       src={contents.thumbnail}
                     />
                   </a>
+                  <div className="flex-center positionA paginationDiscountRate">
+                    <strong>
+                      {onDiscountRate(contents.sale_price, contents.price)}% Off
+                    </strong>
+                  </div>
                 </div>
-                <div className="bookListContentTitleAndAuthorsBox flex-center">
-                  <div className="bookListContentAuthors flex-center">
-                    {contents.authors}
+                <div className="bookListContentTitleAndAuthorsBox flex-vertical-center">
+                  <div className="positionA bookListContentTitleAndAuthorsBox flex-center">
+                    <div className="flex-center">
+                      <span className="bookListTitleF">
+                        {contents.title.length > 5
+                          ? contents.title.slice(0, 5) + "..."
+                          : contents.title}
+                      </span>
+                    </div>
+                    <div className="bookListContentAuthors flex-center">
+                      {contents.sale_price < 0
+                        ? contents.price.toLocaleString("ko-KR")
+                        : contents.sale_price.toLocaleString("ko-KR")}
+                      원
+                    </div>
                   </div>
-                  <div className="bookListContentAuthors flex-center">
-                    {contents.sale_price.toLocaleString("ko-KR")}&nbsp;원
+                  <div className="positionA bookListContentAuthorss flex-center">
+                    {contents.authors[0].length > 8
+                      ? contents.authors[0].slice(0, 7) + "..."
+                      : contents.authors[0]}
                   </div>
-                  <button
-                    onClick={() => {
-                      onAddToCart(
-                        setShoppingCart,
-                        contents,
-                        1,
-                        shoppingCart,
-                        dispatch
-                      );
-                      handleModalToggle();
-                    }}
-                    className="cursorPointer flex-center bookListShoppingCartBtn"
-                  >
-                    장바구니
-                  </button>
+                  <hr className="positionA" />
+                  <div className="positionA  bookListShopBtnBox">
+                    <button
+                      onClick={() => {
+                        onAddToCart(
+                          setShoppingCart,
+                          contents,
+                          1,
+                          shoppingCart,
+                          dispatch
+                        );
+                        handleModalToggle();
+                      }}
+                      className="cursorPointer flex-center bookListShoppingCartBtn"
+                    >
+                      <AiOutlineShoppingCart />
+                    </button>
+                  </div>
                 </div>
               </div>
             );

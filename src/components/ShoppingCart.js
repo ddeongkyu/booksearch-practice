@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import onDiscountRate from "../util/onDiscountRate";
 import { MdRemoveShoppingCart } from "react-icons/md";
@@ -17,9 +16,6 @@ function ShoppingCart() {
   const isCheckoutInputEmpty = checkedInput.length === 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleGoBackBtn = () => {
-    navigate(-1);
-  };
   const handleGoPagination = () => {
     navigate("/pagination");
   };
@@ -32,11 +28,20 @@ function ShoppingCart() {
   };
   const totalPrice = !isCheckoutInputEmpty
     ? checkedInput.reduce((acc, product) => {
-        return acc + product.quantity * product.sale_price;
+        return (
+          acc +
+          product.quantity *
+            (product.sale_price === -1 ? product.price : product.sale_price)
+        );
       }, 0)
     : shoppingCart.reduce((acc, product) => {
-        return acc + product.quantity * product.sale_price;
+        return (
+          acc +
+          product.quantity *
+            (product.sale_price === -1 ? product.price : product.sale_price)
+        );
       }, 0);
+
   const totalQuatity = !isCheckoutInputEmpty
     ? checkedInput.reduce((acc, product) => {
         return acc + product.quantity;
@@ -77,14 +82,9 @@ function ShoppingCart() {
       alert("삭제를 취소하였습니다.");
     }
   };
+  console.log(shoppingCart);
   return (
     <div className="shoppingCartTotalPage">
-      <div>
-        <BiArrowBack
-          className="cursorPointer ArrowBackIcon"
-          onClick={handleGoBackBtn}
-        />
-      </div>
       {!isShoppingCartEmpty ? (
         <div>
           <div className="shoppingCartHeader">
@@ -131,7 +131,12 @@ function ShoppingCart() {
                 {product.price.toLocaleString("ko-KR")}원
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePrice">
-                <strong> {product.sale_price.toLocaleString("ko-KR")}원</strong>
+                <strong>
+                  {onDiscountRate(product.sale_price, product.price) === 0
+                    ? product.price
+                    : product.sale_price.toLocaleString("ko-KR")}
+                  원
+                </strong>
                 <div className="colorRed">
                   ({onDiscountRate(product.sale_price, product.price)}
                   %할인)
@@ -141,21 +146,27 @@ function ShoppingCart() {
                 {product.quantity}개
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSaleTotalPrice">
-                {(product.sale_price * product.quantity).toLocaleString(
-                  "ko-KR"
-                )}
+                {product.sale_price === -1
+                  ? (product.price * product.quantity).toLocaleString("ko-KR")
+                  : (product.sale_price * product.quantity).toLocaleString(
+                      "ko-KR"
+                    )}
                 원
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSaleReserves">
                 <strong>
-                  {Math.ceil(
-                    product.sale_price * product.quantity * 0.05
-                  ).toLocaleString("ko-KR")}
+                  {product.sale_price === -1
+                    ? Math.ceil(
+                        product.price * product.quantity * 0.05
+                      ).toLocaleString("ko-KR")
+                    : Math.ceil(
+                        product.sale_price * product.quantity * 0.05
+                      ).toLocaleString("ko-KR")}
                   원
                 </strong>
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePriceState">
-                <strong> {product.status}</strong>
+                <strong> {!product.status ? "매진" : product.status}</strong>
               </div>
             </div>
           ))}
@@ -220,6 +231,9 @@ function ShoppingCart() {
               </tr>
               <tr>
                 <th className="textBig shoppingTableSecond">
+                  {/* {onDiscountRate(product.sale_price, product.price) === 0
+                    ? product.price
+                    : product.sale_price.toLocaleString("ko-KR")} */}
                   {totalPrice.toLocaleString("ko-KR")}원
                 </th>
                 <th className="shoppingTableSecond">
