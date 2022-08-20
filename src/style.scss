@@ -174,8 +174,14 @@ hr {
     top: 225px;
     width: 180px;
     .bookListTitleF {
+      display: block;
+      width: 100px;
       font-size: 18px;
       font-weight: 800;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
     }
   }
   .bookListContentAuthors {
@@ -186,6 +192,13 @@ hr {
   .bookListContentAuthorss {
     bottom: 20px;
     color: #adb5bd;
+    display: block;
+    width: 100px;
+    font-weight: 800;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
   .bookListShopBtnBox {
     right: 15px;
@@ -194,6 +207,7 @@ hr {
   .bookListShoppingCartBtn {
     background: white;
     display: inline-block;
+    border: none;
     border-radius: 5px;
     color: #3b3b3b;
     font-size: 16px;
@@ -241,156 +255,187 @@ hr {
       background: white;
       font-weight: bold;
       color: black;
-      border: 1px solid black;
-    }
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
-    margin: 0;
-    background: black;
-    color: white;
-    font-size: 1rem;
-  }
-}
-.paginationTotalContetnBox {
-  position: relative;
-  padding: 20px;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
-  width: 70%;
-  animation-name: fadeOut;
-  animation-duration: 300ms;
-  .paginationLoadingImg {
-    width: 80px;
-    height: 100px;
-    background: #dee2e6;
-  }
-  .paginationImgStyle {
-    width: 80px;
-    height: 100px;
-  }
-  .paginationDetailBox {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 20px;
-  }
-  .paginationDetailBoxLoading {
-    width: 500px;
-    height: 15vh;
-    background: #dee2e6;
-  }
-  .paginationBtnLoading {
-    width: 112px;
-    height: 15vh;
-    background: #dee2e6;
-  }
-  .paginationTitle {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  .paginationDetailInformationBox {
-    color: #505050;
-    padding: 2px 0 5px;
-    font-size: 12px;
-  }
-  .paginationContents {
-    color: #777;
-    font-size: 12px;
-    width: 60%;
-  }
-  .paginationPriceBox {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    margin-top: 5px;
-  }
-  .paginationPrice {
-    text-decoration: line-through;
-    color: #a8a8a8;
-    font-size: 11px;
-    font-weight: normal;
-    margin-right: 8px;
-  }
-  .paginationSalePrice {
-    color: #e60012;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .paginationSalePercent {
-    height: 20px;
-    display: inline-table;
-    vertical-align: top;
-    margin-top: 2px;
-    margin-left: 4px;
-    background: #e60012;
-    color: #fff;
-    padding: 4px;
-    font-size: 12px;
-  }
-  .paginationBtnBox {
-    position: absolute;
-    right: -20px;
-    display: flex;
-    flex-direction: column;
-    width: 150px;
-    .paginationQuantityInputStyle {
-      padding: 0 4px 0 9px;
-      text-align: right;
-      margin-top: 20px;
-      margin-right: 3px;
-      font-size: 14px;
-      color: #49494b;
-      border: 2px solid #e5e5e5;
-      width: 30px;
-    }
-    .paginationBtnStyle {
-      background-color: #ffffff;
-      border: 0;
-      border-radius: 10px;
-      color: #111827;
-      font-weight: 600;
+      border: 2px solid #868e96;
       margin-bottom: 10px;
-      width: 112px;
-      height: 23px;
-      text-align: center;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-        0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
-    .paginationBtnStyle:hover {
-      background-color: #f1f3f5;
-    }
-
-    .paginationBtnStyle:focus {
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
+    border-radius: 8px;
+    padding: 13px;
+    margin: 0;
+    background: white;
+    color: black;
+    font-size: 17px;
+    border: 1px solid #dee2e6;
   }
 }
-.paginationTotalContetnBox:hover {
-  background: white;
+.paginationContentTotalTotal {
+  flex-direction: column;
+  .paginationTotalContetnBox {
+    position: relative;
+    padding: 20px;
+    border-top: 0.5px solid #868e96;
+    border-bottom: 0.5px solid #868e96;
+    width: 70%;
+    animation-name: fadeOut;
+    animation-duration: 300ms;
+    min-height: 210px;
+    .paginationLoadingImg {
+      width: 80px;
+      height: 100px;
+      background: #dee2e6;
+    }
+    .paginationImgStyle {
+      width: 80px;
+      height: 100px;
+    }
+    .paginationDetailBox {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-left: 20px;
+    }
+    .paginationDetailBoxLoading {
+      width: 500px;
+      height: 15vh;
+      background: #dee2e6;
+    }
+    .paginationBtnLoading {
+      width: 112px;
+      height: 15vh;
+      background: #dee2e6;
+    }
+    .paginationTitle {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      width: 320px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
+    }
+    .paginationDetailInformationBox {
+      color: #505050;
+      padding: 2px 0 5px;
+      font-size: 12px;
+    }
+    .paginationContents {
+      color: #777;
+      font-size: 12px;
+      width: 60%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    .paginationPriceBox {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-top: 5px;
+    }
+    .paginationPrice {
+      text-decoration: line-through;
+      color: #a8a8a8;
+      font-size: 11px;
+      font-weight: normal;
+      margin-right: 8px;
+    }
+    .paginationSalePrice {
+      color: #e60012;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .paginationSalePercent {
+      height: 20px;
+      display: inline-table;
+      vertical-align: top;
+      margin-top: 2px;
+      margin-left: 4px;
+      background: #e60012;
+      color: #fff;
+      padding: 4px;
+      font-size: 12px;
+      flex-direction: column;
+    }
+    .paginationBtnBox {
+      position: absolute;
+      right: -20px;
+      display: flex;
+      flex-direction: column;
+      width: 150px;
+      .paginationQuantityInputStyle {
+        padding: 0 4px 0 9px;
+        text-align: right;
+        margin-top: 20px;
+        margin-right: 3px;
+        font-size: 14px;
+        color: #49494b;
+        border: 2px solid #e5e5e5;
+        width: 30px;
+      }
+      .paginationBtnStyle {
+        background-color: #ffffff;
+        border: 0;
+        border-radius: 10px;
+        color: #111827;
+        font-weight: 600;
+        margin-bottom: 10px;
+        width: 112px;
+        height: 23px;
+        text-align: center;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      }
+      .paginationBtnStyle:hover {
+        background-color: #f1f3f5;
+      }
+
+      .paginationBtnStyle:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
+  .paginationTotalContetnBox:hover {
+    background: white;
+  }
+}
+
+.paginationContentTotalTotal .paginationTotalContetnBox:first-child {
+  border-top: 2.5px solid #868e96;
+}
+.paginationContentTotalTotal .paginationTotalContetnBox:last-child {
+  border-bottom: 2.5px solid #868e96;
 }
 
 label {
-  width: 40%;
+  width: 100%;
+  max-width: 900px;
   display: flex;
   justify-content: right;
+  margin-top: 20px;
+  height: 30px;
 }
 ul {
+  padding-left: 20px;
+  padding-right: 20px;
   list-style: none;
-  background: grey;
+  background: #ced4da;
   height: 60px;
-  border-top: 1.5px solid black;
-  border-bottom: 1.5px solid black;
+  border-top: 1.5px solid #343a40;
+  border-bottom: 1.5px solid #343a40;
   position: relative;
   width: 70%;
+  max-width: 900px;
   li {
-    color: white;
+    color: #343a40;
     font-size: 18px;
     font-weight: 600;
     span:hover {
-      color: pink;
+      color: #ffe066;
     }
   }
   .paginationFilterDetail {
@@ -401,7 +446,7 @@ ul {
   width: 70%;
 }
 .shoppingCartPartDeleteBtnBox {
-  padding-left: 30px;
+  padding-right: 25px;
   .shoppingCartPartDeleteBtn {
     align-items: center;
     background-color: #ced4da;
@@ -417,11 +462,11 @@ ul {
   }
 
   .shoppingCartPartDeleteBtn:hover {
-    background: #e9ecef;
+    background: #dee2e6;
   }
 
   .shoppingCartPartDeleteBtn:disabled {
-    background: #f1f3f5;
+    background: #e9ecef;
     cursor: default;
   }
 }
@@ -458,8 +503,8 @@ ul {
   .shoppingCartNoticeBox {
     display: flex;
     width: 100%;
-    margin-left: 30px;
-    margin-right: 50px;
+    max-width: 900px;
+    box-sizing: border-box;
     padding: 20px;
     font-size: 14px;
     background: #efefef;
@@ -474,6 +519,7 @@ ul {
   }
   .shoppingCartImg {
     height: 90%;
+    margin-bottom: 13px;
   }
   .shoppingCartTitleTitle {
     margin-left: 15px;
@@ -481,10 +527,8 @@ ul {
   .shoppingCartHeader {
     display: flex;
     width: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
     font-size: 14px;
-
+    max-width: 900px;
     .shoppingCartHeaderProductName {
       width: 40%;
       padding-top: 15px;
@@ -555,13 +599,16 @@ ul {
 }
 .shoppingTable {
   margin-top: 50px;
+  width: 100%;
+  max-width: 900px;
   .shoppingTableFirst {
+    // width: 900px;
     font-size: 14px;
     background: #f6f6f6;
     color: #3a3a3a;
     height: 56px;
     line-height: 56px;
-    padding: 20px;
+    padding: 20px 50px 20px 50px;
     font-weight: 700;
     border-right: 1px solid #4d755a;
     border-bottom: 1px solid #e4e4e4;
@@ -602,8 +649,8 @@ ul {
     position: relative;
   }
   .ModalInner {
-    width: 40%;
-    height: 60%;
+    width: 400px;
+    height: 540px;
     background: white;
     border-radius: 20px;
     flex-direction: column;
@@ -654,11 +701,16 @@ ul {
     border: none;
     border-radius: 15px;
   }
+  .ModalInnerBtnStyle:hover {
+    background: #a5d8ff;
+  }
 }
 .shoppingCartInfoTotal {
   margin-top: 40px;
   margin-bottom: 40px;
+  width: 100%;
   .shoppingInfoBlock {
+    width: 150%;
     padding-left: 15px;
     padding-right: 15px;
     background: #f1f3f5;
@@ -744,8 +796,11 @@ ul {
 }
 
 .searchWordTotal {
-  margin-left: 20px;
-  width: 70%;
+  animation: fadeOut 300ms;
+  margin-left: 10px;
+  width: 100%;
+  height: 35px;
+  overflow-y: auto;
   .searchWordBox {
     margin-left: 10px;
     margin-right: 10px;
@@ -770,6 +825,9 @@ ul {
       background-image: linear-gradient(#b384c9, #391f5b 50%);
     }
   }
+  .searchWordWord:hover {
+    background: #7950f2;
+  }
   .searchWordText {
     font-weight: 600;
     font-size: 18px;
@@ -777,15 +835,14 @@ ul {
 }
 .paginationLeftTotal {
   width: 16%;
-  right: 0;
-  height: 120vh;
-  top: 33%;
+  right: -80px;
+  height: 800px;
   animation: fadeOut 300ms;
   .paginationLeftBox {
-    height: 120vh;
-    top: 50%;
-    left: 30px;
-    transform: translate(-50%, -50%);
+    // height: 600px;
+    // top: 50%;
+    // left: 30px;
+    // transform: translate(-50%, -50%);
     flex-direction: column;
     .paginationLeftText {
       font-weight: 600;
@@ -801,8 +858,11 @@ ul {
         margin-bottom: 25px;
         .paginationContentImgXbtn {
           top: 5px;
-          left: 110px;
+          left: 125px;
           color: black;
+        }
+        .paginationContentImgXbtn:hover {
+          color: white;
         }
         .paginationContentImg {
           border-radius: 10px;
@@ -823,4 +883,53 @@ ul {
       border-radius: 10px;
     }
   }
+}
+.shoppingDailyShip:hover {
+  color: #ff6b6b;
+}
+.shoppingShippingFree {
+  color: #2a5a34;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.paginationScrollBtn {
+  width: 50px;
+  height: 40px;
+  align-items: center;
+  background-color: #fcfcfd;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  color: #36395a;
+  display: inline-flex;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-weight: 600;
+}
+
+.button-30:focus {
+  box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+}
+
+.button-30:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-30:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+.paginationLabelBox {
+  justify-content: space-between;
+  width: 100%;
+  max-width: 670px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }

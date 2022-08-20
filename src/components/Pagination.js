@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { bookSearch } from "../api";
 import onAddToCart from "../util/onAddToCart";
 import { FcReading } from "react-icons/fc";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiFillCaretUp } from "react-icons/ai";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
@@ -44,10 +44,14 @@ function Pagination() {
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       const { value } = e.target;
-      const searched = searchWord.concat({
-        id: generateRandomId(),
-        word: value,
-      });
+      const searchWordDup =
+        searchWord.filter((a) => a.word === value).length === 0;
+      const searched = searchWordDup
+        ? searchWord.concat({
+            id: generateRandomId(),
+            word: value,
+          })
+        : searchWord;
       dispatch(setQuery(value));
       dispatch(
         setSearchConfig({
@@ -59,7 +63,6 @@ function Pagination() {
       );
     }
   };
-
   useEffect(() => {
     if (query) {
       bookSearchPagination(query, pageNumber, size, sort);
@@ -81,7 +84,6 @@ function Pagination() {
     dispatch(setSearchConfig({ pageable: pageable_count }));
     dispatch(setPosts(quantityData));
     setLoadingStatus(fulfilled);
-    console.log(posts);
     if (filter === "name") {
       const nameArray = [...posts].sort((a, b) => {
         return a.title.localeCompare(b.title);
@@ -157,11 +159,13 @@ function Pagination() {
         );
       } else if (includesArray) {
         const findIndex = pageArray.map((a) => a + 10).indexOf(pageable);
-        const what = increase.slice(0, findIndex + 1);
+        const finalpageArray = increase.slice(0, findIndex + 1);
         dispatch(
-          setSearchConfig({ pageNumber: pageNumber + 10, pageArray: what })
+          setSearchConfig({
+            pageNumber: pageNumber + 10,
+            pageArray: finalpageArray,
+          })
         );
-        // dispatch(setPageArray((prev) => [...prev].slice(0, findIndex + 1)));
       }
     }
     if (pageNumber + 10 >= pageable) {
@@ -228,6 +232,11 @@ function Pagination() {
     dispatch(setSearchConfig({ filter: "name" }));
   };
   const isPostEmpty = posts.length === 0;
+  const handleScrollToTheTop = () =>
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   return (
     <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">
@@ -256,15 +265,6 @@ function Pagination() {
               </div>
             ))}
           </div>
-          <label>
-            페이지 당 표시할 게시물 수:&nbsp;
-            <select type="number" value={size} onChange={onChangeSize}>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="40">40</option>
-            </select>
-          </label>
         </div>
       ) : null}
       {query ? (
@@ -339,126 +339,122 @@ function Pagination() {
             >
               할인율
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
           </li>
         </ul>
       ) : null}
-      {isPostEmpty ? (
-        <div className="flex-center paginationPostsEmptyBox">
-          <div>
-            <FcReading className="paginationPostsEmptyIcon" />
-          </div>
-          <div className="paginationPostsEmptyText">
-            <span>Find your Favorite Book ! </span>
-          </div>
-        </div>
-      ) : (
-        posts.map((book, index) => (
-          <div
-            key={index}
-            className="flex-vertical-center paginationTotalContetnBox"
-          >
-            {loadingStatus === "fulfilled" ? (
-              <a
-                target="_blank"
-                href={book.url}
-                onClick={() => handleAddRecentlySeen(book)}
-              >
-                <img alt="thumbnail" src={book.thumbnail} />
-              </a>
-            ) : null}
-            {loadingStatus === "loading" ? (
-              <div className="paginationLoadingImg"></div>
-            ) : null}
-            <div className="paginationDetailBox">
-              {loadingStatus === "fulfilled" ? (
-                <>
-                  <div className="paginationTitle">
-                    {book.title.length > 25
-                      ? book.title.slice(0, 25) + "..."
-                      : book.title}
-                  </div>
-                  <div className="paginationDetailInformationBox">
-                    {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
-                    {book.datetime.slice(0, 10)}
-                  </div>
-                  <div className="paginationContents">
-                    {book.contents.slice(0, 80)}...
-                  </div>
-                  <div className="paginationPriceBox">
-                    <div className="paginationPrice">
-                      {book.price.toLocaleString("ko-KR")}원
-                    </div>
-                    <div className="paginationSalePrice">
-                      {book.sale_price < 0
-                        ? book.price.toLocaleString("ko-KR")
-                        : book.sale_price.toLocaleString("ko-KR")}
-                      원
-                    </div>
-                    <div className="flex-vertical-center paginationSalePercent">
-                      {onDiscountRate(book.sale_price, book.price)}% 할인
-                    </div>
-                  </div>
-                </>
-              ) : null}
-              {loadingStatus === "loading" ? (
-                <div className="paginationDetailBoxLoading"></div>
-              ) : null}
+      <div className="paginationContentTotalTotal positionR flex-vertical-center">
+        {isPostEmpty ? (
+          <div className="flex-center paginationPostsEmptyBox">
+            <div>
+              <FcReading className="paginationPostsEmptyIcon" />
             </div>
-            <div className="paginationBtnBox">
-              {loadingStatus === "fulfilled" ? (
-                <>
-                  <p>
-                    수량 : &nbsp;
-                    <input
-                      type="number"
-                      value={book.quantity}
-                      className="paginationQuantityInputStyle"
-                      onChange={(e) => onChangeInputQuantity(index, book, e)}
-                    />
-                    &nbsp;개
-                  </p>
-                  <button
-                    onClick={onClickNotyet}
-                    className="cursorPointer paginationBtnStyle"
-                  >
-                    내 서재로 이동
-                  </button>
-                  <button
-                    onClick={() => {
-                      onAddToCart(
-                        setShoppingCart,
-                        book,
-                        book.quantity,
-                        shoppingCart,
-                        dispatch
-                      );
-                      handleModalToggle();
-                      handleAddRecentlySeen(book);
-                    }}
-                    className="cursorPointer paginationBtnStyle"
-                  >
-                    장바구니
-                  </button>
-                  <button
-                    onClick={onClickNotyet}
-                    className="cursorPointer paginationBtnStyle"
-                  >
-                    바로구매
-                  </button>
-                </>
-              ) : null}
-              {loadingStatus === "loading" ? (
-                <div className="paginationBtnLoading"></div>
-              ) : null}
+            <div className="paginationPostsEmptyText">
+              <span>Find Your Favorite Book! </span>
             </div>
           </div>
-        ))
-      )}
-      {query ? (
-        <div className="positionA paginationLeftTotal">
-          <div className="positionR paginationLeftBox">
-            <div className="positionA flex-center paginationLeftBox">
+        ) : (
+          posts.map((book, index) => (
+            <div
+              key={book.isbn + index}
+              className="flex-vertical-center paginationTotalContetnBox"
+            >
+              {loadingStatus === "fulfilled" ? (
+                <a
+                  target="_blank"
+                  href={book.url}
+                  onClick={() => handleAddRecentlySeen(book)}
+                >
+                  <img alt="Thumbnail" src={book.thumbnail} />
+                </a>
+              ) : null}
+              {loadingStatus === "loading" ? (
+                <div className="paginationLoadingImg"></div>
+              ) : null}
+              <div className="paginationDetailBox">
+                {loadingStatus === "fulfilled" ? (
+                  <>
+                    <div className="paginationTitle">{book.title}</div>
+                    <div className="paginationDetailInformationBox">
+                      {book.authors}&nbsp;| &nbsp;
+                      {book.publisher === "" ? "" : book.publisher + "  | "}
+                      &nbsp;
+                      {book.datetime.slice(0, 10)}
+                    </div>
+                    <div className="paginationContents">{book.contents}</div>
+                    <div className="paginationPriceBox">
+                      <div className="paginationPrice">
+                        {book.price.toLocaleString("ko-KR")}원
+                      </div>
+                      <div className="paginationSalePrice">
+                        {book.sale_price < 0
+                          ? book.price.toLocaleString("ko-KR")
+                          : book.sale_price.toLocaleString("ko-KR")}
+                        원
+                      </div>
+                      <div className="flex-vertical-center positionR paginationSalePercent">
+                        {onDiscountRate(book.sale_price, book.price)}% 할인
+                      </div>
+                    </div>
+                  </>
+                ) : null}
+                {loadingStatus === "loading" ? (
+                  <div className="paginationDetailBoxLoading"></div>
+                ) : null}
+              </div>
+
+              <div className="paginationBtnBox">
+                {loadingStatus === "fulfilled" ? (
+                  <>
+                    <p>
+                      수량 : &nbsp;
+                      <input
+                        type="number"
+                        value={book.quantity}
+                        className="paginationQuantityInputStyle"
+                        onChange={(e) => onChangeInputQuantity(index, book, e)}
+                      />
+                      &nbsp;개
+                    </p>
+                    <button
+                      onClick={onClickNotyet}
+                      className="cursorPointer paginationBtnStyle"
+                    >
+                      내 서재로 이동
+                    </button>
+                    <button
+                      onClick={() => {
+                        onAddToCart(
+                          setShoppingCart,
+                          book,
+                          book.quantity,
+                          shoppingCart,
+                          dispatch
+                        );
+                        handleModalToggle();
+                        handleAddRecentlySeen(book);
+                      }}
+                      className="cursorPointer paginationBtnStyle"
+                    >
+                      장바구니
+                    </button>
+                    <button
+                      onClick={onClickNotyet}
+                      className="cursorPointer paginationBtnStyle"
+                    >
+                      바로구매
+                    </button>
+                  </>
+                ) : null}
+                {loadingStatus === "loading" ? (
+                  <div className="paginationBtnLoading"></div>
+                ) : null}
+              </div>
+            </div>
+          ))
+        )}
+        {query ? (
+          <div className="positionA paginationLeftTotal">
+            <div className="flex-center paginationLeftBox">
               <p className="paginationLeftText">최근 본 상품</p>
               <div className="paginationLeftContentBox">
                 {recentlySeen.map((book, idx) => (
@@ -480,6 +476,24 @@ function Pagination() {
               </div>
             </div>
           </div>
+        ) : null}
+      </div>
+      {query ? (
+        <div className="flex-vertical-center paginationLabelBox">
+          <button
+            className="cursorPointer paginationScrollBtn"
+            onClick={handleScrollToTheTop}
+          >
+            <AiFillCaretUp />
+          </button>
+          <label>
+            <select type="number" value={size} onChange={onChangeSize}>
+              <option value="10">10개씩 보기</option>
+              <option value="20">20개씩 보기</option>
+              <option value="30">30개씩 보기</option>
+              <option value="40">40개씩 보기</option>
+            </select>
+          </label>
         </div>
       ) : null}
       {query ? (
@@ -503,7 +517,7 @@ function Pagination() {
                   onClick={() => {
                     onClickBtn(i);
                   }}
-                  className="buttonStyle"
+                  className="cursorPointer buttonStyle"
                   aria-current={pageNumber === i ? "page" : null}
                   key={i + idx}
                 >
@@ -515,7 +529,7 @@ function Pagination() {
                   onClick={() => {
                     onClickBtn(number);
                   }}
-                  className="buttonStyle"
+                  className="cursorPointer buttonStyle"
                   aria-current={pageNumber === number ? "page" : null}
                   key={number + idx}
                 >
@@ -523,13 +537,16 @@ function Pagination() {
                 </button>
               ))}
           <button
-            className="buttonStyle"
+            className="cursorPointer buttonStyle"
             disabled={pageNumber === pageable}
             onClick={onClickPagePlus}
           >
             &gt;
           </button>
-          <button className="buttonStyle" onClick={onClickPageDoublePlus}>
+          <button
+            className="cursorPointer buttonStyle"
+            onClick={onClickPageDoublePlus}
+          >
             &gt;&gt;
           </button>
         </nav>

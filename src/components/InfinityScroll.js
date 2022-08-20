@@ -2,7 +2,6 @@ import React, { useState, useCallback, useRef } from "react";
 import useBookSearch from "../hooks/useBookSesarch";
 import Loader from "../Loader";
 import onAddToCart from "../util/onAddToCart";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setShoppingCart } from "../slices/bookSlice";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -24,10 +23,6 @@ function InfinityScroll() {
     query,
     pageNumber
   );
-  const navigate = useNavigate();
-  const handleSearch = (e) => {
-    console.log(e.target.value);
-  };
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       setQuery(e.target.value);
@@ -61,7 +56,6 @@ function InfinityScroll() {
           placeholder="검색어를 입력해 주세요."
           type="text"
           onKeyPress={onKeyPressEnter}
-          onChange={handleSearch}
         />
       </div>
       <div className="bookListContainer flex-center">
@@ -79,9 +73,13 @@ function InfinityScroll() {
                 key={contents.title + index}
               >
                 <div className="bookListH positionA flex-center">
-                  <a className="flex-center" href={contents.url}>
+                  <a
+                    className="flex-center"
+                    target="_blank"
+                    href={contents.url}
+                  >
                     <img
-                      alt="Thumb"
+                      alt="Thumbnail"
                       className="cursorPointer bookListContentThumbnail"
                       src={contents.thumbnail}
                     />
@@ -95,11 +93,7 @@ function InfinityScroll() {
                 <div className="bookListContentTitleAndAuthorsBox flex-vertical-center">
                   <div className="positionA bookListContentTitleAndAuthorsBox flex-center">
                     <div className="flex-center">
-                      <span className="bookListTitleF">
-                        {contents.title.length > 5
-                          ? contents.title.slice(0, 5) + "..."
-                          : contents.title}
-                      </span>
+                      <span className="bookListTitleF">{contents.title}</span>
                     </div>
                     <div className="bookListContentAuthors flex-center">
                       {contents.sale_price < 0
@@ -109,9 +103,7 @@ function InfinityScroll() {
                     </div>
                   </div>
                   <div className="positionA bookListContentAuthorss flex-center">
-                    {contents.authors[0].length > 8
-                      ? contents.authors[0].slice(0, 7) + "..."
-                      : contents.authors[0]}
+                    {contents.authors}
                   </div>
                   <hr className="positionA" />
                   <div className="positionA  bookListShopBtnBox">
