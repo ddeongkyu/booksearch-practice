@@ -277,6 +277,7 @@ hr {
     width: 70%;
     animation-name: fadeOut;
     animation-duration: 300ms;
+    min-height: 210px;
     .paginationLoadingImg {
       width: 80px;
       height: 100px;
@@ -306,6 +307,12 @@ hr {
       font-size: 20px;
       font-weight: 600;
       margin-bottom: 8px;
+      display: block;
+      width: 320px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
     }
     .paginationDetailInformationBox {
       color: #505050;
@@ -351,6 +358,7 @@ hr {
       color: #fff;
       padding: 4px;
       font-size: 12px;
+      flex-direction: column;
     }
     .paginationBtnBox {
       position: absolute;
@@ -395,6 +403,7 @@ hr {
     background: white;
   }
 }
+
 .paginationContentTotalTotal .paginationTotalContetnBox:first-child {
   border-top: 2.5px solid #868e96;
 }
@@ -408,7 +417,7 @@ label {
   display: flex;
   justify-content: right;
   margin-top: 20px;
-  margin-right: 230px;
+  height: 30px;
 }
 ul {
   padding-left: 20px;
@@ -453,11 +462,11 @@ ul {
   }
 
   .shoppingCartPartDeleteBtn:hover {
-    background: #e9ecef;
+    background: #dee2e6;
   }
 
   .shoppingCartPartDeleteBtn:disabled {
-    background: #f1f3f5;
+    background: #e9ecef;
     cursor: default;
   }
 }
@@ -510,6 +519,7 @@ ul {
   }
   .shoppingCartImg {
     height: 90%;
+    margin-bottom: 13px;
   }
   .shoppingCartTitleTitle {
     margin-left: 15px;
@@ -639,8 +649,8 @@ ul {
     position: relative;
   }
   .ModalInner {
-    width: 40%;
-    height: 60%;
+    width: 400px;
+    height: 540px;
     background: white;
     border-radius: 20px;
     flex-direction: column;
@@ -690,6 +700,9 @@ ul {
     font-size: 13px;
     border: none;
     border-radius: 15px;
+  }
+  .ModalInnerBtnStyle:hover {
+    background: #a5d8ff;
   }
 }
 .shoppingCartInfoTotal {
@@ -787,6 +800,7 @@ ul {
   margin-left: 10px;
   width: 100%;
   height: 35px;
+  overflow-y: auto;
   .searchWordBox {
     margin-left: 10px;
     margin-right: 10px;
@@ -811,6 +825,9 @@ ul {
       background-image: linear-gradient(#b384c9, #391f5b 50%);
     }
   }
+  .searchWordWord:hover {
+    background: #7950f2;
+  }
   .searchWordText {
     font-weight: 600;
     font-size: 18px;
@@ -818,15 +835,14 @@ ul {
 }
 .paginationLeftTotal {
   width: 16%;
-  right: 0;
-  height: 120vh;
-  top: 33%;
+  right: -80px;
+  height: 800px;
   animation: fadeOut 300ms;
   .paginationLeftBox {
-    height: 120vh;
-    top: 50%;
-    left: 30px;
-    transform: translate(-50%, -50%);
+    // height: 600px;
+    // top: 50%;
+    // left: 30px;
+    // transform: translate(-50%, -50%);
     flex-direction: column;
     .paginationLeftText {
       font-weight: 600;
@@ -842,8 +858,11 @@ ul {
         margin-bottom: 25px;
         .paginationContentImgXbtn {
           top: 5px;
-          left: 110px;
+          left: 125px;
           color: black;
+        }
+        .paginationContentImgXbtn:hover {
+          color: white;
         }
         .paginationContentImg {
           border-radius: 10px;
@@ -873,4 +892,44 @@ ul {
   font-weight: bold;
   font-size: 18px;
   margin-top: 20px;
+}
+
+.paginationScrollBtn {
+  width: 50px;
+  height: 40px;
+  align-items: center;
+  background-color: #fcfcfd;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  color: #36395a;
+  display: inline-flex;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-weight: 600;
+}
+
+.button-30:focus {
+  box-shadow: #d6d6e7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+}
+
+.button-30:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-30:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+.paginationLabelBox {
+  justify-content: space-between;
+  width: 100%;
+  max-width: 670px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }

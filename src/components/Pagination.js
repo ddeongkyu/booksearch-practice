@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { bookSearch } from "../api";
 import onAddToCart from "../util/onAddToCart";
 import { FcReading } from "react-icons/fc";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiFillCaretUp } from "react-icons/ai";
 import onDiscountRate from "../util/onDiscountRate";
 import Modal from "./Modal";
 import ModalPortal from "../portal/ModalPortal";
@@ -232,6 +232,11 @@ function Pagination() {
     dispatch(setSearchConfig({ filter: "name" }));
   };
   const isPostEmpty = posts.length === 0;
+  const handleScrollToTheTop = () =>
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   return (
     <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">
@@ -337,14 +342,14 @@ function Pagination() {
           </li>
         </ul>
       ) : null}
-      <div className="paginationContentTotalTotal flex-vertical-center">
+      <div className="paginationContentTotalTotal positionR flex-vertical-center">
         {isPostEmpty ? (
           <div className="flex-center paginationPostsEmptyBox">
             <div>
               <FcReading className="paginationPostsEmptyIcon" />
             </div>
             <div className="paginationPostsEmptyText">
-              <span>Find your Favorite Book ! </span>
+              <span>Find Your Favorite Book! </span>
             </div>
           </div>
         ) : (
@@ -368,13 +373,11 @@ function Pagination() {
               <div className="paginationDetailBox">
                 {loadingStatus === "fulfilled" ? (
                   <>
-                    <div className="paginationTitle">
-                      {book.title.length > 25
-                        ? book.title.slice(0, 25) + "..."
-                        : book.title}
-                    </div>
+                    <div className="paginationTitle">{book.title}</div>
                     <div className="paginationDetailInformationBox">
-                      {book.authors}&nbsp;| {book.publisher}&nbsp;| &nbsp;
+                      {book.authors}&nbsp;| &nbsp;
+                      {book.publisher === "" ? "" : book.publisher + "  | "}
+                      &nbsp;
                       {book.datetime.slice(0, 10)}
                     </div>
                     <div className="paginationContents">{book.contents}</div>
@@ -388,7 +391,7 @@ function Pagination() {
                           : book.sale_price.toLocaleString("ko-KR")}
                         원
                       </div>
-                      <div className="flex-vertical-center paginationSalePercent">
+                      <div className="flex-vertical-center positionR paginationSalePercent">
                         {onDiscountRate(book.sale_price, book.price)}% 할인
                       </div>
                     </div>
@@ -398,6 +401,7 @@ function Pagination() {
                   <div className="paginationDetailBoxLoading"></div>
                 ) : null}
               </div>
+
               <div className="paginationBtnBox">
                 {loadingStatus === "fulfilled" ? (
                   <>
@@ -448,11 +452,9 @@ function Pagination() {
             </div>
           ))
         )}
-      </div>
-      {query ? (
-        <div className="positionA paginationLeftTotal">
-          <div className="positionR paginationLeftBox">
-            <div className="positionA flex-center paginationLeftBox">
+        {query ? (
+          <div className="positionA paginationLeftTotal">
+            <div className="flex-center paginationLeftBox">
               <p className="paginationLeftText">최근 본 상품</p>
               <div className="paginationLeftContentBox">
                 {recentlySeen.map((book, idx) => (
@@ -474,18 +476,25 @@ function Pagination() {
               </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
       {query ? (
-        <label>
-          페이지 당 표시할 게시물 수&nbsp;&nbsp;:&nbsp;&nbsp;
-          <select type="number" value={size} onChange={onChangeSize}>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-          </select>
-        </label>
+        <div className="flex-vertical-center paginationLabelBox">
+          <button
+            className="cursorPointer paginationScrollBtn"
+            onClick={handleScrollToTheTop}
+          >
+            <AiFillCaretUp />
+          </button>
+          <label>
+            <select type="number" value={size} onChange={onChangeSize}>
+              <option value="10">10개씩 보기</option>
+              <option value="20">20개씩 보기</option>
+              <option value="30">30개씩 보기</option>
+              <option value="40">40개씩 보기</option>
+            </select>
+          </label>
+        </div>
       ) : null}
       {query ? (
         <nav className="nav flex-center">
@@ -528,18 +537,20 @@ function Pagination() {
                 </button>
               ))}
           <button
-            className="buttonStyle"
+            className="cursorPointer buttonStyle"
             disabled={pageNumber === pageable}
             onClick={onClickPagePlus}
           >
             &gt;
           </button>
-          <button className="buttonStyle" onClick={onClickPageDoublePlus}>
+          <button
+            className="cursorPointer buttonStyle"
+            onClick={onClickPageDoublePlus}
+          >
             &gt;&gt;
           </button>
         </nav>
       ) : null}
-
       {modalOpen && (
         <ModalPortal>
           <Modal onClose={handleModalToggle} />

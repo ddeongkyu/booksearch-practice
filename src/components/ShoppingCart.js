@@ -66,7 +66,7 @@ function ShoppingCart() {
               product.quantity
         );
       }, 0);
-  const onClick = (product, e) => {
+  const onpartAdd = (product, e) => {
     const { checked } = e.target;
     if (checked) {
       const addArr = [product].filter((a) => a.isbn === product.isbn);
@@ -126,7 +126,7 @@ function ShoppingCart() {
                   <input
                     className="cursorPointer"
                     type="checkbox"
-                    onClick={(e) => onClick(product, e)}
+                    onClick={(e) => onpartAdd(product, e)}
                   />
                 </div>
                 <img
@@ -174,7 +174,9 @@ function ShoppingCart() {
                 </strong>
               </div>
               <div className="flex-center shoppingCartContent shoppingCartHeaderSalePriceState">
-                <strong> {!product.status ? "매진" : product.status}</strong>
+                <strong>
+                  {!product.status ? "입고 예정" : product.status}
+                </strong>
               </div>
             </div>
           ))}
@@ -183,7 +185,7 @@ function ShoppingCart() {
               <div>
                 <span>주문도서 :</span>
                 <strong className="colorGreen">정상판매</strong>
-                <span className="colorGreen">(주말/공휴일 제외)</span>
+                <span className="colorGreen">&nbsp;(주말/공휴일 제외)</span>
               </div>
               <div>
                 <strong>
@@ -232,7 +234,7 @@ function ShoppingCart() {
           <div className="shoppingShippingFree">
             10,000원 이상 주문하시면 배송비가 무료입니다.
           </div>
-          <table className="flex-center shoppingTable">
+          <table className="shoppingTable">
             <tbody>
               <tr>
                 <th className="shoppingTableFirst">주문상품 금액 합계</th>
