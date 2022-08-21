@@ -25,9 +25,9 @@ const Modal = ({ onClose }) => {
             <FcAcceptDatabase className="ModalInnerIconStyle" />
           </div>
           <div className="flex-center ModalInnerTextBlock">
-            <div className="ModalInnerTextStyle">선택 감사합니다!</div>
+            <div className="ModalInnerTextStyle">감사합니다!</div>
             <div className="ModalInnerTextStyleBuy">
-              장바구니에 성공적으로 들어갔어요!
+              상품이 장바구니로 이동되었습니다.
             </div>
           </div>
           <div className="ModalInnerBtnBlock">

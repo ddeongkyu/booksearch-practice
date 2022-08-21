@@ -3,16 +3,20 @@ import { useNavigate } from "react-router-dom";
 import onDiscountRate from "../util/onDiscountRate";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { setShoppingCart } from "../slices/bookSlice";
+import { setShoppingCart, setCreditCards } from "../slices/bookSlice";
 import { useDispatch } from "react-redux";
 import ModalPortal from "../portal/ModalPortal";
 import ShippingModal from "./ShippingModal";
+import PaymentInputs from "./PaymentInputs";
+import { AiFillPlusCircle } from "react-icons/ai";
+import Cards from "react-credit-cards";
 function ShoppingCart() {
-  const { shoppingCart } = useSelector((state) => {
+  const { shoppingCart, creditCards } = useSelector((state) => {
     return state.book;
   });
   const [checkedInput, setCheckedInput] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [cardOpen, setCardOpen] = useState(false);
   const isCheckoutInputEmpty = checkedInput.length === 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,6 +25,9 @@ function ShoppingCart() {
   };
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
+  };
+  const handleCardRegOpen = () => {
+    setCardOpen(!cardOpen);
   };
   const isShoppingCartEmpty = shoppingCart.length === 0;
   const handleOrderBtn = () => {
@@ -303,6 +310,36 @@ function ShoppingCart() {
               </div>
             </div>
           </div>
+          {creditCards.length === 0 ? (
+            <p className="flex-center">등록된 결제 카드가 없습니다.</p>
+          ) : null}
+          <div className="flex-center shoppingCartEmptyCardTotal positionR ">
+            {creditCards.map((content, idx) => (
+              <Cards
+                key={idx}
+                expiry={content.expiry}
+                focused={content.focus}
+                name={content.name}
+                number={content.number}
+                style={{ background: "thistle" }}
+                focused={content.expiry}
+              />
+            ))}
+            <div className="shoppingCartEmptyCard">
+              <AiFillPlusCircle
+                onClick={handleCardRegOpen}
+                className="cursorPointer shoppingCartEmptyCardInner positionA"
+              />
+              <p className="shoppingCartEmptyCardInnerText positionA">
+                카드 추가
+              </p>
+            </div>
+          </div>
+          {cardOpen && (
+            <div>
+              <PaymentInputs />
+            </div>
+          )}
           <div className="flex-center shoppingCheckOutBtn">
             <button
               onClick={handleOrderBtn}

@@ -14,6 +14,7 @@ const initialState = {
     searchWord: [],
   },
   recentlySeen: [],
+  creditCards: [],
 };
 
 export const bookSlice = createSlice({
@@ -35,6 +36,9 @@ export const bookSlice = createSlice({
     setRecentlySeen: (state, action) => {
       state.recentlySeen = action.payload;
     },
+    setCreditCards: (state, action) => {
+      state.creditCards = action.payload;
+    },
   },
 });
 
@@ -44,6 +48,7 @@ export const {
   setQuery,
   setSearchConfig,
   setRecentlySeen,
+  setCreditCards,
 } = bookSlice.actions;
 
 export default bookSlice.reducer;

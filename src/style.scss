@@ -274,13 +274,15 @@ hr {
     padding: 20px;
     border-top: 0.5px solid #868e96;
     border-bottom: 0.5px solid #868e96;
-    width: 70%;
+    width: 670px;
+    box-sizing: border-box;
+    // max-width: 670px;
     animation-name: fadeOut;
     animation-duration: 300ms;
     min-height: 210px;
     .paginationLoadingImg {
-      width: 80px;
-      height: 100px;
+      width: 120px;
+      height: 174px;
       background: #dee2e6;
     }
     .paginationImgStyle {
@@ -294,13 +296,13 @@ hr {
       margin-left: 20px;
     }
     .paginationDetailBoxLoading {
-      width: 500px;
-      height: 15vh;
+      width: 330px;
+      min-height: 150px;
       background: #dee2e6;
     }
     .paginationBtnLoading {
-      width: 112px;
-      height: 15vh;
+      width: 120px;
+      height: 172px;
       background: #dee2e6;
     }
     .paginationTitle {
@@ -316,7 +318,12 @@ hr {
     }
     .paginationDetailInformationBox {
       color: #505050;
-      padding: 2px 0 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      display: block;
+      width: 300px;
       font-size: 12px;
     }
     .paginationContents {
@@ -666,8 +673,8 @@ ul {
     top: 30px;
   }
   .ModalInnerIconStyle {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }
   .ModalInnerTextBlock {
     flex-direction: column;
@@ -835,15 +842,15 @@ ul {
 }
 .paginationLeftTotal {
   width: 16%;
+  top: 0px;
   right: -80px;
-  height: 800px;
   animation: fadeOut 300ms;
+  position: sticky;
+  transform: translate(460px, 0px);
+  height: 0px;
   .paginationLeftBox {
-    // height: 600px;
-    // top: 50%;
-    // left: 30px;
-    // transform: translate(-50%, -50%);
     flex-direction: column;
+    height: 850px;
     .paginationLeftText {
       font-weight: 600;
       font-size: 18px;
@@ -932,4 +939,48 @@ ul {
   max-width: 670px;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+.paymentBox {
+  animation: fadeOut 300ms;
+  width: 900px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.shoppingCartEmptyCardTotal {
+  width: 100%;
+  .shoppingCartEmptyCard {
+    width: 290px;
+    height: 193px;
+    border-radius: 14.5px;
+    background: white;
+    border: 3px dashed grey;
+    box-sizing: border-box;
+    .shoppingCartEmptyCardInner {
+      width: 70px;
+      height: 70px;
+      border-radius: 100%;
+      top: 50%;
+      left: 50%;
+      color: #868e96;
+      transform: translate(-50%, -50%);
+    }
+    .shoppingCartEmptyCardInnerText {
+      top: 65%;
+      left: 50%;
+      color: #868e96;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+.ddd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 450px;
+  input {
+    width: 250px;
+    height: 30px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+  }
 }
