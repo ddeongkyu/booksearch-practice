@@ -7,8 +7,8 @@ import { setShoppingCart, setCreditCards } from "../slices/bookSlice";
 import { useDispatch } from "react-redux";
 import ModalPortal from "../portal/ModalPortal";
 import ShippingModal from "./ShippingModal";
-import PaymentInputs from "./PaymentInputs";
-import { AiFillPlusCircle } from "react-icons/ai";
+import PaymentRegFrom from "./PaymentRegFrom";
+import { AiFillPlusCircle, AiOutlineClose } from "react-icons/ai";
 import Cards from "react-credit-cards";
 function ShoppingCart() {
   const { shoppingCart, creditCards } = useSelector((state) => {
@@ -17,6 +17,8 @@ function ShoppingCart() {
   const [checkedInput, setCheckedInput] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [cardOpen, setCardOpen] = useState(false);
+  const [slidePx, setSlidePx] = useState(0);
+  const [selectCard, setSelectCard] = useState([]);
   const isCheckoutInputEmpty = checkedInput.length === 0;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,6 +34,14 @@ function ShoppingCart() {
   const isShoppingCartEmpty = shoppingCart.length === 0;
   const handleOrderBtn = () => {
     alert("개발중!");
+  };
+  const onClickCreditCard = (card) => {
+    const isSelectedCardEmpty = selectCard.length === 0;
+    if (isSelectedCardEmpty) {
+      setSelectCard(card);
+    } else {
+      setSelectCard([]);
+    }
   };
   const totalPrice = !isCheckoutInputEmpty
     ? checkedInput.reduce((acc, product) => {
@@ -99,8 +109,15 @@ function ShoppingCart() {
       alert("삭제를 취소하였습니다.");
     }
   };
+  const handleDeleteCard = (card) => {
+    const delCard = creditCards.filter(
+      (pengsoo) => pengsoo.number !== card.number
+    );
+    dispatch(setCreditCards(delCard));
+  };
   const shippingCost = totalPrice > 10000 ? 0 : 3000;
   const totaltotalPrice = shippingCost + totalPrice;
+  const isCreditCardEmpty = creditCards.length === 0;
   return (
     <div className="shoppingCartTotalPage">
       {!isShoppingCartEmpty ? (
@@ -310,34 +327,58 @@ function ShoppingCart() {
               </div>
             </div>
           </div>
-          {creditCards.length === 0 ? (
+          {isCreditCardEmpty && (
             <p className="flex-center">등록된 결제 카드가 없습니다.</p>
-          ) : null}
-          <div className="flex-center shoppingCartEmptyCardTotal positionR ">
-            {creditCards.map((content, idx) => (
-              <Cards
-                key={idx}
-                expiry={content.expiry}
-                focused={content.focus}
-                name={content.name}
-                number={content.number}
-                style={{ background: "thistle" }}
-                focused={content.expiry}
-              />
-            ))}
-            <div className="shoppingCartEmptyCard">
-              <AiFillPlusCircle
-                onClick={handleCardRegOpen}
-                className="cursorPointer shoppingCartEmptyCardInner positionA"
-              />
-              <p className="shoppingCartEmptyCardInnerText positionA">
-                카드 추가
-              </p>
+          )}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="flex-center shoppingCartEmptyCardTotal positionR">
+              {creditCards.map((content, idx) => (
+                <div
+                  className="shoppingCartCardBox positionR cursorPointer"
+                  key={idx}
+                  onClick={() => onClickCreditCard(content)}
+                >
+                  <Cards
+                    expiry={content.expiry}
+                    focused={content.focus}
+                    name={content.name}
+                    number={content.number}
+                    focused={content.expiry}
+                  />
+                  <AiOutlineClose
+                    onClick={() => handleDeleteCard(content)}
+                    className="positionA shoppingCartXbtn cursorPointer"
+                  />
+                </div>
+              ))}
+              {isCreditCardEmpty && (
+                <div className="shoppingCartEmptyCard positionR">
+                  <AiFillPlusCircle
+                    onClick={handleCardRegOpen}
+                    className="cursorPointer shoppingCartEmptyCardInner positionA"
+                  />
+                  <p className="shoppingCartEmptyCardInnerText positionA">
+                    카드 추가
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          {cardOpen && (
-            <div>
-              <PaymentInputs />
+          {!isCreditCardEmpty && (
+            <div className="flex-center shoppingCartMoreCardBox">
+              <div
+                onClick={handleCardRegOpen}
+                className="cursorPointer shoppingCartMoreCard "
+              >
+                결제카드 추가로 등록하기
+              </div>
             </div>
           )}
           <div className="flex-center shoppingCheckOutBtn">
@@ -368,6 +409,14 @@ function ShoppingCart() {
       {modalOpen && (
         <ModalPortal>
           <ShippingModal onClose={handleModalToggle} />
+        </ModalPortal>
+      )}
+      {cardOpen && (
+        <ModalPortal>
+          <PaymentRegFrom
+            onClose={handleCardRegOpen}
+            setCardOpen={setCardOpen}
+          />
         </ModalPortal>
       )}
     </div>
