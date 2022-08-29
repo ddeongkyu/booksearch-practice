@@ -45,7 +45,7 @@ function Main() {
       behavior: "smooth",
     });
   console.log("width : ", window.visualViewport.width);
-  const isResponsive = window.visualViewport.width <= 400;
+  const isResponsive = window.visualViewport.width <= 430;
   console.log(isResponsive);
   return (
     <>
