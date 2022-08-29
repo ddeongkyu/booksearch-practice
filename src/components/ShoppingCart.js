@@ -17,7 +17,6 @@ function ShoppingCart() {
   const [checkedInput, setCheckedInput] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [cardOpen, setCardOpen] = useState(false);
-  const [slidePx, setSlidePx] = useState(0);
   const [selectCard, setSelectCard] = useState([]);
   const isCheckoutInputEmpty = checkedInput.length === 0;
   const navigate = useNavigate();
