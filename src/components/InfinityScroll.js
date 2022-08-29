@@ -3,14 +3,14 @@ import useBookSearch from "../hooks/useBookSesarch";
 import Loader from "../Loader";
 import onAddToCart from "../util/onAddToCart";
 import { useDispatch, useSelector } from "react-redux";
-import { setShoppingCart } from "../slices/bookSlice";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { setShoppingCart, setRecentlySeen } from "../slices/bookSlice";
+import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
 import ModalPortal from "../portal/ModalPortal";
 import Modal from "./Modal";
 import onDiscountRate from "../util/onDiscountRate";
 function InfinityScroll() {
   const dispatch = useDispatch();
-  const { shoppingCart } = useSelector((state) => {
+  const { shoppingCart, recentlySeen } = useSelector((state) => {
     return state.book;
   });
   const [query, setQuery] = useState("");
@@ -23,6 +23,18 @@ function InfinityScroll() {
     query,
     pageNumber
   );
+  const handleAddRecentlySeen = (product) => {
+    const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
+    const isduplEmpty = dupl.length === 0;
+    if (isduplEmpty) {
+      const recentArr = recentlySeen.concat(product);
+      dispatch(setRecentlySeen(recentArr));
+    }
+  };
+  const handleDeleteRecentlySeen = (product) => {
+    const delArr = recentlySeen.filter((a) => a.isbn !== product.isbn);
+    dispatch(setRecentlySeen(delArr));
+  };
   const onKeyPressEnter = (e) => {
     if (e.key === "Enter") {
       setQuery(e.target.value);
@@ -47,7 +59,7 @@ function InfinityScroll() {
     },
     [searchConfig.loading, searchConfig.hasMore]
   );
-
+  const isRecentlySeenEmpty = recentlySeen.length === 0;
   return (
     <div className="infiniteRealTotal">
       <div className="inputStyle flex-center">
@@ -58,6 +70,33 @@ function InfinityScroll() {
           onKeyPress={onKeyPressEnter}
         />
       </div>
+      {query && (
+        <div className="paginationLeftTotal">
+          <div className="flex-center paginationLeftBox">
+            {!isRecentlySeenEmpty && (
+              <p className="paginationLeftText">최근 본 상품</p>
+            )}
+            <div className="paginationLeftContentBox">
+              {recentlySeen.map((book, idx) => (
+                <div
+                  className="positionR flex-center paginationLeftContent"
+                  key={book.isbn + idx}
+                >
+                  <img
+                    className="paginationContentImg"
+                    alt="book"
+                    src={book.thumbnail}
+                  />
+                  <AiOutlineClose
+                    onClick={() => handleDeleteRecentlySeen(book)}
+                    className="positionA cursorPointer paginationContentImgXbtn"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}{" "}
       <div className="bookListContainer flex-center">
         {books.map((contents, index) => {
           if (books.length === index + 1) {
@@ -117,6 +156,7 @@ function InfinityScroll() {
                           dispatch
                         );
                         handleModalToggle();
+                        handleAddRecentlySeen(contents);
                       }}
                       className="cursorPointer flex-center bookListShoppingCartBtn"
                     >

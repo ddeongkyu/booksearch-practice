@@ -237,6 +237,7 @@ function Pagination() {
       top: 0,
       behavior: "smooth",
     });
+  const isRecentlySeenEmpty = recentlySeen.length === 0;
   return (
     <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">
@@ -247,7 +248,7 @@ function Pagination() {
           placeholder="검색어를 입력해 주세요."
         />
       </div>
-      {query ? (
+      {query && (
         <div className="flex-vertical-center papginationrecent">
           <div className="flex-vertical-center searchWordTotal">
             <span className="searchWordText">최근 검색어 :</span>
@@ -266,8 +267,8 @@ function Pagination() {
             ))}
           </div>
         </div>
-      ) : null}
-      {query ? (
+      )}
+      {query && (
         <ul className="flex-center paginationFilterBox">
           <li onClick={accuracyOrder}>
             <span
@@ -341,7 +342,34 @@ function Pagination() {
             </span>
           </li>
         </ul>
-      ) : null}
+      )}
+      {query && (
+        <div className="paginationLeftTotal">
+          <div className="flex-center paginationLeftBox">
+            {!isRecentlySeenEmpty && (
+              <p className="paginationLeftText">최근 본 상품</p>
+            )}
+            <div className="paginationLeftContentBox">
+              {recentlySeen.map((book, idx) => (
+                <div
+                  className="positionR flex-center paginationLeftContent"
+                  key={book.isbn + idx}
+                >
+                  <img
+                    className="paginationContentImg"
+                    alt="book"
+                    src={book.thumbnail}
+                  />
+                  <AiOutlineClose
+                    onClick={() => handleDeleteRecentlySeen(book)}
+                    className="positionA cursorPointer paginationContentImgXbtn"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="paginationContentTotalTotal positionR flex-vertical-center">
         {isPostEmpty ? (
           <div className="flex-center paginationPostsEmptyBox">
@@ -358,7 +386,7 @@ function Pagination() {
               key={book.isbn + index}
               className="flex-vertical-center paginationTotalContetnBox"
             >
-              {loadingStatus === "fulfilled" ? (
+              {loadingStatus === fulfilled && (
                 <a
                   target="_blank"
                   href={book.url}
@@ -366,12 +394,12 @@ function Pagination() {
                 >
                   <img alt="Thumbnail" src={book.thumbnail} />
                 </a>
-              ) : null}
-              {loadingStatus === "loading" ? (
+              )}
+              {loadingStatus === onLoading && (
                 <div className="paginationLoadingImg"></div>
-              ) : null}
+              )}
               <div className="paginationDetailBox">
-                {loadingStatus === "fulfilled" ? (
+                {loadingStatus === fulfilled && (
                   <>
                     <div className="paginationTitle">{book.title}</div>
                     <div className="paginationDetailInformationBox">
@@ -396,14 +424,14 @@ function Pagination() {
                       </div>
                     </div>
                   </>
-                ) : null}
-                {loadingStatus === "loading" ? (
+                )}
+                {loadingStatus === onLoading && (
                   <div className="paginationDetailBoxLoading"></div>
-                ) : null}
+                )}
               </div>
 
               <div className="paginationBtnBox">
-                {loadingStatus === "fulfilled" ? (
+                {loadingStatus === fulfilled && (
                   <>
                     <p>
                       수량 : &nbsp;
@@ -444,41 +472,16 @@ function Pagination() {
                       바로구매
                     </button>
                   </>
-                ) : null}
-                {loadingStatus === "loading" ? (
+                )}
+                {loadingStatus === onLoading && (
                   <div className="paginationBtnLoading"></div>
-                ) : null}
+                )}
               </div>
             </div>
           ))
         )}
-        {query ? (
-          <div className="positionA paginationLeftTotal">
-            <div className="flex-center paginationLeftBox">
-              <p className="paginationLeftText">최근 본 상품</p>
-              <div className="paginationLeftContentBox">
-                {recentlySeen.map((book, idx) => (
-                  <div
-                    className="positionR flex-center paginationLeftContent"
-                    key={book.isbn + idx}
-                  >
-                    <img
-                      className="paginationContentImg"
-                      alt="book"
-                      src={book.thumbnail}
-                    />
-                    <AiOutlineClose
-                      onClick={() => handleDeleteRecentlySeen(book)}
-                      className="positionA cursorPointer paginationContentImgXbtn"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
       </div>
-      {query ? (
+      {query && (
         <div className="flex-vertical-center paginationLabelBox">
           <button
             className="cursorPointer paginationScrollBtn"
@@ -495,8 +498,8 @@ function Pagination() {
             </select>
           </label>
         </div>
-      ) : null}
-      {query ? (
+      )}
+      {query && (
         <nav className="nav flex-center">
           <button
             className="buttonStyle cursorPointer"
@@ -550,7 +553,7 @@ function Pagination() {
             &gt;&gt;
           </button>
         </nav>
-      ) : null}
+      )}
       {modalOpen && (
         <ModalPortal>
           <Modal onClose={handleModalToggle} />

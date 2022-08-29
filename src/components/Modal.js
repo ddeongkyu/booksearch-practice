@@ -14,6 +14,7 @@ const Modal = ({ onClose }) => {
   const onGoToShoppingCart = () => {
     navigate("/shoppingCart");
   };
+  const onMainTainPage = () => {};
   return (
     <div className="ModalTotalBox">
       <div className="ModalInnerTotalBox" onClick={onClose}>
@@ -25,9 +26,15 @@ const Modal = ({ onClose }) => {
             <FcAcceptDatabase className="ModalInnerIconStyle" />
           </div>
           <div className="flex-center ModalInnerTextBlock">
-            <div className="ModalInnerTextStyle">선택 감사합니다!</div>
+            <div className="ModalInnerTextStyle">감사합니다!</div>
             <div className="ModalInnerTextStyleBuy">
-              장바구니에 성공적으로 들어갔어요!
+              상품이 장바구니로 이동되었습니다!
+            </div>
+            <div className="ModalInnerTextStyleBuy">
+              장바구니의 상품들은 7일 이후에 삭제됩니다.
+            </div>
+            <div className="ModalInnerTextStyleBuy">
+              그 전에 구매를 완료해주세요!
             </div>
           </div>
           <div className="ModalInnerBtnBlock">
@@ -36,6 +43,12 @@ const Modal = ({ onClose }) => {
               onClick={onGoToShoppingCart}
             >
               장바구니로 가기
+            </button>
+            <button
+              className="ModalInnerBtnStyleMaintain cursorPointer"
+              onClick={onClose}
+            >
+              쇼핑 계속하기
             </button>
           </div>
         </div>
