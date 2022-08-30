@@ -77,11 +77,7 @@ function Main() {
           </div>
         </div>
       </div>
-      <div
-        id="start"
-        className="positionR flex-center"
-        // style={{ opacity: isResponsive ? 200 / scrollPx : 340 / scrollPx }}
-      >
+      <div id="start" className="positionR flex-center">
         <img
           alt="startImg"
           src={isResponsive ? "쏘쓰/start_small.png" : "쏘쓰/start.jpeg"}
@@ -117,7 +113,13 @@ function Main() {
               : scrollPx < 1500
               ? scrollPx / 150
               : scrollPx / 2700,
-            transform: `rotateY(${isResponsive ? 45 : scrollPx / 100}deg)`,
+            transform: `rotateY(${
+              isResponsive && scrollPx < 380
+                ? (scrollPx / 822) * 100
+                : scrollPx > 380
+                ? 45
+                : scrollPx / 100
+            }deg)`,
           }}
         />
         <img
@@ -130,7 +132,13 @@ function Main() {
               : scrollPx < 1500
               ? scrollPx / 150
               : scrollPx / 2700,
-            transform: `rotateY(${isResponsive ? -45 : scrollPx / 100}deg)`,
+            transform: `rotateY(${
+              isResponsive && scrollPx < 685
+                ? -(scrollPx / 1523) * 100
+                : scrollPx > 685
+                ? -45
+                : -scrollPx / 100
+            }deg)`,
           }}
         />
         <div className="positionA infiniteTextBox">

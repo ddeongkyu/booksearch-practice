@@ -117,6 +117,7 @@ function ShoppingCart() {
   const shippingCost = totalPrice > 10000 ? 0 : 3000;
   const totaltotalPrice = shippingCost + totalPrice;
   const isCreditCardEmpty = creditCards.length === 0;
+  const isResponsive = window.visualViewport.width <= 430;
   return (
     <div className="shoppingCartTotalPage">
       {!isShoppingCartEmpty ? (
@@ -271,7 +272,7 @@ function ShoppingCart() {
                   {totalPrice.toLocaleString("ko-KR")}원
                 </th>
                 <th className="shoppingTableSecond">
-                  <span className="textBig">
+                  <span className={!isResponsive && "textBig"}>
                     {!isCheckoutInputEmpty
                       ? checkedInput.length
                       : shoppingCart.length}

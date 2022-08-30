@@ -70,7 +70,6 @@ function InfinityScroll() {
   );
   const isRecentlySeenEmpty = recentlySeen.length === 0;
   const isResponsive = window.visualViewport.width <= 430;
-
   return (
     <div className="infiniteRealTotal">
       <div className="inputStyle flex-center positionR">
