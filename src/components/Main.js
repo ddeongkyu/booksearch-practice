@@ -26,12 +26,12 @@ function Main() {
   console.log("current scroll 위치 : ", scrollPx);
   const handleScrollToTheTop = () =>
     window.scrollTo({
-      top: isResponsive ? -2500 : 0,
+      top: 0,
       behavior: "smooth",
     });
   const handleScrollToContact = () =>
     window.scrollTo({
-      top: isResponsive ? 5554 : 6437,
+      top: isResponsive ? 5818 : 6437,
       behavior: "smooth",
     });
   const handleScrollToTheWork = () =>
@@ -41,7 +41,7 @@ function Main() {
     });
   const handleScrollToTheAbout = () =>
     window.scrollTo({
-      top: isResponsive ? 4388 : 5123,
+      top: isResponsive ? 4480 : 5123,
       behavior: "smooth",
     });
   const isResponsive = window.visualViewport.width <= 430;
@@ -270,6 +270,13 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive ? scrollPx / 4500 : 0.4 + scrollPx / 9600,
+                transform: `translateX(${
+                  scrollPx < 3800
+                    ? -100
+                    : scrollPx < 4000
+                    ? -4000 + scrollPx
+                    : 0
+                }px)`,
               }}
             />
             <div className="aboutText">HTML5을 자유롭게 사용이 가능합니다.</div>
@@ -285,6 +292,9 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive ? scrollPx / 4700 : scrollPx / 5200,
+                transform: `translateX(${
+                  scrollPx < 4000 ? 100 : scrollPx < 4215 ? 4215 - scrollPx : 0
+                }px)`,
               }}
             />
           </div>
@@ -295,6 +305,13 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive ? scrollPx / 4900 : scrollPx / 5500,
+                transform: `translateX(${
+                  scrollPx < 4215
+                    ? -100
+                    : scrollPx < 4430
+                    ? -4430 + scrollPx
+                    : 0
+                }px)`,
               }}
             />
             <div className="aboutText">
@@ -318,6 +335,9 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive ? scrollPx / 5100 : scrollPx / 6000,
+                transform: `translateX(${
+                  scrollPx < 4430 ? 100 : scrollPx < 4645 ? 4645 - scrollPx : 0
+                }px)`,
               }}
             />
           </div>
@@ -328,6 +348,13 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive ? scrollPx / 5300 : scrollPx / 6500,
+                transform: `translateX(${
+                  scrollPx < 4645
+                    ? -100
+                    : scrollPx < 4860
+                    ? -4860 + scrollPx
+                    : 0
+                }px)`,
               }}
             />
             <div className="aboutText">

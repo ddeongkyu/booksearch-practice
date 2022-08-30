@@ -1,6 +1,6 @@
 body {
   background: #f1f3f5;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 .flex-center {
   display: flex;
@@ -2438,6 +2438,9 @@ $color5: #575759;
     .input_search::placeholder {
       font-size: 15px;
     }
+    .input_search_icon {
+      right: 100px;
+    }
   }
   .bookListContainer {
     flex-wrap: wrap;
@@ -2569,7 +2572,7 @@ $color5: #575759;
     max-width: 900px;
     li {
       color: #343a40;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       span:hover {
         color: #ffe066;
