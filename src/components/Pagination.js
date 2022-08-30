@@ -15,9 +15,11 @@ import {
   setRecentlySeen,
 } from "../slices/bookSlice";
 import { waiting, fulfilled, onLoading } from "../constants";
+import { BsSearch } from "react-icons/bs";
 import generateRandomId from "../util/generateRandomId";
 function Pagination() {
   const [loadingStatus, setLoadingStatus] = useState(waiting);
+  const [inputValue, setInputValue] = useState("");
   const { shoppingCart, posts, query, searchConfig, recentlySeen } =
     useSelector((state) => {
       return state.book;
@@ -29,7 +31,28 @@ function Pagination() {
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
   };
-
+  const onChangeInput = (e) => {
+    setInputValue(e.target.value);
+  };
+  const onSearchClick = () => {
+    const searchWordDup =
+      searchWord.filter((a) => a.word === inputValue).length === 0;
+    const searched = searchWordDup
+      ? searchWord.concat({
+          id: generateRandomId(),
+          word: inputValue,
+        })
+      : searchWord;
+    dispatch(setQuery(inputValue));
+    dispatch(
+      setSearchConfig({
+        pageNumber: 1,
+        filter: "accuracy",
+        pageArray,
+        searchWord: searched,
+      })
+    );
+  };
   const onChangeInputQuantity = (idx, book, e) => {
     const { value } = e.target;
     const regMinus = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
@@ -247,7 +270,15 @@ function Pagination() {
           onKeyPress={onKeyPressEnter}
           type="text"
           placeholder="검색어를 입력해 주세요."
+          value={inputValue}
+          onChange={onChangeInput}
         />
+        {isResponsive && (
+          <BsSearch
+            className="input_search_icon cursorPointer positionA"
+            onClick={onSearchClick}
+          />
+        )}
       </div>
       {query && (
         <div className="flex-vertical-center papginationrecent">

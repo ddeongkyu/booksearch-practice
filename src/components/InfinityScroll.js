@@ -5,6 +5,7 @@ import onAddToCart from "../util/onAddToCart";
 import { useDispatch, useSelector } from "react-redux";
 import { setShoppingCart, setRecentlySeen } from "../slices/bookSlice";
 import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
 import ModalPortal from "../portal/ModalPortal";
 import Modal from "./Modal";
 import onDiscountRate from "../util/onDiscountRate";
@@ -14,6 +15,7 @@ function InfinityScroll() {
     return state.book;
   });
   const [query, setQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
@@ -41,6 +43,13 @@ function InfinityScroll() {
       setPageNumber(1);
     }
   };
+  const onChangeInput = (e) => {
+    setInputValue(e.target.value);
+  };
+  const onSearchClick = () => {
+    setQuery(inputValue);
+    setPageNumber(1);
+  };
   const observer = useRef();
   const lastBookElementRef = useCallback(
     (node) => {
@@ -60,15 +69,25 @@ function InfinityScroll() {
     [searchConfig.loading, searchConfig.hasMore]
   );
   const isRecentlySeenEmpty = recentlySeen.length === 0;
+  const isResponsive = window.visualViewport.width <= 430;
+
   return (
     <div className="infiniteRealTotal">
-      <div className="inputStyle flex-center">
+      <div className="inputStyle flex-center positionR">
         <input
           className="input_search"
           placeholder="검색어를 입력해 주세요."
           type="text"
           onKeyPress={onKeyPressEnter}
+          value={inputValue}
+          onChange={onChangeInput}
         />
+        {isResponsive && (
+          <BsSearch
+            className="input_search_icon cursorPointer positionA"
+            onClick={onSearchClick}
+          />
+        )}
       </div>
       {query && (
         <div className="paginationLeftTotal">
