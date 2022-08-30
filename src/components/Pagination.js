@@ -238,6 +238,7 @@ function Pagination() {
       behavior: "smooth",
     });
   const isRecentlySeenEmpty = recentlySeen.length === 0;
+  const isResponsive = window.visualViewport.width <= 430;
   return (
     <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">
@@ -392,7 +393,11 @@ function Pagination() {
                   href={book.url}
                   onClick={() => handleAddRecentlySeen(book)}
                 >
-                  <img alt="Thumbnail" src={book.thumbnail} />
+                  <img
+                    alt="Thumbnail"
+                    src={book.thumbnail}
+                    className="paginationImgImgImg"
+                  />
                 </a>
               )}
               {loadingStatus === onLoading && (
@@ -433,7 +438,12 @@ function Pagination() {
               <div className="paginationBtnBox">
                 {loadingStatus === fulfilled && (
                   <>
-                    <p>
+                    <p
+                      style={{
+                        width: isResponsive ? "80px" : "100%",
+                        fontSize: isResponsive ? "10px" : "14px",
+                      }}
+                    >
                       수량 : &nbsp;
                       <input
                         type="number"

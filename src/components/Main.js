@@ -44,9 +44,7 @@ function Main() {
       top: isResponsive ? 4388 : 5123,
       behavior: "smooth",
     });
-  console.log("width : ", window.visualViewport.width);
   const isResponsive = window.visualViewport.width <= 430;
-  console.log(isResponsive);
   return (
     <>
       <div className="flex-center">
@@ -82,7 +80,7 @@ function Main() {
       <div
         id="start"
         className="positionR flex-center"
-        style={{ opacity: isResponsive ? 200 / scrollPx : 340 / scrollPx }}
+        // style={{ opacity: isResponsive ? 200 / scrollPx : 340 / scrollPx }}
       >
         <img
           alt="startImg"
@@ -91,19 +89,19 @@ function Main() {
         />
         <div
           className="positionA startBigTextA"
-          style={{ opacity: 40 / scrollPx }}
+          style={{ opacity: isResponsive ? 1 : 40 / scrollPx }}
         >
           DDEONG-KYU
         </div>
         <div
           className="positionA startBigTextB"
-          style={{ opacity: 70 / scrollPx }}
+          style={{ opacity: isResponsive ? 1 : 70 / scrollPx }}
         >
           도서 검색!
         </div>
         <div
           className="positionA startBigTextC"
-          style={{ opacity: 80 / scrollPx }}
+          style={{ opacity: isResponsive ? 1 : 80 / scrollPx }}
         >
           (With Kakao Api)
         </div>
