@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { GoMarkGithub, GoChevronUp } from "react-icons/go";
+import contact from "../contact.jpeg";
 function Main() {
   const navigate = useNavigate();
   const [scrollPx, setScrollPx] = useState(0);
@@ -116,7 +117,7 @@ function Main() {
             transform: `rotateY(${
               isResponsive && scrollPx < 380
                 ? (scrollPx / 822) * 100
-                : scrollPx > 380
+                : isResponsive && scrollPx > 380
                 ? 45
                 : scrollPx / 100
             }deg)`,
@@ -135,9 +136,9 @@ function Main() {
             transform: `rotateY(${
               isResponsive && scrollPx < 685
                 ? -(scrollPx / 1523) * 100
-                : scrollPx > 685
+                : isResponsive && scrollPx > 685
                 ? -45
-                : -scrollPx / 100
+                : scrollPx / 100
             }deg)`,
           }}
         />
@@ -279,10 +280,16 @@ function Main() {
               style={{
                 opacity: isResponsive ? scrollPx / 4500 : 0.4 + scrollPx / 9600,
                 transform: `translateX(${
-                  scrollPx < 3800
-                    ? -100
-                    : scrollPx < 4000
-                    ? -4000 + scrollPx
+                  isResponsive
+                    ? scrollPx < 3800
+                      ? -100
+                      : scrollPx < 4000
+                      ? -4000 + scrollPx
+                      : 0
+                    : scrollPx < 4400
+                    ? -2000
+                    : scrollPx < 4610
+                    ? -4610 + scrollPx
                     : 0
                 }px)`,
               }}
@@ -301,7 +308,17 @@ function Main() {
               style={{
                 opacity: isResponsive ? scrollPx / 4700 : scrollPx / 5200,
                 transform: `translateX(${
-                  scrollPx < 4000 ? 100 : scrollPx < 4215 ? 4215 - scrollPx : 0
+                  isResponsive
+                    ? scrollPx < 4000
+                      ? 100
+                      : scrollPx < 4215
+                      ? 4215 - scrollPx
+                      : 0
+                    : scrollPx < 4610
+                    ? 2000
+                    : scrollPx < 4820
+                    ? 4820 - scrollPx
+                    : 0
                 }px)`,
               }}
             />
@@ -314,10 +331,16 @@ function Main() {
               style={{
                 opacity: isResponsive ? scrollPx / 4900 : scrollPx / 5500,
                 transform: `translateX(${
-                  scrollPx < 4215
-                    ? -100
-                    : scrollPx < 4430
-                    ? -4430 + scrollPx
+                  isResponsive
+                    ? scrollPx < 4215
+                      ? -100
+                      : scrollPx < 4430
+                      ? -4430 + scrollPx
+                      : 0
+                    : scrollPx < 4820
+                    ? -2000
+                    : scrollPx < 5030
+                    ? -5030 + scrollPx
                     : 0
                 }px)`,
               }}
@@ -344,7 +367,17 @@ function Main() {
               style={{
                 opacity: isResponsive ? scrollPx / 5100 : scrollPx / 6000,
                 transform: `translateX(${
-                  scrollPx < 4430 ? 100 : scrollPx < 4645 ? 4645 - scrollPx : 0
+                  isResponsive
+                    ? scrollPx < 4430
+                      ? 100
+                      : scrollPx < 4645
+                      ? 4645 - scrollPx
+                      : 0
+                    : scrollPx < 5030
+                    ? 2000
+                    : scrollPx < 5240
+                    ? 5240 - scrollPx
+                    : 0
                 }px)`,
               }}
             />
@@ -357,10 +390,16 @@ function Main() {
               style={{
                 opacity: isResponsive ? scrollPx / 5300 : scrollPx / 6500,
                 transform: `translateX(${
-                  scrollPx < 4645
-                    ? -100
-                    : scrollPx < 4860
-                    ? -4860 + scrollPx
+                  isResponsive
+                    ? scrollPx < 4645
+                      ? -100
+                      : scrollPx < 4860
+                      ? -4860 + scrollPx
+                      : 0
+                    : scrollPx < 5240
+                    ? -2000
+                    : scrollPx < 5450
+                    ? -5450 + scrollPx
                     : 0
                 }px)`,
               }}
@@ -376,7 +415,7 @@ function Main() {
       <div id="contact" className="positionR">
         <img
           alt="contact"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-18-03-42.jpeg"
+          src="쏘쓰/KakaoTalk_Photo_2022-08-28-18-03-57.jpeg"
           className="positionA contactImg"
           style={{ opacity: scrollPx / 5500 }}
         />
