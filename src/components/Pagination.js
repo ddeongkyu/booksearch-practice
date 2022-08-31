@@ -312,7 +312,7 @@ function Pagination() {
             >
               정확도
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </li>
           <li onClick={latestOrder}>
             <span
@@ -324,7 +324,7 @@ function Pagination() {
             >
               출간일
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </li>
           <li onClick={nameSort}>
             <span
@@ -336,7 +336,7 @@ function Pagination() {
             >
               상품명
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </li>
           <li onClick={ascendingOrder}>
             <span
@@ -348,7 +348,7 @@ function Pagination() {
             >
               낮은가격
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </li>
           <li onClick={descendingOrder}>
             <span
@@ -360,7 +360,7 @@ function Pagination() {
             >
               높은가격
             </span>
-            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </li>
           <li onClick={discountRateOrder}>
             <span
