@@ -2369,7 +2369,7 @@ $color5: #575759;
     z-index: -999;
   }
   #github {
-    height: 220px;
+    height: 180px;
     background: #333333;
     @keyframes moveHoverIn {
       from {
@@ -2760,13 +2760,15 @@ $color5: #575759;
     flex-direction: column;
     max-width: 900px;
     margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
     .shoppingCartNoticeBox {
       display: flex;
       width: 100%;
       max-width: 900px;
       box-sizing: border-box;
       padding: 20px;
-      font-size: 14px;
+      font-size: 12px;
       background: #efefef;
       margin-bottom: 10px;
       border-bottom: 1px solid #d2d2d2;
@@ -2775,7 +2777,7 @@ $color5: #575759;
       line-height: 200%;
     }
     .shoppingCartDeleteBtn {
-      margin-right: 15px;
+      margin-right: 0px;
     }
     .shoppingCartImg {
       height: 90%;
@@ -2790,6 +2792,7 @@ $color5: #575759;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
+      font-size: 10px;
     }
     .shoppingCartHeader {
       display: flex;
@@ -2797,40 +2800,40 @@ $color5: #575759;
       font-size: 14px;
       max-width: 900px;
       .shoppingCartHeaderProductName {
-        width: 40%;
+        // width: 40%;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderPrice {
-        width: 9%;
-        padding-left: 25px;
-        padding-right: 25px;
+        width: 12%;
+        padding-left: 5px;
+        padding-right: 5px;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderSalePrice {
         flex-direction: column;
-        width: 9%;
+        width: 12%;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderSaleQuantity {
-        width: 9%;
+        width: 12%;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderSaleTotalPrice {
-        width: 9%;
+        width: 12%;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderSaleReserves {
-        width: 9%;
+        width: 12%;
         padding-top: 15px;
         font-size: 10px;
       }
       .shoppingCartHeaderSalePriceState {
-        width: 9%;
+        width: 12%;
         padding-top: 15px;
         font-size: 10px;
       }
@@ -2914,6 +2917,30 @@ $color5: #575759;
     color: #2a5a34;
     font-weight: bold;
     margin-top: 20px;
+    margin-right: 10px;
+    font-size: 12px;
+  }
+  .shoppingCartInfoTotal {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100%;
+    .shoppingInfoBlock {
+      width: 150%;
+      padding-left: 15px;
+      padding-right: 15px;
+      background: #f1f3f5;
+      border: 2px solid #dee2e6;
+      .shoppingInfoHead {
+        text-align: center;
+        line-height: 180%;
+        margin-top: 15px;
+        font-size: 13px;
+      }
+      .shoppingInfoDetail {
+        line-height: 180%;
+        font-size: 12px;
+      }
+    }
   }
 
   .paymentBox {

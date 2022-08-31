@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FcAcceptDatabase } from "react-icons/fc";
-
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 const Modal = ({ onClose }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -15,8 +16,16 @@ const Modal = ({ onClose }) => {
     navigate("/shoppingCart");
   };
   const onMainTainPage = () => {};
+  const { width, height } = useWindowSize();
   return (
     <div className="ModalTotalBox">
+      <Confetti
+        width={width}
+        height={height}
+        recycle={false}
+        opacity={0.5}
+        numberOfPieces={500}
+      />
       <div className="ModalInnerTotalBox" onClick={onClose}>
         <div
           className="flex-center ModalInner"
