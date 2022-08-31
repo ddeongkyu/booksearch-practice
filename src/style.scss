@@ -696,34 +696,36 @@ ul {
   .ModalInnerBtnBlock {
     position: absolute;
     bottom: 0;
-    display: flex;
-    justify-content: center;
     left: 50%;
     transform: translate(-50%, -50%);
+    flex-direction: column;
   }
   .ModalInnerBtnStyle {
-    width: 120px;
+    width: 300px;
     padding: 15px;
     background: #74c0fc;
     color: white;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     border: none;
     border-radius: 15px;
-    margin-right: 40px;
+    margin-right: 0px;
   }
   .ModalInnerBtnStyleMaintain {
-    width: 120px;
+    width: 300px;
     padding: 15px;
-    background: #868e96;
-    color: white;
+    background: none;
+    color: #868e96;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 0px;
+    border-bottom: 0.5px solid #868e96;
   }
+
   .ModalInnerBtnStyleMaintain:hover {
-    background: #ced4da;
+    background: #f1f3f5;
+    border-radius: 15px;
   }
   .ModalInnerBtnStyle:hover {
     background: #a5d8ff;
@@ -1683,6 +1685,8 @@ $color5: #575759;
 #contact {
   height: 100vh;
   font-family: "Raleway", sans-serif;
+  background-image: url("../src/contact.jpeg");
+  background-size: cover;
 }
 .contactText {
   top: 21%;
@@ -1812,7 +1816,7 @@ $color5: #575759;
     width: 80vw;
     margin-top: 30px;
     font-weight: bold;
-    position: fixed;
+    position: absolute;
     top: 0px;
     z-index: 9999;
     color: black;
@@ -2324,25 +2328,26 @@ $color5: #575759;
     }
   }
   #contact {
-    height: 630px;
+    width: 100vw;
+    height: 75vh;
     font-family: "Raleway", sans-serif;
   }
   .contactText {
     width: 390px;
-    top: 170px;
-    left: 300px;
+    top: 28%;
+    left: 70%;
     transform: translate(-50%, -50%);
     font-weight: bold;
     font-size: 30px;
     color: #ffec99;
   }
   .contactTextEmail {
-    bottom: 20%;
-    left: 69%;
+    bottom: 0%;
+    left: 35%;
     transform: translate((-50%, -50%));
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: #ffe3e3;
     border: 2px solid white;
     padding: 15px;
     border-radius: 20px;
@@ -2560,8 +2565,8 @@ $color5: #575759;
     justify-content: center;
   }
   ul {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
     list-style: none;
     background: #ced4da;
     height: 40px;
@@ -2689,7 +2694,7 @@ $color5: #575759;
         display: flex;
         flex-direction: column;
         width: 80px;
-        right: 3px;
+        right: 4px;
         .paginationQuantityInputStyle {
           padding: 0 4px 0 9px;
           text-align: right;
@@ -2851,17 +2856,17 @@ $color5: #575759;
       color: #868e96;
     }
     .shoppingCartNothingCartText {
-      font-size: 40px;
+      font-size: 25px;
       text-align: center;
       color: #868e96;
     }
     .shoppingCartNothingCartTextB {
-      font-size: 40px;
+      font-size: 25px;
       text-align: center;
       color: #868e96;
     }
     .shoppingCartNothingCartTextB:hover {
-      font-size: 40px;
+      font-size: 25px;
       text-align: center;
       color: #1c7ed6;
     }
@@ -3057,7 +3062,7 @@ $color5: #575759;
     }
     .ModalInner {
       width: 355px;
-      height: 540px;
+      height: 500px;
       background: white;
       border-radius: 20px;
       flex-direction: column;
@@ -3078,54 +3083,96 @@ $color5: #575759;
     }
     .ModalInnerTextBlock {
       flex-direction: column;
-      margin-top: 50px;
+      margin-top: -50px;
     }
     .ModalInnerTextStyle {
       color: black;
       font-weight: 600;
       margin-bottom: 10px;
-      margin-top: 50px;
+      margin-top: 10px;
       font-size: 20px;
-    }
-    .ModalInnerTextStyleBuy {
-      font-size: 18px;
-      color: #adb5bd;
-      font-weight: 500;
     }
     .ModalInnerBtnBlock {
       position: absolute;
-      bottom: 0;
-      display: flex;
-      justify-content: center;
+      bottom: -10px;
       left: 50%;
       transform: translate(-50%, -50%);
+      flex-direction: column;
     }
     .ModalInnerBtnStyle {
-      width: 120px;
+      width: 300px;
       padding: 15px;
       background: #74c0fc;
       color: white;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 15px;
       border: none;
       border-radius: 15px;
-      margin-right: 40px;
+      margin-right: 0px;
+      margin-bottom: 30px;
     }
     .ModalInnerBtnStyleMaintain {
-      width: 120px;
+      width: 300px;
       padding: 15px;
-      background: #868e96;
-      color: white;
+      background: none;
+      color: #868e96;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 15px;
       border: none;
-      border-radius: 15px;
+      border-radius: 0px;
+      border-bottom: 0.5px solid #868e96;
     }
     .ModalInnerBtnStyleMaintain:hover {
-      background: #ced4da;
+      background: #f1f3f5;
+      border-radius: 20px;
+      color: #343a40;
     }
     .ModalInnerBtnStyle:hover {
       background: #a5d8ff;
     }
   }
+  .searchWordTotal {
+    animation: fadeOut 300ms;
+    margin-left: 10px;
+    width: 100%;
+    height: 35px;
+    overflow-y: auto;
+    .searchWordBox {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .searchWordWord {
+      .searchWordIcon {
+        margin-left: 5px;
+        color: pink;
+      }
+      background: #5e5df0;
+      border-radius: 999px;
+      box-shadow: #5e5df0 0 10px 20px -10px;
+      color: #ffffff;
+      height: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px;
+      margin: 0;
+      text-align: center;
+      .searchWordWord:hover {
+        background-image: linear-gradient(#b384c9, #391f5b 50%);
+      }
+    }
+    .searchWordWord:hover {
+      background: #7950f2;
+    }
+    .searchWordText {
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+}
+.mainAtag {
+  text-decoration: none;
+  color: white;
+}
+.mainAtag:hover {
+  color: #ffe3e3;
 }

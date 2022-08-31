@@ -278,7 +278,20 @@ function Main() {
               src="쏘쓰/KakaoTalk_Photo_2022-08-29-18-02-23-removebg-preview.png"
               className="aboutLogo"
               style={{
-                opacity: isResponsive ? scrollPx / 4500 : 0.4 + scrollPx / 9600,
+                opacity: isResponsive
+                  ? scrollPx < 3800
+                    ? 0
+                    : scrollPx < 4000
+                    ? Math.abs(3800 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4400
+                  ? 0
+                  : !isResponsive && scrollPx < 4400
+                  ? 0
+                  : !isResponsive && scrollPx < 4600
+                  ? Math.abs(4400 - scrollPx) * 0.005
+                  : 1,
+
                 transform: `translateX(${
                   isResponsive
                     ? scrollPx < 3800
@@ -306,7 +319,19 @@ function Main() {
               src="쏘쓰/css-3-logo-023C1A7171-seeklogo.com.png"
               className="aboutLogo"
               style={{
-                opacity: isResponsive ? scrollPx / 4700 : scrollPx / 5200,
+                opacity: isResponsive
+                  ? scrollPx < 4015
+                    ? 0
+                    : scrollPx < 4215
+                    ? Math.abs(4015 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4615
+                  ? 0
+                  : !isResponsive && scrollPx < 4615
+                  ? 0
+                  : !isResponsive && scrollPx < 4815
+                  ? Math.abs(4615 - scrollPx) * 0.005
+                  : 1,
                 transform: `translateX(${
                   isResponsive
                     ? scrollPx < 4000
@@ -329,7 +354,19 @@ function Main() {
               src="쏘쓰/JavaScript_logo_2.svg.png"
               className="aboutLogo"
               style={{
-                opacity: isResponsive ? scrollPx / 4900 : scrollPx / 5500,
+                opacity: isResponsive
+                  ? scrollPx < 4230
+                    ? 0
+                    : scrollPx < 4430
+                    ? Math.abs(4230 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4830
+                  ? 0
+                  : !isResponsive && scrollPx < 4830
+                  ? 0
+                  : !isResponsive && scrollPx < 5030
+                  ? Math.abs(4830 - scrollPx) * 0.005
+                  : 1,
                 transform: `translateX(${
                   isResponsive
                     ? scrollPx < 4215
@@ -365,7 +402,19 @@ function Main() {
               src="쏘쓰/logo512.png"
               className="aboutLogo"
               style={{
-                opacity: isResponsive ? scrollPx / 5100 : scrollPx / 6000,
+                opacity: isResponsive
+                  ? scrollPx < 4445
+                    ? 0
+                    : scrollPx < 4645
+                    ? Math.abs(4445 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 5045
+                  ? 0
+                  : !isResponsive && scrollPx < 5045
+                  ? 0
+                  : !isResponsive && scrollPx < 5245
+                  ? Math.abs(5045 - scrollPx) * 0.005
+                  : 1,
                 transform: `translateX(${
                   isResponsive
                     ? scrollPx < 4430
@@ -388,7 +437,19 @@ function Main() {
               src="쏘쓰/redux_logo.png"
               className="aboutLogo"
               style={{
-                opacity: isResponsive ? scrollPx / 5300 : scrollPx / 6500,
+                opacity: isResponsive
+                  ? scrollPx < 4660
+                    ? 0
+                    : scrollPx < 4860
+                    ? Math.abs(4660 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 5260
+                  ? 0
+                  : !isResponsive && scrollPx < 5260
+                  ? 0
+                  : !isResponsive && scrollPx < 5460
+                  ? Math.abs(5260 - scrollPx) * 0.005
+                  : 1,
                 transform: `translateX(${
                   isResponsive
                     ? scrollPx < 4645
@@ -413,12 +474,6 @@ function Main() {
         </div>
       </div>
       <div id="contact" className="positionR">
-        <img
-          alt="contact"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-18-03-57.jpeg"
-          className="positionA contactImg"
-          style={{ opacity: scrollPx / 5500 }}
-        />
         <div
           style={{
             fontSize: isResponsive ? 28 : scrollPx > 6400 ? 65 : scrollPx / 100,
@@ -445,16 +500,23 @@ function Main() {
           />
         </div>
         <div className="flex-vertical-center">
-          <a href="https://github.com/ddeongkyu">
+          <a className="mainAtag" href="https://github.com/ddeongkyu">
             <GoMarkGithub className="githubIcon positionA cursorPointer" />
           </a>
         </div>
         <div className="positionA flex-vertical-center contactSns">
           <div className="contactSnsText cursorPointer">
-            <a href="https://www.instagram.com/kkkkkkoolllll/">INSTAGRAM</a>
+            <a
+              className="mainAtag"
+              href="https://www.instagram.com/kkkkkkoolllll/"
+            >
+              INSTAGRAM
+            </a>
           </div>
           <div className="contactSnsText cursorPointer">
-            <a href="https://www.facebook.com/ddeongkyu/">FACEBOOK</a>
+            <a className="mainAtag" href="https://www.facebook.com/ddeongkyu/">
+              FACEBOOK
+            </a>
           </div>
         </div>
       </div>
