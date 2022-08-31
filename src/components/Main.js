@@ -24,7 +24,7 @@ function Main() {
       window.removeEventListener("scroll", imageScrollHandeler);
     };
   });
-  console.log("current scroll 위치 : ", scrollPx);
+  // console.log("current scroll 위치 : ", scrollPx);
   const handleScrollToTheTop = () =>
     window.scrollTo({
       top: 0,
@@ -209,7 +209,7 @@ function Main() {
       <div id="shopping">
         <img
           alt="shopping"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-26-14-24-25-1.png"
+          src="쏘쓰/KakaoTalk_Photo_2022-08-31-21-40-05.jpeg"
           className="shoppingImg1 positionA"
           style={{
             opacity: isResponsive ? scrollPx / 1500 : scrollPx / 3000,

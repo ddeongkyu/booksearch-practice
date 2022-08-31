@@ -112,6 +112,7 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
       name === fulfilled &&
       expiry === fulfilled
     ) {
+      console.log("success!");
       const cards = creditCards.concat(card);
       dispatch(setCreditCards(cards));
       setCard({
@@ -135,7 +136,8 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
       setCardOpen(false);
     }
   };
-
+  console.log(errorConfig);
+  console.log(card, "card");
   return (
     <div className="paymentBox flex-center" onClick={onClose}>
       <div className="paymentInnerBox" onClick={(e) => e.stopPropagation()}>

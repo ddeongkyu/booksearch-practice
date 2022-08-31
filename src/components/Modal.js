@@ -37,19 +37,12 @@ const Modal = ({ onClose }) => {
               src="쏘쓰/8885224-removebg-preview.png"
               className="ModalInnerIconStyle"
             />
-            {/* <FcAcceptDatabase className="ModalInnerIconStyle" /> */}
           </div>
           <div className="flex-center ModalInnerTextBlock">
             <div className="ModalInnerTextStyle">감사합니다!</div>
             <div className="ModalInnerTextStyle">
               상품이 장바구니로 이동되었습니다!
             </div>
-            {/* <div className="ModalInnerTextStyleBuy">
-              장바구니의 상품들은 7일 이후에 삭제됩니다.
-            </div>
-            <div className="ModalInnerTextStyleBuy">
-              그 전에 구매를 완료해주세요!
-            </div> */}
           </div>
           <div className="ModalInnerBtnBlock flex-vertical-center">
             <button
