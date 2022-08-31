@@ -312,7 +312,7 @@ hr {
       font-weight: 600;
       margin-bottom: 8px;
       display: block;
-      width: 320px;
+      width: 200px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -2600,7 +2600,7 @@ $color5: #575759;
       animation-duration: 300ms;
       min-height: 210px;
       .paginationImgImgImg {
-        width: 40px;
+        width: 60px;
         height: 100px;
       }
       .paginationLoadingImg {
@@ -2633,7 +2633,7 @@ $color5: #575759;
         font-weight: 600;
         margin-bottom: 8px;
         display: block;
-        width: 320px;
+        width: 180px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -2646,13 +2646,13 @@ $color5: #575759;
         text-overflow: ellipsis;
         word-break: break-all;
         display: block;
-        width: 300px;
+        width: 180px;
         font-size: 10px;
       }
       .paginationContents {
         color: #777;
         font-size: 10px;
-        width: 60%;
+        width: 180px;
         text-overflow: ellipsis;
         overflow: hidden;
         word-break: break-word;
@@ -2706,14 +2706,14 @@ $color5: #575759;
           width: 15px;
         }
         .paginationBtnStyle {
-          font-size: 10px;
+          font-size: 8px;
           background-color: #ffffff;
           border: 0;
           border-radius: 10px;
           color: #111827;
           font-weight: 600;
           margin-bottom: 10px;
-          width: 70px;
+          width: 80px;
           height: 23px;
           text-align: center;
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
