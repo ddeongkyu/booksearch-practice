@@ -3052,6 +3052,42 @@ $color5: #575759;
           color: #fa5252;
           font-weight: bold;
         }
+        .paymentAddCardBtn {
+          width: 60px;
+          height: 30px;
+        }
+        .paymentAddCardBtn {
+          background-color: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 20px;
+          box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+          box-sizing: border-box;
+          color: rgba(0, 0, 0, 0.85);
+          display: inline-flex;
+          font-size: 15px;
+          font-weight: 600;
+          justify-content: center;
+          align-items: center;
+          width: 100px;
+          height: 40px;
+          margin-top: 10px;
+        }
+        .paymentAddCardBtn:hover,
+        .paymentAddCardBtn:focus {
+          border-color: rgba(0, 0, 0, 0.15);
+          box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+          color: rgba(0, 0, 0, 0.65);
+        }
+        .paymentAddCardBtn:hover {
+          transform: translateY(-1px);
+        }
+        .paymentAddCardBtn:active {
+          background-color: #f0f0f1;
+          border-color: rgba(0, 0, 0, 0.15);
+          box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+          color: rgba(0, 0, 0, 0.65);
+          transform: translateY(0);
+        }
       }
     }
   }
@@ -3181,6 +3217,12 @@ $color5: #575759;
   }
   label {
     margin-right: 10px;
+  }
+  .modalCloseBtn {
+    top: 0px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
 .mainAtag {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FcAcceptDatabase } from "react-icons/fc";
+import { AiOutlineClose } from "react-icons/ai";
 import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 const Modal = ({ onClose }) => {
@@ -37,6 +37,10 @@ const Modal = ({ onClose }) => {
               alt="modal_icon"
               src="쏘쓰/8885224-removebg-preview.png"
               className="ModalInnerIconStyle"
+            />
+            <AiOutlineClose
+              className="positionA modalCloseBtn cursorPointer"
+              onClick={onClose}
             />
           </div>
           <div className="flex-center ModalInnerTextBlock">

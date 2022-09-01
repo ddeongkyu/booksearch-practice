@@ -221,11 +221,14 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
             <span className="paymentErrorMsg">CVC번호를 확인해주세요!</span>
           )}
           <div className="flex-center">
-            <svg
+            <button className="paymentAddCardBtn" onClick={onCardSubmit}>
+              Add Card
+            </button>
+            {/* <svg
               className="cursorPointer"
               {...getCardImageProps({ images })}
               onClick={onCardSubmit}
-            />
+            /> */}
           </div>
         </div>
       </div>
