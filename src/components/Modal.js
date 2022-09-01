@@ -5,9 +5,10 @@ import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 const Modal = ({ onClose }) => {
   useEffect(() => {
-    document.body.style.overflow = "hidden";
+    document.body.style.overflowY = "hidden";
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflowY = "";
+      document.body.style.overflowY = "auto";
     };
   }, []);
   const navigate = useNavigate();

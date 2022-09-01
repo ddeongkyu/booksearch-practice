@@ -214,7 +214,7 @@ function Main() {
           style={{
             opacity: isResponsive ? scrollPx / 1500 : scrollPx / 3000,
             transform: `rotateY(${
-              isResponsive ? -(scrollPx / 90) : scrollPx / 180
+              isResponsive ? -(15 + scrollPx / 150) : scrollPx / 180
             }deg)`,
           }}
         />
