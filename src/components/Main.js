@@ -24,7 +24,6 @@ function Main() {
       window.removeEventListener("scroll", imageScrollHandeler);
     };
   });
-  // console.log("current scroll 위치 : ", scrollPx);
   const handleScrollToTheTop = () =>
     window.scrollTo({
       top: 0,
@@ -32,17 +31,17 @@ function Main() {
     });
   const handleScrollToContact = () =>
     window.scrollTo({
-      top: isResponsive ? 5818 : 6437,
+      top: isResponsive ? 5856 : 6437,
       behavior: "smooth",
     });
   const handleScrollToTheWork = () =>
     window.scrollTo({
-      top: isResponsive ? 850 : 900,
+      top: isResponsive ? 886 : 900,
       behavior: "smooth",
     });
   const handleScrollToTheAbout = () =>
     window.scrollTo({
-      top: isResponsive ? 4480 : 5123,
+      top: isResponsive ? 4516 : 5123,
       behavior: "smooth",
     });
   const isResponsive = window.visualViewport.width <= 430;
