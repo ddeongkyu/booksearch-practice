@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { GoMarkGithub, GoChevronUp } from "react-icons/go";
-import contact from "../contact.jpeg";
 function Main() {
   const navigate = useNavigate();
   const [scrollPx, setScrollPx] = useState(0);
@@ -31,7 +30,7 @@ function Main() {
     });
   const handleScrollToContact = () =>
     window.scrollTo({
-      top: isResponsive ? 5856 : 6437,
+      top: isResponsive ? 6082 : 6437,
       behavior: "smooth",
     });
   const handleScrollToTheWork = () =>
@@ -41,11 +40,11 @@ function Main() {
     });
   const handleScrollToTheAbout = () =>
     window.scrollTo({
-      top: isResponsive ? 4516 : 5123,
+      top: isResponsive ? 4753 : 5123,
       behavior: "smooth",
     });
   const isResponsive = window.visualViewport.width <= 430;
-  console.log("반응형이냐? 대답 : ", isResponsive);
+  console.log("지금 스크롤 : ", scrollPx, " px");
   return (
     <>
       <div className="flex-center">
@@ -54,7 +53,7 @@ function Main() {
             className="cursorPointer startNavLeft"
             onClick={handleScrollToTheTop}
           >
-            DDEONGKYU
+            SEONGKYU
           </div>
           <div className="flex-vertical-center startThree">
             <div
@@ -121,6 +120,10 @@ function Main() {
                 ? 45
                 : scrollPx / 100
             }deg)`,
+            width:
+              isResponsive && scrollPx < 488 ? `${scrollPx / 1.21}px` : "400px",
+            height:
+              isResponsive && scrollPx < 488 ? `${scrollPx / 2.05}px` : "250px",
           }}
         />
         <img
@@ -140,6 +143,10 @@ function Main() {
                 ? -45
                 : scrollPx / 100
             }deg)`,
+            width:
+              isResponsive && scrollPx < 800 ? `${scrollPx / 2}px` : "400px",
+            height:
+              isResponsive && scrollPx < 800 ? `${scrollPx / 3.2}px` : "250px",
           }}
         />
         <div className="positionA infiniteTextBox">
@@ -176,6 +183,12 @@ function Main() {
             transform: `rotateY(${
               isResponsive ? -(scrollPx / 45) : -(scrollPx / 100)
             }deg)`,
+            width:
+              isResponsive && scrollPx < 1525
+                ? `${scrollPx / 3.8125}px`
+                : "400px",
+            height:
+              isResponsive && scrollPx < 1525 ? `${scrollPx / 6.1}px` : "250px",
           }}
         />
         <img
@@ -187,6 +200,12 @@ function Main() {
             transform: `rotateY(${
               isResponsive ? scrollPx / 45 : -(scrollPx / 100)
             }deg)`,
+            width:
+              isResponsive && scrollPx < 1825
+                ? `${scrollPx / 4.5625}px`
+                : "400px",
+            height:
+              isResponsive && scrollPx < 1825 ? `${scrollPx / 7.3}px` : "250px",
           }}
         />
         <div className="positionA pagiTextBox">
@@ -216,6 +235,14 @@ function Main() {
             transform: `rotateY(${
               isResponsive ? -(15 + scrollPx / 150) : scrollPx / 180
             }deg)`,
+            width:
+              isResponsive && scrollPx < 2488
+                ? `${scrollPx / 6.22}px`
+                : "400px",
+            height:
+              isResponsive && scrollPx < 2488
+                ? `${scrollPx / 9.952}px`
+                : "250px",
           }}
         />
         <img
@@ -227,6 +254,14 @@ function Main() {
             transform: `rotateY(${
               isResponsive ? scrollPx / 70 : scrollPx / 80
             }deg)`,
+            width:
+              isResponsive && scrollPx < 3130
+                ? `${scrollPx / 10.42}px`
+                : "300px",
+            height:
+              isResponsive && scrollPx < 3130
+                ? `${scrollPx / 7.825}px`
+                : "400px",
           }}
         />
         <img
@@ -238,6 +273,14 @@ function Main() {
             transform: `rotateY(${
               isResponsive ? -(scrollPx / 120) : -(scrollPx / 150)
             }deg)`,
+            width:
+              isResponsive && scrollPx < 3615
+                ? `${scrollPx / 9.0375}px`
+                : "400px",
+            height:
+              isResponsive && scrollPx < 3615
+                ? `${scrollPx / 14.46}px`
+                : "250px",
           }}
         />
         <div className="positionA mainShoppingTextBox">
@@ -279,10 +322,10 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive
-                  ? scrollPx < 3800
+                  ? scrollPx < 3980
                     ? 0
-                    : scrollPx < 4000
-                    ? Math.abs(3800 - scrollPx) * 0.005
+                    : scrollPx < 4180
+                    ? Math.abs(3980 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 4400
                   ? 0
@@ -294,10 +337,10 @@ function Main() {
 
                 transform: `translateX(${
                   isResponsive
-                    ? scrollPx < 3800
+                    ? scrollPx < 3980
                       ? -100
-                      : scrollPx < 4000
-                      ? -4000 + scrollPx
+                      : scrollPx < 4180
+                      ? -4180 + scrollPx
                       : 0
                     : scrollPx < 4400
                     ? -2000
@@ -307,23 +350,50 @@ function Main() {
                 }px)`,
               }}
             />
-            <div className="aboutText">HTML5을 자유롭게 사용이 가능합니다.</div>
-          </div>
-          <div className="aboutMain flex-vertical-center">
-            <div className="aboutText">
-              CSS와 SCSS를 사용 할 수 있습니다.
-              <br />
-            </div>
-            <img
-              alt="html"
-              src="쏘쓰/css-3-logo-023C1A7171-seeklogo.com.png"
-              className="aboutLogo"
+            <div
+              className="aboutText"
               style={{
                 opacity: isResponsive
-                  ? scrollPx < 4015
+                  ? scrollPx < 3980
                     ? 0
-                    : scrollPx < 4215
-                    ? Math.abs(4015 - scrollPx) * 0.005
+                    : scrollPx < 4180
+                    ? Math.abs(3980 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4400
+                  ? 0
+                  : !isResponsive && scrollPx < 4400
+                  ? 0
+                  : !isResponsive && scrollPx < 4600
+                  ? Math.abs(4400 - scrollPx) * 0.005
+                  : 1,
+
+                transform: `translateX(${
+                  isResponsive
+                    ? scrollPx < 3980
+                      ? 100
+                      : scrollPx < 4180
+                      ? 4180 - scrollPx
+                      : 0
+                    : !isResponsive && scrollPx < 4400
+                    ? 2000
+                    : !isResponsive && scrollPx < 4610
+                    ? 4610 - scrollPx
+                    : 0
+                }px)`,
+              }}
+            >
+              HTML5을 자유롭게 사용이 가능합니다.
+            </div>
+          </div>
+          <div className="aboutMain flex-vertical-center">
+            <div
+              className="aboutText"
+              style={{
+                opacity: isResponsive
+                  ? scrollPx < 4285
+                    ? 0
+                    : scrollPx < 4495
+                    ? Math.abs(4285 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 4615
                   ? 0
@@ -334,10 +404,46 @@ function Main() {
                   : 1,
                 transform: `translateX(${
                   isResponsive
-                    ? scrollPx < 4000
+                    ? scrollPx < 4285
+                      ? -100
+                      : scrollPx < 4495
+                      ? -4495 + scrollPx
+                      : 0
+                    : scrollPx < 4610
+                    ? -2000
+                    : scrollPx < 4820
+                    ? -4820 + scrollPx
+                    : 0
+                }px)`,
+              }}
+            >
+              CSS와 SCSS를 사용 할 수 있습니다.
+              <br />
+            </div>
+            <img
+              alt="html"
+              src="쏘쓰/css-3-logo-023C1A7171-seeklogo.com.png"
+              className="aboutLogo"
+              style={{
+                opacity: isResponsive
+                  ? scrollPx < 4285
+                    ? 0
+                    : scrollPx < 4495
+                    ? Math.abs(4285 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4615
+                  ? 0
+                  : !isResponsive && scrollPx < 4615
+                  ? 0
+                  : !isResponsive && scrollPx < 4815
+                  ? Math.abs(4615 - scrollPx) * 0.005
+                  : 1,
+                transform: `translateX(${
+                  isResponsive
+                    ? scrollPx < 4285
                       ? 100
-                      : scrollPx < 4215
-                      ? 4215 - scrollPx
+                      : scrollPx < 4495
+                      ? 4495 - scrollPx
                       : 0
                     : scrollPx < 4610
                     ? 2000
@@ -355,10 +461,10 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive
-                  ? scrollPx < 4230
+                  ? scrollPx < 4505
                     ? 0
-                    : scrollPx < 4430
-                    ? Math.abs(4230 - scrollPx) * 0.005
+                    : scrollPx < 4705
+                    ? Math.abs(4505 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 4830
                   ? 0
@@ -369,10 +475,10 @@ function Main() {
                   : 1,
                 transform: `translateX(${
                   isResponsive
-                    ? scrollPx < 4215
+                    ? scrollPx < 4505
                       ? -100
-                      : scrollPx < 4430
-                      ? -4430 + scrollPx
+                      : scrollPx < 4705
+                      ? -4705 + scrollPx
                       : 0
                     : scrollPx < 4820
                     ? -2000
@@ -382,7 +488,37 @@ function Main() {
                 }px)`,
               }}
             />
-            <div className="aboutText">
+            <div
+              className="aboutText"
+              style={{
+                opacity: isResponsive
+                  ? scrollPx < 4505
+                    ? 0
+                    : scrollPx < 4705
+                    ? Math.abs(4505 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 4830
+                  ? 0
+                  : !isResponsive && scrollPx < 4830
+                  ? 0
+                  : !isResponsive && scrollPx < 5030
+                  ? Math.abs(4830 - scrollPx) * 0.005
+                  : 1,
+                transform: `translateX(${
+                  isResponsive
+                    ? scrollPx < 4505
+                      ? 100
+                      : scrollPx < 4705
+                      ? 4705 - scrollPx
+                      : 0
+                    : scrollPx < 4820
+                    ? 2000
+                    : scrollPx < 5030
+                    ? 5030 - scrollPx
+                    : 0
+                }px)`,
+              }}
+            >
               JAVASCRIPT의 동작 원리와 Hoisting에 대하여 이해하였으며 <br />
               ES6 문법과 ES8 문법 등을 이해하고 사용할 수 있습니다. <br />
               프론트엔드 개발자의 기초라고 볼 수 있는 JAVASCRIPT를
@@ -391,7 +527,37 @@ function Main() {
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">
-            <div className="aboutText">
+            <div
+              className="aboutText"
+              style={{
+                opacity: isResponsive
+                  ? scrollPx < 4737
+                    ? 0
+                    : scrollPx < 4937
+                    ? Math.abs(4737 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 5045
+                  ? 0
+                  : !isResponsive && scrollPx < 5045
+                  ? 0
+                  : !isResponsive && scrollPx < 5245
+                  ? Math.abs(5045 - scrollPx) * 0.005
+                  : 1,
+                transform: `translateX(${
+                  isResponsive
+                    ? scrollPx < 4737
+                      ? -100
+                      : scrollPx < 4937
+                      ? -4937 + scrollPx
+                      : 0
+                    : scrollPx < 5030
+                    ? -2000
+                    : scrollPx < 5240
+                    ? -5240 + scrollPx
+                    : 0
+                }px)`,
+              }}
+            >
               JAVASCRIPT의 프레임워크인 REACT를 사용할 수 있습니다.
               <br /> 본 페이지도 REACT로 제작되었으며
               <br /> 함수형 문법을 사용하며 JSX와 데이터 바인딩이 가능합니다.
@@ -403,10 +569,10 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive
-                  ? scrollPx < 4445
+                  ? scrollPx < 4737
                     ? 0
-                    : scrollPx < 4645
-                    ? Math.abs(4445 - scrollPx) * 0.005
+                    : scrollPx < 4937
+                    ? Math.abs(4737 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 5045
                   ? 0
@@ -417,10 +583,10 @@ function Main() {
                   : 1,
                 transform: `translateX(${
                   isResponsive
-                    ? scrollPx < 4430
+                    ? scrollPx < 4737
                       ? 100
-                      : scrollPx < 4645
-                      ? 4645 - scrollPx
+                      : scrollPx < 4937
+                      ? 4937 - scrollPx
                       : 0
                     : scrollPx < 5030
                     ? 2000
@@ -438,10 +604,10 @@ function Main() {
               className="aboutLogo"
               style={{
                 opacity: isResponsive
-                  ? scrollPx < 4660
+                  ? scrollPx < 4942
                     ? 0
-                    : scrollPx < 4860
-                    ? Math.abs(4660 - scrollPx) * 0.005
+                    : scrollPx < 5142
+                    ? Math.abs(5142 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 5260
                   ? 0
@@ -452,10 +618,10 @@ function Main() {
                   : 1,
                 transform: `translateX(${
                   isResponsive
-                    ? scrollPx < 4645
+                    ? scrollPx < 4942
                       ? -100
-                      : scrollPx < 4860
-                      ? -4860 + scrollPx
+                      : scrollPx < 5142
+                      ? -5142 + scrollPx
                       : 0
                     : scrollPx < 5240
                     ? -2000
@@ -465,7 +631,37 @@ function Main() {
                 }px)`,
               }}
             />
-            <div className="aboutText">
+            <div
+              className="aboutText"
+              style={{
+                opacity: isResponsive
+                  ? scrollPx < 4942
+                    ? 0
+                    : scrollPx < 5142
+                    ? Math.abs(5142 - scrollPx) * 0.005
+                    : 1
+                  : scrollPx < 5260
+                  ? 0
+                  : !isResponsive && scrollPx < 5260
+                  ? 0
+                  : !isResponsive && scrollPx < 5460
+                  ? Math.abs(5260 - scrollPx) * 0.005
+                  : 1,
+                transform: `translateX(${
+                  isResponsive
+                    ? scrollPx < 4942
+                      ? 100
+                      : scrollPx < 5142
+                      ? 5142 - scrollPx
+                      : 0
+                    : scrollPx < 5240
+                    ? 2000
+                    : scrollPx < 5450
+                    ? 5450 - scrollPx
+                    : 0
+                }px)`,
+              }}
+            >
               State Management를 위하여 Redux-toolkit을 사용 가능합니다.
               <br /> slice와 store를 만들어 상태를 관리하고, <br />
               action을 dispatch 할 수 있습니다.

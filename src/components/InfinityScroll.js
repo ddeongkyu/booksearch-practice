@@ -99,22 +99,24 @@ function InfinityScroll() {
     });
 
   const tutorialBtn = () => {
-    setInputValue("자바스크립트");
+    setTimeout(() => {
+      setInputValue("자바스크립트");
+    }, 500);
     setTimeout(() => {
       setQuery("자바스크립트");
       console.log("search Click");
-    }, 500);
+    }, 2000);
     setTimeout(() => {
       handleScrollToOnce();
       console.log("one infinity");
-    }, 1500);
+    }, 4000);
     setTimeout(() => {
       handleScrollToTwice();
-    }, 2500);
+    }, 6000);
     setTimeout(() => {
       handleScrollToTop();
       setInputValue("");
-    }, 3500);
+    }, 8000);
   };
   return (
     <div className="infiniteRealTotal">

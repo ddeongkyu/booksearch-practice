@@ -1436,7 +1436,7 @@ ul {
     text-align: center;
     transition: all 250ms;
     border: 0;
-    font-size: 30px;
+    font-size: 22px;
     touch-action: manipulation;
     font-weight: 600;
   }
@@ -1694,7 +1694,7 @@ $color5: #575759;
     text-align: center;
     transition: all 250ms;
     border: 0;
-    font-size: 30px;
+    font-size: 22px;
     touch-action: manipulation;
     font-weight: 600;
   }
@@ -1758,7 +1758,7 @@ $color5: #575759;
   border-radius: 20px;
 }
 .contactSns {
-  // top: 85%;
+  bottom: 15px;
   left: 50%;
   color: white;
   transform: translate(-50%, -50%);
@@ -1844,20 +1844,20 @@ $color5: #575759;
       height: 880px;
     }
     .startBigTextA {
-      font-size: 40px;
+      font-size: 48px;
       top: 160px;
       font-family: "Montserrat", sans-serif;
       font-weight: bold;
     }
     .startBigTextB {
-      font-size: 45px;
-      top: 200px;
+      font-size: 48px;
+      top: 210px;
       font-family: "Montserrat", sans-serif;
       font-weight: bold;
     }
     .startBigTextC {
       font-size: 20px;
-      top: 317px;
+      top: 338px;
       left: 100px;
       font-family: "Montserrat", sans-serif;
     }
@@ -1889,22 +1889,22 @@ $color5: #575759;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 1013px;
+    height: 1063px;
     perspective: 800px;
     width: 100vw;
   }
   .infiniteImg {
-    top: 100px;
+    top: 150px;
     left: 10px;
-    width: 400px;
-    height: 250px;
+    // width: 400px;
+    // height: 250px;
     opacity: 1;
     border: 3px solid #f1f3f5;
     z-index: -2;
     border-radius: 20px;
   }
   .infiniteImg1 {
-    top: 400px;
+    top: 450px;
     left: -36px;
     width: 400px;
     height: 250px;
@@ -1916,11 +1916,11 @@ $color5: #575759;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 900px;
+    height: 1030px;
     perspective: 1200px;
   }
   .paginationImg {
-    top: 10px;
+    top: 140px;
     right: 0px;
     left: -22px;
     width: 400px;
@@ -1930,7 +1930,7 @@ $color5: #575759;
     border-radius: 20px;
   }
   .paginationImg1 {
-    top: 330px;
+    top: 440px;
     right: 0px;
     left: 0px;
     width: 400px;
@@ -1940,7 +1940,7 @@ $color5: #575759;
     border-radius: 20px;
   }
   .infiniteBtnBox {
-    top: 890px;
+    top: 990px;
     left: 0px;
     right: 0px;
     .infiniteBtnStyle {
@@ -1974,7 +1974,7 @@ $color5: #575759;
   .infiniteTextBox {
     left: 0px;
     right: 0px;
-    top: 725px;
+    top: 825px;
     text-align: center;
     .hoverRainbow {
       color: #ff487a;
@@ -2011,7 +2011,7 @@ $color5: #575759;
     }
   }
   .pagiTextBox {
-    top: 610px;
+    top: 738px;
     left: 0px;
     right: 0px;
     text-align: center;
@@ -2050,7 +2050,7 @@ $color5: #575759;
     }
   }
   .pagiBtnBox {
-    top: 777px;
+    top: 887px;
     left: 0px;
     right: 0px;
     .pagiBtnStyle {
@@ -2084,11 +2084,11 @@ $color5: #575759;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 1660px;
+    height: 1710px;
     perspective: 1200px;
   }
   .shoppingImg {
-    top: 1100px;
+    top: 1175px;
     left: -20px;
     width: 400px;
     height: 250px;
@@ -2098,7 +2098,7 @@ $color5: #575759;
     border-radius: 20px;
   }
   .shoppingImgCard {
-    top: 520px;
+    top: 570px;
     left: 50px;
     right: 0px;
     width: 300px;
@@ -2107,7 +2107,7 @@ $color5: #575759;
     border: 3px solid #f1f3f5;
   }
   .shoppingImg1 {
-    top: 10px;
+    top: 60px;
     left: -20px;
     right: 0px;
     width: 400px;
@@ -2201,7 +2201,7 @@ $color5: #575759;
     text-align: center;
     left: 0px;
     right: 0px;
-    top: 340px;
+    top: 390px;
     .hoverRainbow {
       color: #ff487a;
       transition: color 0.3s ease-in-out;
@@ -2237,7 +2237,7 @@ $color5: #575759;
     }
   }
   .mainShoppingTextBox2 {
-    top: 950px;
+    top: 1019px;
     text-align: center;
     left: 0px;
     right: 0px;
@@ -2279,7 +2279,7 @@ $color5: #575759;
     left: 0px;
     right: 0px;
     text-align: center;
-    top: 1400px;
+    top: 1513px;
     .hoverRainbow {
       color: #ff487a;
       transition: color 0.3s ease-in-out;
@@ -2315,7 +2315,7 @@ $color5: #575759;
     }
   }
   .mainShoppingBtnBox {
-    top: 1630px;
+    top: 1691px;
     left: 0px;
     right: 0px;
     .mainShoppingBtnStyle {
@@ -2382,7 +2382,7 @@ $color5: #575759;
   }
   .contactText {
     width: 390px;
-    top: 28%;
+    top: 25%;
     left: 70%;
     transform: translate(-50%, -50%);
     font-weight: bold;
@@ -2393,17 +2393,18 @@ $color5: #575759;
     bottom: 0%;
     left: 35%;
     transform: translate((-50%, -50%));
-    color: #fff;
+    color: #ffec99;
     border: 2px solid white;
     padding: 15px;
     border-radius: 20px;
+    background: #343a40;
     font-family: "Roboto", sans-serif;
     font-size: 20px;
     font-weight: 700;
     text-align: center;
-    background: linear-gradient(to right, #96f2d7, #8ca6ce);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    // background: linear-gradient(to right, #96f2d7, #8ca6ce);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
   }
   .contactSns {
     bottom: 10%;
