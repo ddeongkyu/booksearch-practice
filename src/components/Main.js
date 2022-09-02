@@ -108,11 +108,12 @@ function Main() {
           alt="infinite"
           src="쏘쓰/infi1.png"
           style={{
-            opacity: isResponsive
-              ? 1
-              : scrollPx < 1500
-              ? scrollPx / 150
-              : scrollPx / 2700,
+            opacity:
+              isResponsive && scrollPx < 488 && scrollPx > 170
+                ? scrollPx / 1300 + 0.45
+                : scrollPx < 1500
+                ? scrollPx / 150
+                : scrollPx / 2700,
             transform: `rotateY(${
               isResponsive && scrollPx < 380
                 ? (scrollPx / 822) * 100
@@ -120,10 +121,16 @@ function Main() {
                 ? 45
                 : scrollPx / 100
             }deg)`,
-            width:
-              isResponsive && scrollPx < 488 ? `${scrollPx / 1.21}px` : "400px",
-            height:
-              isResponsive && scrollPx < 488 ? `${scrollPx / 2.05}px` : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 488
+              ? `${scrollPx / 1.21}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 488
+              ? `${scrollPx / 2.05}px`
+              : "250px",
           }}
         />
         <img
@@ -131,11 +138,12 @@ function Main() {
           alt="infinite"
           src="쏘쓰/infi2.png"
           style={{
-            opacity: isResponsive
-              ? 1
-              : scrollPx < 1500
-              ? scrollPx / 150
-              : scrollPx / 2700,
+            opacity:
+              isResponsive && scrollPx < 800 && scrollPx > 478
+                ? scrollPx / 1500
+                : scrollPx < 1500
+                ? scrollPx / 150
+                : scrollPx / 2700,
             transform: `rotateY(${
               isResponsive && scrollPx < 685
                 ? -(scrollPx / 1523) * 100
@@ -143,10 +151,16 @@ function Main() {
                 ? -45
                 : scrollPx / 100
             }deg)`,
-            width:
-              isResponsive && scrollPx < 800 ? `${scrollPx / 2}px` : "400px",
-            height:
-              isResponsive && scrollPx < 800 ? `${scrollPx / 3.2}px` : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 800
+              ? `${scrollPx / 2}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 800
+              ? `${scrollPx / 3.2}px`
+              : "250px",
           }}
         />
         <div className="positionA infiniteTextBox">
@@ -172,23 +186,28 @@ function Main() {
           src="쏘쓰/pagi1.png"
           className="paginationImg positionA"
           style={{
-            opacity: isResponsive
-              ? scrollPx / 35
-              : scrollPx < 2600
-              ? scrollPx / 1300
-              : scrollPx < 3000
-              ? 1400 / scrollPx
-              : 0,
+            opacity:
+              isResponsive && scrollPx > 1220 && scrollPx < 1541
+                ? scrollPx / 2000
+                : scrollPx < 2600
+                ? scrollPx / 1300
+                : scrollPx < 3000
+                ? 1400 / scrollPx
+                : 0,
 
             transform: `rotateY(${
               isResponsive ? -(scrollPx / 45) : -(scrollPx / 100)
             }deg)`,
-            width:
-              isResponsive && scrollPx < 1525
-                ? `${scrollPx / 3.8125}px`
-                : "400px",
-            height:
-              isResponsive && scrollPx < 1525 ? `${scrollPx / 6.1}px` : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 1525
+              ? `${scrollPx / 3.8125}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 1525
+              ? `${scrollPx / 6.1}px`
+              : "250px",
           }}
         />
         <img
@@ -196,16 +215,23 @@ function Main() {
           src="쏘쓰/pagi2.png"
           className="paginationImg1 positionA"
           style={{
-            opacity: scrollPx / 1300,
+            opacity:
+              isResponsive && scrollPx > 1521 && scrollPx < 1815
+                ? scrollPx / 3000
+                : scrollPx / 1300,
             transform: `rotateY(${
               isResponsive ? scrollPx / 45 : -(scrollPx / 100)
             }deg)`,
-            width:
-              isResponsive && scrollPx < 1825
-                ? `${scrollPx / 4.5625}px`
-                : "400px",
-            height:
-              isResponsive && scrollPx < 1825 ? `${scrollPx / 7.3}px` : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 1825
+              ? `${scrollPx / 4.5625}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 1825
+              ? `${scrollPx / 7.3}px`
+              : "250px",
           }}
         />
         <div className="positionA pagiTextBox">
@@ -231,18 +257,25 @@ function Main() {
           src="쏘쓰/shop1.png"
           className="shoppingImg1 positionA"
           style={{
-            opacity: isResponsive ? scrollPx / 1500 : scrollPx / 3000,
+            opacity:
+              isResponsive && scrollPx > 2140 && scrollPx < 2500
+                ? scrollPx / 3500
+                : 1
+                ? !isResponsive
+                : scrollPx / 3000,
             transform: `rotateY(${
               isResponsive ? -(15 + scrollPx / 150) : scrollPx / 180
             }deg)`,
-            width:
-              isResponsive && scrollPx < 2488
-                ? `${scrollPx / 6.22}px`
-                : "400px",
-            height:
-              isResponsive && scrollPx < 2488
-                ? `${scrollPx / 9.952}px`
-                : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 2488
+              ? `${scrollPx / 6.22}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 2488
+              ? `${scrollPx / 9.952}px`
+              : "250px",
           }}
         />
         <img
@@ -250,18 +283,25 @@ function Main() {
           src="쏘쓰/스크린샷 2022-09-02 오후 1.22.46.png"
           className="shoppingImgCard positionA"
           style={{
-            opacity: isResponsive ? 1 : scrollPx / 2800,
+            opacity:
+              isResponsive && scrollPx > 2682 && scrollPx < 3125
+                ? scrollPx / 4000
+                : 1
+                ? !isResponsive
+                : scrollPx / 2800,
             transform: `rotateY(${
               isResponsive ? scrollPx / 70 : scrollPx / 80
             }deg)`,
-            width:
-              isResponsive && scrollPx < 3130
-                ? `${scrollPx / 10.42}px`
-                : "300px",
-            height:
-              isResponsive && scrollPx < 3130
-                ? `${scrollPx / 7.825}px`
-                : "400px",
+            width: !isResponsive
+              ? "400px"
+              : isResponsive && scrollPx < 3130
+              ? `${scrollPx / 10.42}px`
+              : "300px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 3130
+              ? `${scrollPx / 7.825}px`
+              : "400px",
           }}
         />
         <img
@@ -269,18 +309,25 @@ function Main() {
           src="쏘쓰/shop3.png"
           className="shoppingImg positionA"
           style={{
-            opacity: scrollPx / 4600,
+            opacity:
+              isResponsive && scrollPx > 3280 && scrollPx < 3625
+                ? scrollPx / 4800
+                : 1
+                ? !isResponsive
+                : scrollPx / 4600,
             transform: `rotateY(${
               isResponsive ? -(scrollPx / 120) : -(scrollPx / 150)
             }deg)`,
-            width:
-              isResponsive && scrollPx < 3615
-                ? `${scrollPx / 9.0375}px`
-                : "400px",
-            height:
-              isResponsive && scrollPx < 3615
-                ? `${scrollPx / 14.46}px`
-                : "250px",
+            width: !isResponsive
+              ? "800px"
+              : isResponsive && scrollPx < 3615
+              ? `${scrollPx / 9.0375}px`
+              : "400px",
+            height: !isResponsive
+              ? "600px"
+              : isResponsive && scrollPx < 3615
+              ? `${scrollPx / 14.46}px`
+              : "250px",
           }}
         />
         <div className="positionA mainShoppingTextBox">
