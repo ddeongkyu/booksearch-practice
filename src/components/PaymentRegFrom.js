@@ -4,6 +4,7 @@ import Cards from "react-credit-cards";
 import { setCreditCards } from "../slices/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "react-credit-cards/lib/styles.scss";
+import { AiOutlineClose } from "react-icons/ai";
 import { error, fulfilled } from "../constants";
 export default function PaymentRegFrom({ onClose, setCardOpen }) {
   const dispatch = useDispatch();
@@ -152,6 +153,10 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
         </div>
         <div className="ddd">
           <div className="positionR">
+            <AiOutlineClose
+              className="paymentCloseBtn positionR cursorPointer"
+              onClick={onClose}
+            />
             <input
               {...getCardNumberProps()}
               type="text"

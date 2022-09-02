@@ -45,6 +45,7 @@ function Main() {
       behavior: "smooth",
     });
   const isResponsive = window.visualViewport.width <= 430;
+  console.log("반응형이냐? 대답 : ", isResponsive);
   return (
     <>
       <div className="flex-center">
@@ -87,7 +88,7 @@ function Main() {
           className="positionA startBigTextA"
           style={{ opacity: isResponsive ? 1 : 40 / scrollPx }}
         >
-          DDEONG-KYU
+          홍성규의
         </div>
         <div
           className="positionA startBigTextB"
@@ -106,7 +107,7 @@ function Main() {
         <img
           className="infiniteImg positionA "
           alt="infinite"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-17-17-57.png"
+          src="쏘쓰/infi1.png"
           style={{
             opacity: isResponsive
               ? 1
@@ -125,7 +126,7 @@ function Main() {
         <img
           className="infiniteImg1 positionA "
           alt="infinite"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-17-18-02.png"
+          src="쏘쓰/infi2.png"
           style={{
             opacity: isResponsive
               ? 1
@@ -154,14 +155,14 @@ function Main() {
             className="cursorPointer infiniteBtnStyle"
             onClick={onGoToInfinity}
           >
-            To Go
+            INFINITY
           </button>
         </div>
       </div>
       <div id="pagination" className="positionR">
         <img
           alt="pagination"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-15-30-48.png"
+          src="쏘쓰/pagi1.png"
           className="paginationImg positionA"
           style={{
             opacity: isResponsive
@@ -179,7 +180,7 @@ function Main() {
         />
         <img
           alt="pagination"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-15-30-43.png"
+          src="쏘쓰/pagi2.png"
           className="paginationImg1 positionA"
           style={{
             opacity: scrollPx / 1300,
@@ -201,14 +202,14 @@ function Main() {
             className="cursorPointer pagiBtnStyle"
             onClick={onGoToPagination}
           >
-            To Go
+            PAGINATION
           </button>
         </div>
       </div>
       <div id="shopping">
         <img
           alt="shopping"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-31-21-40-05.jpeg"
+          src="쏘쓰/shop1.png"
           className="shoppingImg1 positionA"
           style={{
             opacity: isResponsive ? scrollPx / 1500 : scrollPx / 3000,
@@ -219,7 +220,7 @@ function Main() {
         />
         <img
           alt="shopping"
-          src="쏘쓰/Card.png"
+          src="쏘쓰/스크린샷 2022-09-02 오후 1.22.46.png"
           className="shoppingImgCard positionA"
           style={{
             opacity: isResponsive ? 1 : scrollPx / 2800,
@@ -230,7 +231,7 @@ function Main() {
         />
         <img
           alt="shopping"
-          src="쏘쓰/KakaoTalk_Photo_2022-08-28-17-18-08.png"
+          src="쏘쓰/shop3.png"
           className="shoppingImg positionA"
           style={{
             opacity: scrollPx / 4600,
@@ -264,7 +265,7 @@ function Main() {
             className="cursorPointer mainShoppingBtnStyle"
             onClick={onGoToShoppingCart}
           >
-            To Go
+            SHOPPING
           </button>
         </div>
       </div>

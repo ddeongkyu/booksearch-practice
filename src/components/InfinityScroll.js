@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import useBookSearch from "../hooks/useBookSesarch";
 import Loader from "../Loader";
 import onAddToCart from "../util/onAddToCart";
@@ -14,6 +14,7 @@ function InfinityScroll() {
   const { shoppingCart, recentlySeen } = useSelector((state) => {
     return state.book;
   });
+  const [scrollPx, setScrollPx] = useState(0);
   const [query, setQuery] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,6 +26,17 @@ function InfinityScroll() {
     query,
     pageNumber
   );
+  const imageScrollHandeler = () => {
+    setScrollPx(window.scrollY);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", imageScrollHandeler);
+    return () => {
+      window.removeEventListener("scroll", imageScrollHandeler);
+    };
+  });
+  console.log("current scroll 위치 : ", scrollPx);
+
   const handleAddRecentlySeen = (product) => {
     const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
     const isduplEmpty = dupl.length === 0;
@@ -70,6 +82,40 @@ function InfinityScroll() {
   );
   const isRecentlySeenEmpty = recentlySeen.length === 0;
   const isResponsive = window.visualViewport.width <= 430;
+  const handleScrollToOnce = () =>
+    window.scrollTo({
+      top: 240,
+      behavior: "smooth",
+    });
+  const handleScrollToTwice = () =>
+    window.scrollTo({
+      top: 1345,
+      behavior: "smooth",
+    });
+  const handleScrollToTop = () =>
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+  const tutorialBtn = () => {
+    setInputValue("자바스크립트");
+    setTimeout(() => {
+      setQuery("자바스크립트");
+      console.log("search Click");
+    }, 500);
+    setTimeout(() => {
+      handleScrollToOnce();
+      console.log("one infinity");
+    }, 1500);
+    setTimeout(() => {
+      handleScrollToTwice();
+    }, 2500);
+    setTimeout(() => {
+      handleScrollToTop();
+      setInputValue("");
+    }, 3500);
+  };
   return (
     <div className="infiniteRealTotal">
       <div className="inputStyle flex-center positionR">
@@ -81,6 +127,12 @@ function InfinityScroll() {
           value={inputValue}
           onChange={onChangeInput}
         />
+        <button
+          onClick={tutorialBtn}
+          className="infiniteTutorialBtn cursorPointer positionA"
+        >
+          How to Use
+        </button>
         {isResponsive && (
           <BsSearch
             className="input_search_icon cursorPointer positionA"
