@@ -3335,6 +3335,25 @@ $color5: #575759;
     height: 30px;
     color: #fff;
   }
+  .shoppingCheckOutBtn {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    .shoppingCheckOutBtnStyle {
+      width: 30%;
+      height: 100%;
+      background: black;
+      color: white;
+      font-size: 12px;
+      padding-top: 18px;
+      padding-bottom: 18px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .shoppingCheckOutBtnStyle:hover {
+      background: white;
+      color: black;
+    }
+  }
 }
 .mainAtag {
   text-decoration: none;
