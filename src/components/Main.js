@@ -30,7 +30,7 @@ function Main() {
     });
   const handleScrollToContact = () =>
     window.scrollTo({
-      top: isResponsive ? 6082 : 6437,
+      top: isResponsive ? 6112 : 6437,
       behavior: "smooth",
     });
   const handleScrollToTheWork = () =>
@@ -654,7 +654,7 @@ function Main() {
                   ? scrollPx < 4942
                     ? 0
                     : scrollPx < 5142
-                    ? Math.abs(5142 - scrollPx) * 0.005
+                    ? Math.abs(4942 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 5260
                   ? 0
@@ -685,7 +685,7 @@ function Main() {
                   ? scrollPx < 4942
                     ? 0
                     : scrollPx < 5142
-                    ? Math.abs(5142 - scrollPx) * 0.005
+                    ? Math.abs(4942 - scrollPx) * 0.005
                     : 1
                   : scrollPx < 5260
                   ? 0

@@ -139,6 +139,11 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
   };
   return (
     <div className="paymentBox flex-center" onClick={onClose}>
+      <AiOutlineClose
+        className="paymentCloseBtn positionR cursorPointer"
+        onClick={onClose}
+      />
+
       <div className="paymentInnerBox" onClick={(e) => e.stopPropagation()}>
         <div className="paymentCards flex-center">
           <Cards
@@ -151,10 +156,6 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
         </div>
         <div className="ddd">
           <div className="positionR">
-            <AiOutlineClose
-              className="paymentCloseBtn positionR cursorPointer"
-              onClick={onClose}
-            />
             <input
               {...getCardNumberProps()}
               type="text"

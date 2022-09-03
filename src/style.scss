@@ -1940,7 +1940,7 @@ $color5: #575759;
     border-radius: 20px;
   }
   .infiniteBtnBox {
-    top: 990px;
+    top: 930px;
     left: 0px;
     right: 0px;
     .infiniteBtnStyle {
@@ -1974,7 +1974,7 @@ $color5: #575759;
   .infiniteTextBox {
     left: 0px;
     right: 0px;
-    top: 825px;
+    top: 760px;
     text-align: center;
     .hoverRainbow {
       color: #ff487a;
@@ -2011,7 +2011,7 @@ $color5: #575759;
     }
   }
   .pagiTextBox {
-    top: 738px;
+    top: 723px;
     left: 0px;
     right: 0px;
     text-align: center;
@@ -2050,7 +2050,7 @@ $color5: #575759;
     }
   }
   .pagiBtnBox {
-    top: 887px;
+    top: 886px;
     left: 0px;
     right: 0px;
     .pagiBtnStyle {
@@ -2279,7 +2279,7 @@ $color5: #575759;
     left: 0px;
     right: 0px;
     text-align: center;
-    top: 1513px;
+    top: 1470px;
     .hoverRainbow {
       color: #ff487a;
       transition: color 0.3s ease-in-out;
@@ -2346,7 +2346,7 @@ $color5: #575759;
     }
   }
   #about {
-    height: 1400px;
+    height: 1430px;
     .aboutContainer {
       width: 100%;
       flex-direction: column;
@@ -2588,7 +2588,7 @@ $color5: #575759;
       height: 200px;
     }
     .paginationPostsEmptyText {
-      font-size: 40px;
+      font-size: 42px;
       font-weight: 600;
       text-align: center;
       text-decoration: underline;
@@ -3040,7 +3040,7 @@ $color5: #575759;
 
         .paymentInputerror {
           padding-top: 10px;
-          width: 350px;
+          width: 280px;
           height: 45px;
           border: 0;
           margin: 7px 0;
@@ -3068,7 +3068,7 @@ $color5: #575759;
 
         .paymentInputfulfilled {
           padding-top: 10px;
-          width: 350px;
+          width: 280px;
           height: 45px;
           border: 0;
           margin: 7px 0;
@@ -3161,7 +3161,7 @@ $color5: #575759;
     }
     .ModalInner {
       width: 355px;
-      height: 500px;
+      height: 450px;
       background: white;
       border-radius: 20px;
       flex-direction: column;
@@ -3174,7 +3174,7 @@ $color5: #575759;
       width: 100%;
       height: 40%;
       position: absolute;
-      top: 30px;
+      top: 15px;
     }
     .ModalInnerIconStyle {
       width: 150px;
@@ -3193,7 +3193,7 @@ $color5: #575759;
     }
     .ModalInnerBtnBlock {
       position: absolute;
-      bottom: -10px;
+      bottom: 35px;
       left: 50%;
       transform: translate(-50%, -50%);
       flex-direction: column;
@@ -3208,7 +3208,6 @@ $color5: #575759;
       border: none;
       border-radius: 15px;
       margin-right: 0px;
-      margin-bottom: 30px;
     }
     .ModalInnerBtnStyleMaintain {
       width: 300px;
@@ -3279,6 +3278,63 @@ $color5: #575759;
     width: 20px;
     height: 20px;
   }
+  .modalShippingTotalBox {
+    border: 2px solid #c1b6b2;
+    width: 95%;
+    height: 90vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    td {
+      vertical-align: middle;
+      border: 1px solid #c1b6b2;
+      color: #4d4b4c;
+      margin-left: 20px;
+      text-align: center;
+      background: #f1f3f5;
+    }
+    .modalShippingMetropolitan {
+      background-color: #efede8;
+      color: #6b6259;
+      border: 1px solid #c1b6b2;
+      width: 10px;
+      text-align: center;
+    }
+    .modalShippingHead {
+      height: 30px;
+      text-align: center;
+      background-color: #d9d3c6;
+      color: #6b6259;
+      border: 1px solid #c1b6b2;
+      width: 90px;
+      font-size: 12px;
+      line-height: 22px;
+    }
+    .modalShippingBody {
+      display: table-row-group;
+    }
+    .modalShippingRegion {
+      text-align: center;
+      vertical-align: middle;
+      background-color: #efede8;
+      color: #6b6259;
+      border: 1px solid #c1b6b2;
+      padding: 5px 0;
+      width: 20px;
+    }
+    .modalShippingRegion:nth-child(1) {
+      width: 30px;
+    }
+  }
+  .shippingModalCloseBtn {
+    top: -37px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+  }
 }
 .mainAtag {
   text-decoration: none;
@@ -3288,6 +3344,10 @@ $color5: #575759;
   color: #ffe3e3;
 }
 .paymentCloseBtn {
-  top: -230px;
-  right: -412px;
+  top: -310px;
+  right: -159px;
+  width: 25px;
+  height: 25px;
+  color: black;
+  z-index: 9999;
 }

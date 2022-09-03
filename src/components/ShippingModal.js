@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { AiOutlineClose } from "react-icons/ai";
 const ShippingModal = ({ onClose }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -14,6 +14,10 @@ const ShippingModal = ({ onClose }) => {
           className="modalShippingTotalBox"
           onClick={(e) => e.stopPropagation()}
         >
+          <AiOutlineClose
+            onClick={onClose}
+            className="positionA shippingModalCloseBtn"
+          />
           <thead className="modalShippingHead">
             <tr>
               <th colSpan="2">구분</th>
