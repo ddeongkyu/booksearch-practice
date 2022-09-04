@@ -959,6 +959,58 @@ ul {
     }
   }
 }
+.infinityLeftTotal {
+  width: 16%;
+  top: 0px;
+  right: -80px;
+  animation: fadeOut 300ms;
+  position: sticky;
+  transform: translate(819px, 0px);
+  height: 0px;
+  .paginationLeftBox {
+    flex-direction: column;
+    height: 850px;
+    .paginationLeftText {
+      font-weight: 600;
+      font-size: 18px;
+      color: #868e96;
+      text-align: center;
+    }
+    .paginationLeftContentBox {
+      width: 120%;
+      height: 100%;
+      overflow-y: auto;
+      .paginationLeftContent {
+        margin-bottom: 25px;
+        .paginationContentImgXbtn {
+          top: 5px;
+          left: 125px;
+          color: black;
+        }
+        .paginationContentImgXbtn:hover {
+          color: white;
+        }
+        .paginationContentImg {
+          border-radius: 10px;
+        }
+      }
+    }
+    .paginationLeftContentBox::-webkit-scrollbar {
+      width: 8px;
+    }
+    .paginationLeftContentBox::-webkit-scrollbar-thumb {
+      background-color: white;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    .paginationLeftContentBox::-webkit-scrollbar-track {
+      background-color: grey;
+      border-radius: 10px;
+    }
+  }
+}
+
 .shoppingDailyShip:hover {
   color: #ff6b6b;
 }
@@ -1676,6 +1728,26 @@ $color5: #575759;
     font-size: 60px;
   }
 }
+.paymentCloseBtn {
+  top: -310px;
+  right: -12%;
+  width: 25px;
+  height: 25px;
+  color: black;
+  z-index: 9999;
+}
+
+.paymentAutoBtn {
+  z-index: 9999;
+  width: 95px;
+  height: 35px;
+  top: 126px;
+  left: 36%;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
 .mainShoppingBtnBox {
   top: 1770px;
   left: 434px;
@@ -2588,7 +2660,7 @@ $color5: #575759;
       height: 200px;
     }
     .paginationPostsEmptyText {
-      font-size: 42px;
+      font-size: 35px;
       font-weight: 600;
       text-align: center;
       text-decoration: underline;
@@ -3354,6 +3426,24 @@ $color5: #575759;
       color: black;
     }
   }
+  .paymentAutoBtn {
+    z-index: 9999;
+    width: 95px;
+    height: 35px;
+    top: 96px;
+    left: 27px;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  .paymentCloseBtn {
+    top: -310px;
+    right: -159px;
+    width: 25px;
+    height: 25px;
+    color: black;
+    z-index: 9999;
+  }
 }
 .mainAtag {
   text-decoration: none;
@@ -3362,11 +3452,36 @@ $color5: #575759;
 .mainAtag:hover {
   color: #ffe3e3;
 }
-.paymentCloseBtn {
-  top: -310px;
-  right: -159px;
-  width: 25px;
-  height: 25px;
-  color: black;
+.indicateModalTotalBox {
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: red;
   z-index: 9999;
+}
+/*LOADING....*/
+.LoadingBackground {
+  width: 100vw;
+  flex-direction: column;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+.LoadingSpinner {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

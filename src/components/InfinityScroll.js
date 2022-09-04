@@ -9,6 +9,8 @@ import { BsSearch } from "react-icons/bs";
 import ModalPortal from "../portal/ModalPortal";
 import Modal from "./Modal";
 import onDiscountRate from "../util/onDiscountRate";
+import IndicateModal from "./IndicateModal";
+import Loading from "./Loading";
 function InfinityScroll() {
   const dispatch = useDispatch();
   const { shoppingCart, recentlySeen } = useSelector((state) => {
@@ -18,6 +20,7 @@ function InfinityScroll() {
   const [query, setQuery] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [indicateModalOpen, setIndicateModalOpen] = useState(false);
   const handleModalToggle = () => {
     setModalOpen(!modalOpen);
   };
@@ -35,7 +38,6 @@ function InfinityScroll() {
       window.removeEventListener("scroll", imageScrollHandeler);
     };
   });
-  console.log("current scroll 위치 : ", scrollPx);
 
   const handleAddRecentlySeen = (product) => {
     const dupl = recentlySeen.filter((a) => a.isbn === product.isbn);
@@ -98,17 +100,17 @@ function InfinityScroll() {
       behavior: "smooth",
     });
 
-  const tutorialBtn = () => {
+  const handleAutoBtn = () => {
+    document.body.style.cursor = "not-allowed";
+    setIndicateModalOpen(!indicateModalOpen);
     setTimeout(() => {
       setInputValue("자바스크립트");
     }, 500);
     setTimeout(() => {
       setQuery("자바스크립트");
-      console.log("search Click");
     }, 2000);
     setTimeout(() => {
       handleScrollToOnce();
-      console.log("one infinity");
     }, 4000);
     setTimeout(() => {
       handleScrollToTwice();
@@ -116,8 +118,19 @@ function InfinityScroll() {
     setTimeout(() => {
       handleScrollToTop();
       setInputValue("");
+      document.body.style.cursor = "default";
+      setIndicateModalOpen(false);
     }, 8000);
+    setTimeout(() => {
+      setModalOpen(true);
+    }, 10000);
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 12000);
   };
+  // const bb = 6;
+  // const aa = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  // console.log(aa.slice(0, -Math.abs(bb - 10)));
   return (
     <div className="infiniteRealTotal">
       <div className="inputStyle flex-center positionR">
@@ -130,11 +143,12 @@ function InfinityScroll() {
           onChange={onChangeInput}
         />
         <button
-          onClick={tutorialBtn}
+          onClick={handleAutoBtn}
           className="infiniteTutorialBtn cursorPointer positionA"
         >
-          How to Use
+          오토 파일럿
         </button>
+
         {isResponsive && (
           <BsSearch
             className="input_search_icon cursorPointer positionA"
@@ -143,7 +157,7 @@ function InfinityScroll() {
         )}
       </div>
       {query && (
-        <div className="paginationLeftTotal">
+        <div className="infinityLeftTotal">
           <div className="flex-center paginationLeftBox">
             {!isRecentlySeenEmpty && (
               <p className="paginationLeftText">최근 본 상품</p>
@@ -245,6 +259,12 @@ function InfinityScroll() {
       {modalOpen && (
         <ModalPortal>
           <Modal onClose={handleModalToggle} />
+        </ModalPortal>
+      )}
+      {indicateModalOpen && (
+        <ModalPortal>
+          <IndicateModal />
+          <Loading />
         </ModalPortal>
       )}
     </div>

@@ -350,14 +350,14 @@ function Main() {
 
           <div className="mainShoppingText1">완료해보세요!</div>
         </div>
-        <div className="flex-center mainShoppingBtnBox positionA">
+        {/* <div className="flex-center mainShoppingBtnBox positionA">
           <button
             className="cursorPointer mainShoppingBtnStyle"
             onClick={onGoToShoppingCart}
           >
             SHOPPING
           </button>
-        </div>
+        </div> */}
       </div>
       <div id="about" className="flex-center">
         <div className="aboutContainer flex-center">

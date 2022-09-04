@@ -17,6 +17,7 @@ import {
 import { waiting, fulfilled, onLoading } from "../constants";
 import { BsSearch } from "react-icons/bs";
 import generateRandomId from "../util/generateRandomId";
+
 function Pagination() {
   const [loadingStatus, setLoadingStatus] = useState(waiting);
   const [inputValue, setInputValue] = useState("");
@@ -262,6 +263,7 @@ function Pagination() {
     });
   const isRecentlySeenEmpty = recentlySeen.length === 0;
   const isResponsive = window.visualViewport.width <= 430;
+
   return (
     <div className="paginationTotalTotalBox flex-vertical-center">
       <div className="inputStyle flex-center">

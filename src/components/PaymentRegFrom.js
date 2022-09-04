@@ -8,13 +8,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { error, fulfilled } from "../constants";
 export default function PaymentRegFrom({ onClose, setCardOpen }) {
   const dispatch = useDispatch();
-  const {
-    getCardNumberProps,
-    getExpiryDateProps,
-    getCVCProps,
-    getCardImageProps,
-    meta: { erroredInputs },
-  } = useCreditCardValidator();
+  const { getCardNumberProps, getExpiryDateProps, getCVCProps } =
+    useCreditCardValidator();
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -35,10 +30,12 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
     name: "",
     cvc: "",
   });
-  const [cardNumberInput, setCardNumberInput] = useState("");
-  const [expiryinput, setExpiryinput] = useState("");
-  const [nameInput, setNameInput] = useState("");
-  const [cvcInput, setCvcInput] = useState("");
+  const [inputValue, setInputValue] = useState({
+    cardNumberInput: "",
+    expiryinput: "",
+    nameInput: "",
+    cvcInput: "",
+  });
   const { creditCards } = useSelector((state) => {
     return state.book;
   });
@@ -51,62 +48,48 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
   };
   const handleCardNumberInputChange = (e) => {
     const { value } = e.target;
-    setCardNumberInput(value);
+    setInputValue((prev) => {
+      return { ...prev, cardNumberInput: value };
+    });
     setCard({ ...card, number: value });
   };
   const handleCvcInputChange = (e) => {
     const { value } = e.target;
     setCard({ ...card, cvc: value });
-    setCvcInput(value);
+    setInputValue((prev) => {
+      return { ...prev, cvcInput: value };
+    });
   };
   const handleExpiryInputChange = (e) => {
     const { value } = e.target;
-    setExpiryinput(value);
+    setInputValue((prev) => {
+      return { ...prev, expiryinput: value };
+    });
     setCard({ ...card, expiry: value });
   };
   const handleNameInputChange = (e) => {
     const { value } = e.target;
     setCard({ ...card, name: value });
-    setNameInput(value);
+    setInputValue((prev) => {
+      return { ...prev, nameInput: value };
+    });
   };
   const onCardSubmit = () => {
     const { cvc, cardNumber, name, expiry } = errorConfig;
-    if (!expiryCheck.test(expiryinput)) {
-      setErrorConfig((prev) => {
-        return { ...prev, expiry: error };
-      });
-    } else {
-      setErrorConfig((prev) => {
-        return { ...prev, expiry: fulfilled };
-      });
-    }
-    if (!nameInput || textCheck.test(nameInput)) {
-      setErrorConfig((prev) => {
-        return { ...prev, name: error };
-      });
-    } else {
-      setErrorConfig((prev) => {
-        return { ...prev, name: fulfilled };
-      });
-    }
-    if (!numberCheck.test(cardNumberInput)) {
-      setErrorConfig((prev) => {
-        return { ...prev, cardNumber: error };
-      });
-    } else {
-      setErrorConfig((prev) => {
-        return { ...prev, cardNumber: fulfilled };
-      });
-    }
-    if (!cvcCheck.test(cvcInput)) {
-      setErrorConfig((prev) => {
-        return { ...prev, cvc: error };
-      });
-    } else {
-      setErrorConfig((prev) => {
-        return { ...prev, cvc: fulfilled };
-      });
-    }
+    setErrorConfig((prev) => {
+      return {
+        ...prev,
+        expiry: expiryCheck.test(inputValue.expiryinput) ? fulfilled : error,
+        name:
+          !inputValue.nameInput || textCheck.test(inputValue.nameInput)
+            ? error
+            : fulfilled,
+        cvc: cvcCheck.test(inputValue.cvcInput) ? fulfilled : error,
+        cardNumber: numberCheck.test(inputValue.cardNumberInput)
+          ? fulfilled
+          : error,
+      };
+    });
     if (
       cvc === fulfilled &&
       cardNumber === fulfilled &&
@@ -129,13 +112,42 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
         name: "",
         cvc: "",
       });
-      setCardNumberInput("");
-      setExpiryinput("");
-      setNameInput("");
-      setCvcInput("");
+      setInputValue({
+        cardNumberInput: "",
+        expiryinput: "",
+        nameInput: "",
+        cvcInput: "",
+      });
       alert("카드가 등록되었습니다!");
       setCardOpen(false);
     }
+  };
+  // console.log(inputValue);
+  const handleAutoBtn = () => {
+    setTimeout(() => {
+      setCard({ ...card, focus: card.number });
+      setInputValue((prev) => {
+        return { ...prev, cardNumberInput: 1234123412341234 };
+      });
+    }, 1000);
+    setTimeout(() => {
+      setCard({ ...card, focus: card.expiry });
+      setInputValue((prev) => {
+        return { ...prev, expiryinput: 1111 };
+      });
+    }, 2000);
+    setTimeout(() => {
+      setCard({ ...card, focus: card.name });
+      setInputValue((prev) => {
+        return { ...prev, nameInput: "홍길동" };
+      });
+    }, 3000);
+    setTimeout(() => {
+      setCard({ ...card, focus: card.cvc });
+      setInputValue((prev) => {
+        return { ...prev, cvcInput: 111 };
+      });
+    }, 4000);
   };
   return (
     <div className="paymentBox flex-center" onClick={onClose}>
@@ -143,7 +155,15 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
         className="paymentCloseBtn positionR cursorPointer"
         onClick={onClose}
       />
-
+      <button
+        className="paymentAutoBtn positionA cursorPointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAutoBtn();
+        }}
+      >
+        오토 파일럿
+      </button>
       <div className="paymentInnerBox" onClick={(e) => e.stopPropagation()}>
         <div className="paymentCards flex-center">
           <Cards
@@ -160,7 +180,7 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
               {...getCardNumberProps()}
               type="text"
               name="number"
-              value={cardNumberInput}
+              value={inputValue.cardNumberInput}
               placeholder="카드 번호('-' 없이 숫자만 입력해 주세요.)"
               onChange={handleCardNumberInputChange}
               onFocus={handleInputFocus}
@@ -178,7 +198,7 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
               {...getExpiryDateProps()}
               type="text"
               name="expiry"
-              value={expiryinput}
+              value={inputValue.expiryinput}
               placeholder="유효기간"
               onChange={handleExpiryInputChange}
               onFocus={handleInputFocus}
@@ -195,7 +215,7 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
             <input
               type="text"
               name="name"
-              value={nameInput}
+              value={inputValue.nameInput}
               placeholder="성함"
               onChange={handleNameInputChange}
               onFocus={handleInputFocus}
@@ -211,7 +231,7 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
               {...getCVCProps()}
               type="text"
               name="cvc"
-              value={cvcInput}
+              value={inputValue.cvcInput}
               placeholder="CVC 번호"
               onChange={handleCvcInputChange}
               onFocus={handleInputFocus}
