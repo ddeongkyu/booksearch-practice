@@ -70,14 +70,18 @@ function InfinityScroll() {
       if (searchConfig.isEnd) {
         alert("마지막 항목이에요!");
       } else {
-        if (searchConfig.loading) return;
+        if (searchConfig.loading) {
+          return;
+        }
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting && searchConfig.hasMore) {
             setPageNumber((prev) => prev + 1);
           }
         });
-        if (node) observer.current.observe(node);
+        if (node) {
+          observer.current.observe(node);
+        }
       }
     },
     [searchConfig.loading, searchConfig.hasMore]
@@ -128,9 +132,6 @@ function InfinityScroll() {
       setModalOpen(false);
     }, 12000);
   };
-  // const bb = 6;
-  // const aa = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // console.log(aa.slice(0, -Math.abs(bb - 10)));
   return (
     <div className="infiniteRealTotal">
       <div className="inputStyle flex-center positionR">

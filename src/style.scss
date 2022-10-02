@@ -396,7 +396,7 @@ hr {
         font-size: 14px;
         color: #49494b;
         border: 2px solid #e5e5e5;
-        width: 30px;
+        width: 21px;
       }
       .paginationBtnStyle {
         background-color: #ffffff;
@@ -1916,13 +1916,13 @@ $color5: #575759;
       height: 880px;
     }
     .startBigTextA {
-      font-size: 48px;
+      font-size: 45px;
       top: 160px;
       font-family: "Montserrat", sans-serif;
       font-weight: bold;
     }
     .startBigTextB {
-      font-size: 48px;
+      font-size: 45px;
       top: 210px;
       font-family: "Montserrat", sans-serif;
       font-weight: bold;
@@ -3484,4 +3484,9 @@ $color5: #575759;
   100% {
     transform: rotate(360deg);
   }
+}
+
+.modalCloseBtn {
+  right: 20px;
+  top: -10px;
 }

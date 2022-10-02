@@ -350,14 +350,6 @@ function Main() {
 
           <div className="mainShoppingText1">완료해보세요!</div>
         </div>
-        {/* <div className="flex-center mainShoppingBtnBox positionA">
-          <button
-            className="cursorPointer mainShoppingBtnStyle"
-            onClick={onGoToShoppingCart}
-          >
-            SHOPPING
-          </button>
-        </div> */}
       </div>
       <div id="about" className="flex-center">
         <div className="aboutContainer flex-center">
@@ -429,7 +421,7 @@ function Main() {
                 }px)`,
               }}
             >
-              HTML5을 자유롭게 사용이 가능합니다.
+              HTML5에 대하여 이해하였습니다.
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">
@@ -566,11 +558,9 @@ function Main() {
                 }px)`,
               }}
             >
-              JAVASCRIPT의 동작 원리와 Hoisting에 대하여 이해하였으며 <br />
-              ES6 문법과 ES8 문법 등을 이해하고 사용할 수 있습니다. <br />
-              프론트엔드 개발자의 기초라고 볼 수 있는 JAVASCRIPT를
+              JAVASCRIPT의 동작 원리와 ES6 문법을 이해하고 사용할 수 있습니다.{" "}
               <br />
-              심도있게 공부하고 있습니다.
+              Algorithm 공부를 통하여 자바스크립트를 심도있게 공부하고 있습니다.
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">
@@ -606,9 +596,8 @@ function Main() {
               }}
             >
               JAVASCRIPT의 프레임워크인 REACT를 사용할 수 있습니다.
-              <br /> 본 페이지도 REACT로 제작되었으며
-              <br /> 함수형 문법을 사용하며 JSX와 데이터 바인딩이 가능합니다.
-              <br /> styled-components 등의 Library 사용이 가능합니다.
+              <br /> 함수형 컴포넌트를 통한 JSX 사용과 Hooks를 사용할 수
+              있습니다.
             </div>
             <img
               alt="html"
