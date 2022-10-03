@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCreditCardValidator, images } from "react-creditcard-validator";
+import { useCreditCardValidator } from "react-creditcard-validator";
 import Cards from "react-credit-cards";
 import { setCreditCards } from "../slices/bookSlice";
 import { useDispatch, useSelector } from "react-redux";
