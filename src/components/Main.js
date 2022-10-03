@@ -44,7 +44,7 @@ function Main() {
       behavior: "smooth",
     });
   const isResponsive = window.visualViewport.width <= 430;
-  console.log("지금 스크롤 : ", scrollPx, " px");
+  // console.log("지금 스크롤 : ", scrollPx, " px");
   return (
     <>
       <div className="flex-center">
