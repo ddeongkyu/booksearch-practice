@@ -80,7 +80,11 @@ function Main() {
       <div id="start" className="positionR flex-center">
         <img
           alt="startImg"
-          src={isResponsive ? "쏘쓰/start_small.png" : "쏘쓰/start.jpeg"}
+          src={
+            isResponsive
+              ? "쏘쓰/start_small.png"
+              : process.env.PUBLIC_URL + "쏘쓰/start.jpeg"
+          }
           className="startMainImg"
         />
         <div
