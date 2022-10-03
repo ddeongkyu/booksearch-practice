@@ -11,9 +11,9 @@ function Main() {
   const onGoToPagination = () => {
     navigate(routes.pagination);
   };
-  const onGoToShoppingCart = () => {
-    navigate(routes.shoppingCart);
-  };
+  // const onGoToShoppingCart = () => {
+  //   navigate(routes.shoppingCart);
+  // };
   const imageScrollHandeler = () => {
     setScrollPx(window.scrollY);
   };
@@ -80,11 +80,7 @@ function Main() {
       <div id="start" className="positionR flex-center">
         <img
           alt="startImg"
-          src={
-            isResponsive
-              ? "쏘쓰/start_small.png"
-              : process.env.PUBLIC_URL + "쏘쓰/start.jpeg"
-          }
+          src={isResponsive ? "쏘쓰/start_small.png" : "쏘쓰/start.jpeg"}
           className="startMainImg"
         />
         <div
@@ -425,7 +421,7 @@ function Main() {
                 }px)`,
               }}
             >
-              HTML5에 대하여 이해하였습니다.
+              HTML5에 대하여 이해하고 있습니다.
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">

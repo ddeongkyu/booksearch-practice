@@ -7,6 +7,8 @@ Infinity Scroll 과 Pagination 방식의 도서 검색 UI를 구현하였습니�
 
 State Management를 위하여 Redux-toolkit을 사용합니다.
 
+본 프로젝트는 크롬, 사파리에 최적화 되어 있으며 확대/축소 80%의 배율로 보시는걸 권장드립니다.
+
 ## Available Scripts
 
 이 프로젝트를 실행하기 위해서는 :
