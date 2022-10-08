@@ -3,7 +3,7 @@
 본 프로젝트에서는 KaKao Api를 이용하여
 Infinity Scroll 과 Pagination 방식의 도서 검색 UI를 구현하였습니다.
 
-또한 검색한 도서를 장바구니에 담을 수 있으며 장바구니의 UI도 구현하였습니다.
+또한 검색한 도서를 장바구니에 담을 수 있으며 장바구니의 UI도 구현되어 있습니다.
 
 State Management를 위하여 Redux-toolkit을 사용합니다.
 

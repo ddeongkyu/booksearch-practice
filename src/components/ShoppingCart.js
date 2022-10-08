@@ -57,7 +57,6 @@ function ShoppingCart() {
             (product.sale_price === -1 ? product.price : product.sale_price)
         );
       }, 0);
-
   const totalQuatity = !isCheckoutInputEmpty
     ? checkedInput.reduce((acc, product) => {
         return acc + product.quantity;

@@ -248,11 +248,6 @@ export default function PaymentRegFrom({ onClose, setCardOpen }) {
             <button className="paymentAddCardBtn" onClick={onCardSubmit}>
               Add Card
             </button>
-            {/* <svg
-              className="cursorPointer"
-              {...getCardImageProps({ images })}
-              onClick={onCardSubmit}
-            /> */}
           </div>
         </div>
       </div>
