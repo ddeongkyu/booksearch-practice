@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../constants";
 import { GoMarkGithub, GoChevronUp } from "react-icons/go";
+import useIntersectionAnimation from "../hooks/useIntersectionAnimation";
 function Main() {
   const navigate = useNavigate();
   const [scrollPx, setScrollPx] = useState(0);
@@ -11,9 +12,19 @@ function Main() {
   const onGoToPagination = () => {
     navigate(routes.pagination);
   };
-  // const onGoToShoppingCart = () => {
-  //   navigate(routes.shoppingCart);
-  // };
+  const options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.7,
+  };
+  const options1 = {
+    root: null,
+    rootMargin: "0px",
+  };
+  useIntersectionAnimation("animation", options, "scrollAnimation");
+  useIntersectionAnimation("animation1", options1, "scrollAnimation1");
+  useIntersectionAnimation("animationAbout", options1, "aboutLeft");
+  useIntersectionAnimation("animationAbout", options1, "aboutRight");
   const imageScrollHandeler = () => {
     setScrollPx(window.scrollY);
   };
@@ -46,6 +57,7 @@ function Main() {
   const isResponsive = window.visualViewport.width <= 430;
   return (
     <>
+      {/* START NAV */}
       <div className="flex-center">
         <div className="flex-center startNav">
           <div
@@ -76,23 +88,24 @@ function Main() {
           </div>
         </div>
       </div>
+      {/* START */}
       <div id="start" className="positionR flex-center">
         <img
           alt="startImg"
-          src={isResponsive ? "쏘쓰/start_small.png" : "쏘쓰/start.jpeg"}
+          src="쏘쓰/book-main.jpeg"
           className="startMainImg"
         />
         <div
           className="positionA startBigTextA"
           style={{ opacity: isResponsive ? 1 : 40 / scrollPx }}
         >
-          홍성규의
+          HONG's
         </div>
         <div
           className="positionA startBigTextB"
           style={{ opacity: isResponsive ? 1 : 70 / scrollPx }}
         >
-          도서 검색!
+          BOOK SEARCH!
         </div>
         <div
           className="positionA startBigTextC"
@@ -101,66 +114,17 @@ function Main() {
           (With Kakao Api)
         </div>
       </div>
+      {/* INFINITY */}
       <div id="infinite" className="positionR">
         <img
-          className="infiniteImg positionA "
+          className="infiniteImg scrollAnimation positionA "
           alt="infinite"
           src="쏘쓰/infi1.png"
-          style={{
-            opacity:
-              isResponsive && scrollPx < 488 && scrollPx > 170
-                ? scrollPx / 1300 + 0.45
-                : scrollPx < 1500
-                ? scrollPx / 150
-                : scrollPx / 2700,
-            transform: `rotateY(${
-              isResponsive && scrollPx < 380
-                ? (scrollPx / 822) * 100
-                : isResponsive && scrollPx > 380
-                ? 45
-                : scrollPx / 100
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 488
-              ? `${scrollPx / 1.21}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 488
-              ? `${scrollPx / 2.05}px`
-              : "250px",
-          }}
         />
         <img
-          className="infiniteImg1 positionA "
+          className="infiniteImg1 scrollAnimation positionA "
           alt="infinite"
           src="쏘쓰/infi2.png"
-          style={{
-            opacity:
-              isResponsive && scrollPx < 800 && scrollPx > 478
-                ? scrollPx / 1500
-                : scrollPx < 1500
-                ? scrollPx / 150
-                : scrollPx / 2700,
-            transform: `rotateY(${
-              isResponsive && scrollPx < 685
-                ? -(scrollPx / 1523) * 100
-                : isResponsive && scrollPx > 685
-                ? -45
-                : scrollPx / 100
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 800
-              ? `${scrollPx / 2}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 800
-              ? `${scrollPx / 3.2}px`
-              : "250px",
-          }}
         />
         <div className="positionA infiniteTextBox">
           <div className="infiniteText">
@@ -179,59 +143,17 @@ function Main() {
           </button>
         </div>
       </div>
+      {/* PAGINATION */}
       <div id="pagination" className="positionR">
         <img
           alt="pagination"
           src="쏘쓰/pagi1.png"
-          className="paginationImg positionA"
-          style={{
-            opacity:
-              isResponsive && scrollPx > 1220 && scrollPx < 1541
-                ? scrollPx / 2000
-                : scrollPx < 2600
-                ? scrollPx / 1300
-                : scrollPx < 3000
-                ? 1400 / scrollPx
-                : 0,
-
-            transform: `rotateY(${
-              isResponsive ? -(scrollPx / 45) : -(scrollPx / 100)
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 1525
-              ? `${scrollPx / 3.8125}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 1525
-              ? `${scrollPx / 6.1}px`
-              : "250px",
-          }}
+          className="paginationImg scrollAnimation1 positionA"
         />
         <img
           alt="pagination"
           src="쏘쓰/pagi2.png"
-          className="paginationImg1 positionA"
-          style={{
-            opacity:
-              isResponsive && scrollPx > 1521 && scrollPx < 1815
-                ? scrollPx / 3000
-                : scrollPx / 1300,
-            transform: `rotateY(${
-              isResponsive ? scrollPx / 45 : -(scrollPx / 100)
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 1825
-              ? `${scrollPx / 4.5625}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 1825
-              ? `${scrollPx / 7.3}px`
-              : "250px",
-          }}
+          className="paginationImg1 scrollAnimation1 positionA"
         />
         <div className="positionA pagiTextBox">
           <div className="pagiText">
@@ -250,84 +172,22 @@ function Main() {
           </button>
         </div>
       </div>
+      {/* SHOPPING */}
       <div id="shopping">
         <img
           alt="shopping"
           src="쏘쓰/shop1.png"
-          className="shoppingImg1 positionA"
-          style={{
-            opacity:
-              isResponsive && scrollPx > 2140 && scrollPx < 2500
-                ? scrollPx / 3500
-                : 1
-                ? !isResponsive
-                : scrollPx / 3000,
-            transform: `rotateY(${
-              isResponsive ? -(15 + scrollPx / 150) : scrollPx / 180
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 2488
-              ? `${scrollPx / 6.22}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 2488
-              ? `${scrollPx / 9.952}px`
-              : "250px",
-          }}
+          className="shoppingImg1 scrollAnimation positionA"
         />
         <img
           alt="shopping"
           src="쏘쓰/스크린샷 2022-09-02 오후 1.22.46.png"
-          className="shoppingImgCard positionA"
-          style={{
-            opacity:
-              isResponsive && scrollPx > 2682 && scrollPx < 3125
-                ? scrollPx / 4000
-                : 1
-                ? !isResponsive
-                : scrollPx / 2800,
-            transform: `rotateY(${
-              isResponsive ? scrollPx / 70 : scrollPx / 80
-            }deg)`,
-            width: !isResponsive
-              ? "400px"
-              : isResponsive && scrollPx < 3130
-              ? `${scrollPx / 10.42}px`
-              : "300px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 3130
-              ? `${scrollPx / 7.825}px`
-              : "400px",
-          }}
+          className="shoppingImgCard scrollAnimation positionA"
         />
         <img
           alt="shopping"
           src="쏘쓰/shop3.png"
-          className="shoppingImg positionA"
-          style={{
-            opacity:
-              isResponsive && scrollPx > 3280 && scrollPx < 3625
-                ? scrollPx / 4800
-                : 1
-                ? !isResponsive
-                : scrollPx / 4600,
-            transform: `rotateY(${
-              isResponsive ? -(scrollPx / 120) : -(scrollPx / 150)
-            }deg)`,
-            width: !isResponsive
-              ? "800px"
-              : isResponsive && scrollPx < 3615
-              ? `${scrollPx / 9.0375}px`
-              : "400px",
-            height: !isResponsive
-              ? "600px"
-              : isResponsive && scrollPx < 3615
-              ? `${scrollPx / 14.46}px`
-              : "250px",
-          }}
+          className="shoppingImg scrollAnimation1 positionA"
         />
         <div className="positionA mainShoppingTextBox">
           <div className="mainShoppingText">
@@ -350,6 +210,7 @@ function Main() {
           <div className="mainShoppingText1">완료해보세요!</div>
         </div>
       </div>
+      {/* ABOUT */}
       <div id="about" className="flex-center">
         <div className="aboutContainer flex-center">
           <div className="aboutHead"> ABOUT ME</div>
@@ -357,243 +218,37 @@ function Main() {
             <img
               alt="html"
               src="쏘쓰/KakaoTalk_Photo_2022-08-29-18-02-23-removebg-preview.png"
-              className="aboutLogo"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 3980
-                    ? 0
-                    : scrollPx < 4180
-                    ? Math.abs(3980 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4400
-                  ? 0
-                  : !isResponsive && scrollPx < 4400
-                  ? 0
-                  : !isResponsive && scrollPx < 4600
-                  ? Math.abs(4400 - scrollPx) * 0.005
-                  : 1,
-
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 3980
-                      ? -100
-                      : scrollPx < 4180
-                      ? -4180 + scrollPx
-                      : 0
-                    : scrollPx < 4400
-                    ? -2000
-                    : scrollPx < 4610
-                    ? -4610 + scrollPx
-                    : 0
-                }px)`,
-              }}
+              className="aboutLogo aboutLeft"
             />
-            <div
-              className="aboutText"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 3980
-                    ? 0
-                    : scrollPx < 4180
-                    ? Math.abs(3980 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4400
-                  ? 0
-                  : !isResponsive && scrollPx < 4400
-                  ? 0
-                  : !isResponsive && scrollPx < 4600
-                  ? Math.abs(4400 - scrollPx) * 0.005
-                  : 1,
-
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 3980
-                      ? 100
-                      : scrollPx < 4180
-                      ? 4180 - scrollPx
-                      : 0
-                    : !isResponsive && scrollPx < 4400
-                    ? 2000
-                    : !isResponsive && scrollPx < 4610
-                    ? 4610 - scrollPx
-                    : 0
-                }px)`,
-              }}
-            >
+            <div className="aboutText aboutRight">
               HTML5에 대하여 이해하고 있습니다.
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">
-            <div
-              className="aboutText"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4285
-                    ? 0
-                    : scrollPx < 4495
-                    ? Math.abs(4285 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4615
-                  ? 0
-                  : !isResponsive && scrollPx < 4615
-                  ? 0
-                  : !isResponsive && scrollPx < 4815
-                  ? Math.abs(4615 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4285
-                      ? -100
-                      : scrollPx < 4495
-                      ? -4495 + scrollPx
-                      : 0
-                    : scrollPx < 4610
-                    ? -2000
-                    : scrollPx < 4820
-                    ? -4820 + scrollPx
-                    : 0
-                }px)`,
-              }}
-            >
+            <div className="aboutText aboutLeft">
               CSS와 SCSS를 사용 할 수 있습니다.
               <br />
             </div>
             <img
               alt="html"
               src="쏘쓰/css-3-logo-023C1A7171-seeklogo.com.png"
-              className="aboutLogo"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4285
-                    ? 0
-                    : scrollPx < 4495
-                    ? Math.abs(4285 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4615
-                  ? 0
-                  : !isResponsive && scrollPx < 4615
-                  ? 0
-                  : !isResponsive && scrollPx < 4815
-                  ? Math.abs(4615 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4285
-                      ? 100
-                      : scrollPx < 4495
-                      ? 4495 - scrollPx
-                      : 0
-                    : scrollPx < 4610
-                    ? 2000
-                    : scrollPx < 4820
-                    ? 4820 - scrollPx
-                    : 0
-                }px)`,
-              }}
+              className="aboutLogo aboutRight"
             />
           </div>
           <div className="aboutMain flex-vertical-center">
             <img
               alt="html"
               src="쏘쓰/JavaScript_logo_2.svg.png"
-              className="aboutLogo"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4505
-                    ? 0
-                    : scrollPx < 4705
-                    ? Math.abs(4505 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4830
-                  ? 0
-                  : !isResponsive && scrollPx < 4830
-                  ? 0
-                  : !isResponsive && scrollPx < 5030
-                  ? Math.abs(4830 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4505
-                      ? -100
-                      : scrollPx < 4705
-                      ? -4705 + scrollPx
-                      : 0
-                    : scrollPx < 4820
-                    ? -2000
-                    : scrollPx < 5030
-                    ? -5030 + scrollPx
-                    : 0
-                }px)`,
-              }}
+              className="aboutLogo aboutLeft"
             />
-            <div
-              className="aboutText"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4505
-                    ? 0
-                    : scrollPx < 4705
-                    ? Math.abs(4505 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 4830
-                  ? 0
-                  : !isResponsive && scrollPx < 4830
-                  ? 0
-                  : !isResponsive && scrollPx < 5030
-                  ? Math.abs(4830 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4505
-                      ? 100
-                      : scrollPx < 4705
-                      ? 4705 - scrollPx
-                      : 0
-                    : scrollPx < 4820
-                    ? 2000
-                    : scrollPx < 5030
-                    ? 5030 - scrollPx
-                    : 0
-                }px)`,
-              }}
-            >
-              JAVASCRIPT의 동작 원리와 ES6 문법을 이해하고 사용할 수 있습니다.{" "}
+            <div className="aboutText aboutRight">
+              JAVASCRIPT의 동작 원리와 ES6 문법을 이해하고 사용할 수 있습니다.
               <br />
               Algorithm 공부를 통하여 자바스크립트를 심도있게 공부하고 있습니다.
             </div>
           </div>
           <div className="aboutMain flex-vertical-center">
-            <div
-              className="aboutText"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4737
-                    ? 0
-                    : scrollPx < 4937
-                    ? Math.abs(4737 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 5045
-                  ? 0
-                  : !isResponsive && scrollPx < 5045
-                  ? 0
-                  : !isResponsive && scrollPx < 5245
-                  ? Math.abs(5045 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4737
-                      ? -100
-                      : scrollPx < 4937
-                      ? -4937 + scrollPx
-                      : 0
-                    : scrollPx < 5030
-                    ? -2000
-                    : scrollPx < 5240
-                    ? -5240 + scrollPx
-                    : 0
-                }px)`,
-              }}
-            >
+            <div className="aboutText aboutLeft">
               JAVASCRIPT의 프레임워크인 REACT를 사용할 수 있습니다.
               <br /> 함수형 컴포넌트를 통한 JSX 사용과 Hooks를 사용할 수
               있습니다.
@@ -601,102 +256,16 @@ function Main() {
             <img
               alt="html"
               src="쏘쓰/logo512.png"
-              className="aboutLogo"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4737
-                    ? 0
-                    : scrollPx < 4937
-                    ? Math.abs(4737 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 5045
-                  ? 0
-                  : !isResponsive && scrollPx < 5045
-                  ? 0
-                  : !isResponsive && scrollPx < 5245
-                  ? Math.abs(5045 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4737
-                      ? 100
-                      : scrollPx < 4937
-                      ? 4937 - scrollPx
-                      : 0
-                    : scrollPx < 5030
-                    ? 2000
-                    : scrollPx < 5240
-                    ? 5240 - scrollPx
-                    : 0
-                }px)`,
-              }}
+              className="aboutLogo aboutRight"
             />
           </div>
           <div className="aboutMain flex-vertical-center">
             <img
               alt="html"
               src="쏘쓰/redux_logo.png"
-              className="aboutLogo"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4942
-                    ? 0
-                    : scrollPx < 5142
-                    ? Math.abs(4942 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 5260
-                  ? 0
-                  : !isResponsive && scrollPx < 5260
-                  ? 0
-                  : !isResponsive && scrollPx < 5460
-                  ? Math.abs(5260 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4942
-                      ? -100
-                      : scrollPx < 5142
-                      ? -5142 + scrollPx
-                      : 0
-                    : scrollPx < 5240
-                    ? -2000
-                    : scrollPx < 5450
-                    ? -5450 + scrollPx
-                    : 0
-                }px)`,
-              }}
+              className="aboutLogo aboutLeft"
             />
-            <div
-              className="aboutText"
-              style={{
-                opacity: isResponsive
-                  ? scrollPx < 4942
-                    ? 0
-                    : scrollPx < 5142
-                    ? Math.abs(4942 - scrollPx) * 0.005
-                    : 1
-                  : scrollPx < 5260
-                  ? 0
-                  : !isResponsive && scrollPx < 5260
-                  ? 0
-                  : !isResponsive && scrollPx < 5460
-                  ? Math.abs(5260 - scrollPx) * 0.005
-                  : 1,
-                transform: `translateX(${
-                  isResponsive
-                    ? scrollPx < 4942
-                      ? 100
-                      : scrollPx < 5142
-                      ? 5142 - scrollPx
-                      : 0
-                    : scrollPx < 5240
-                    ? 2000
-                    : scrollPx < 5450
-                    ? 5450 - scrollPx
-                    : 0
-                }px)`,
-              }}
-            >
+            <div className="aboutText aboutRight">
               State Management를 위하여 Redux-toolkit을 사용 가능합니다.
               <br /> slice와 store를 만들어 상태를 관리하고, <br />
               action을 dispatch 할 수 있습니다.
@@ -704,6 +273,7 @@ function Main() {
           </div>
         </div>
       </div>
+      {/* CONTACT */}
       <div id="contact" className="positionR">
         <div
           style={{
